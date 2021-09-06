@@ -11,13 +11,6 @@
 
 @section('content')
     <div class="container-fluid py-4">
-        @if (session('status'))
-            <div class="alert alert-success" role="alert">
-                {{ session('status') }}
-            </div>
-        @endif
-        
-        
+        <!-- Add Content Here -->
     </div>
-
 @endsection
