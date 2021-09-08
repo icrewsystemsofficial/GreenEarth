@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.1/css/jquery.dataTables.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#table_id').DataTable();
+        } );</script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+</head>
+<body>
+    
+</body>
+</html>
+
+@extends('layouts.app')
+
+@section('pagetitle')
+@endsection
+
+@section('css')
+@endsection
+
+@section('js')
+@endsection
+
+@section('content')
+    <div class="container-fluid py-4">
+        @if (session('status'))
+            <div class="alert alert-success" role="alert">
+                {{ session('status') }}
+            </div>
+        @endif
+        <div class="position-relative">
+            <button type="button" class="btn btn-warning">
+                Create a user
+            </button>
+        </div>
+        <table id="table_id" class="display">
+            <thead>
+                <tr>
+                    <th>NAME</th>
+                    <th>#ID</th>
+                    <th>E-MAIL</th>
+                    <th>ROLE</th>
+                    <th>CREATED AT</th>
+                    <th>ACTIONS</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($users as $user)
+                <tr>
+                    <td>{{$user->name}}</td>
+                    <td>#{{$user->id}}</td>
+                    <td>{{$user->email}}</td>
+                    <td>not coded</td>
+                    <td>{{$user->created_at}} <?php echo date('m'); ?></td>
+                    <td>
+                        <div>
+                            <button type="button" class="btn btn-warning rounded-circle">
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger rounded-circle">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+
+@endsection

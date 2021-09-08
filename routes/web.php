@@ -20,3 +20,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// I have added the route(s) below just to make it easier to check the output to the browser.
+Route::get('/users', [App\Http\Controllers\UserController::class, 'index'])->name('pages.user.index');
