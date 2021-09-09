@@ -29,9 +29,9 @@
             <div class="col-md-12">
                 <div class="card ">
                     <div class="card-body text-sm">
-                        <form method="post" action="{{ route('announcement.update') }}" enctype="multipart/form-data">
-                       {{ method_field('POST') }}
+                        <form action="/announcement/<?php echo $announcements[0]->id; ?>/edit" enctype="multipart/form-data" method="post">
                             @csrf
+                            @method('put')
                             <div class="form-group ps-2">
                                 <label for="roles" class="pe-4">Role </label>
                                 <select name="roles" id="roles">
@@ -41,11 +41,11 @@
                             </div>
                             <div class="form-group ps-2">
                                 <label> Title </label>
-                                <input type="text" name="name" placeholder="Announcement Title" class="form-control text-sm"/>
+                                <input type="text" name="title" placeholder="Announcement Title" class="form-control text-sm" value="{{ $announcements[0]->title }}"/>
                             </div>  
                             <div class="form-group pb-5 ps-2">
                                 <label><strong> Body </strong></label>
-                                <textarea class="ckeditor form-control" name="description"></textarea>
+                                <textarea class="ckeditor form-control" name="body"> {{ $announcements[0]->body }} </textarea>
                             </div>
                             <div class="card-footer p-2">
                                 <button type="submit" class="btn text-white bg-green-600 btn-sm ps-3 pe-3 pt-2 pb-2">Update Announcement</button>

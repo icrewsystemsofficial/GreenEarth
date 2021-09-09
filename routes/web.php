@@ -25,6 +25,6 @@ Route::get('/announcement', [AnnouncementController::class, 'index'])->name('ann
 //Route::get('/announcement', [AnnouncementController::class, 'getAll'])->name('announcement.getAll');
 Route::get('/announcement/create', [AnnouncementController::class, 'create'])->name('announcement.create');
 Route::post('/announcement/create', [AnnouncementController::class, 'store'])->name('announcement.store');
-Route::get('/announcement/edit', [AnnouncementController::class, 'edit'])->name('announcement.edit');
-Route::put('/announcement/edit', [AnnouncementController::class, 'update'])->name('announcement.update');
+Route::get('/announcement/{id}/edit', [AnnouncementController::class, 'edit'])->name('announcement.edit');
+Route::put('/announcement/{id}/edit', [AnnouncementController::class, 'update'])->name('announcement.update');
 

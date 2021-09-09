@@ -100,15 +100,13 @@
                                 <tbody>
                                 @foreach($announcements as $announcement)
                                 <tr>
-                                    <td class="text-sm" id="title"> {{ $announcement->title }}</td>
+                                    <td class="text-sm" id="title"> {{ $announcement->title }} </td>
                                     <td class="text-sm"> Name </td>
                                     <td class="text-sm"> {{ $announcement->created_at }} </td>
                                     <td class="text-sm"> 
-                                        <div>
-                                            <button type="button" class="btn bg-gradient-primary text-sm">
-                                                Manage
-                                            </button>
-                                        </div>
+                                       <a href='/announcement/{{ $announcement->id }}/edit' class="btn bg-gradient-primary text-sm">
+                                            Manage
+                                       </a>
                                     </td>
                                 </tr>
                                 @endforeach
