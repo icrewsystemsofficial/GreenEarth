@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AnnouncementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,10 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/announcement', [AnnouncementController::class, 'index'])->name('announcement.index');
+//Route::get('/announcement', [AnnouncementController::class, 'getAll'])->name('announcement.getAll');
+Route::get('/announcement/create', [AnnouncementController::class, 'create'])->name('announcement.create');
+Route::post('/announcement/create', [AnnouncementController::class, 'store'])->name('announcement.store');
+Route::get('/announcement/edit', [AnnouncementController::class, 'edit'])->name('announcement.edit');
+Route::put('/announcement/edit', [AnnouncementController::class, 'update'])->name('announcement.update');
+
