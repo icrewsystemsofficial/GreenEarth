@@ -52,10 +52,10 @@
                     <td>{{$user->created_at}} <?php echo date('m'); ?></td>
                     <td>
                         <div>
-                            <button type="button" class="btn bg-primary rounded-circle">
+                            <button type="button" class="btn btn-primary rounded-circle">
                                 <i class="bi bi-pencil-fill"></i>
                             </button>
-                            <button type="button" class="btn bg-danger rounded-circle">
+                            <button type="button" class="btn btn-danger rounded-circle">
                                 <i class="bi bi-trash-fill"></i>
                             </button>
                         </div>
