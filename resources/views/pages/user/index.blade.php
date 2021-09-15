@@ -27,9 +27,9 @@
             </div>
         @endif
         <div class="position-relative">
-            <button type="button" class="btn btn-warning">
+            <a type="button" class="btn btn-warning" href="users/create">
                 Create a user
-            </button>
+            </a>
         </div>
         <table id="table_id" class="display">
             <thead>
