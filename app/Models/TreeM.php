@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class TreeM extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'title',
+        'FKkk',
+        'description',
+        'health',
+        'suggestions',
+    ];
+
+    //public $timestamps = ["created_at"]; //only want to use created_at column
+    //const UPDATED_AT = null; //and updated by default null set
 }

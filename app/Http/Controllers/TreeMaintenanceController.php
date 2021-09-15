@@ -14,7 +14,11 @@ class TreeMaintenanceController extends Controller
      */
     public function index()
     {
-        //
+        $maintenance_log = TreeM::all();
+        //return view('users');
+        //return $users;
+        return view('pages.tree.history_maintenance', compact('maintenance_log'));
+        //return view('pages.tree.history_maintenance');
     }
 
     /**
@@ -35,7 +39,13 @@ class TreeMaintenanceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([ 
+            'title' => 'required', 
+            'description' => 'required', 
+        ]); 
+    
+        TreeM::create($request->all());
+        return redirect(route('pages.tree.history_maintenance'));
     }
 
     /**
