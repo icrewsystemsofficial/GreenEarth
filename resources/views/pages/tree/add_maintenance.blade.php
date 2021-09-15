@@ -49,38 +49,57 @@
 @endsection
 
 @section('content')
-<div>
-    <div>Space for Tree name, etc. (anything that helps volunteer remember what tree theyre adding record for); will work on this later</div>
-    <div>
-        <form method="post" action="{{ route('maintenance.store') }}" enctype="multipart/form-data">
-            {{ method_field('POST') }}
-            @csrf
-            <div class="form-group ps-2">
-                <label><strong>Title</strong></label>
-                <input type="text" name="title" placeholder="Maintenance Title" class="form-control"/>
-            </div>  
-            <div class="form-group pb-5 ps-2">
-                <label><strong>Description</strong></label>
-                <textarea id="description" class="ckeditor form-control" name="description"></textarea>
+<div class="container-fluid py-4">
+        <!-- Add Content Here -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-6 text-sm">
+                    <div class="card-header pb-3" style="background-color:#fff;">
+                        <div class="text-lg font-weight-bolder"> Manage all announcements in your database </div>
+                        <div class="text-secondary text-sm " id="subheading"> </div>
+                    </div>
+                    <div class="card-body mt-0 mb-4">
+                    <div>
+                        <div>Space for Tree name, etc. (anything that helps volunteer remember what tree theyre adding record for); will work on this later</div>
+                        <div>
+                            <form method="post" action="{{ route('maintenance.store') }}" enctype="multipart/form-data">
+                                {{ method_field('POST') }}
+                                @csrf
+                                <div class="form-group ps-2">
+                                    <label><strong>Title</strong></label>
+                                    <input type="text" name="title" placeholder="Maintenance Title" class="form-control"/>
+                                </div>  
+                                <div class="form-group pb-5 ps-2">
+                                    <label><strong>Description</strong></label>
+                                    <textarea id="description" class="ckeditor form-control" name="description"></textarea>
+                                </div>
+                                <div class="form-group ps-2">
+                                    <label for="health" class="">Tree Health Status </label>
+                                        <select name="health" id="health">
+                                        <option value="Unhealthy">Not So Healthy</option>
+                                        <option value="Critical">Reqires Immediate Attention</option>
+                                        <option value="Healthy">Healthy</option>    
+                                    </select>
+                                </div>
+                                <div id="extraField">
+                                <textarea class="ckeditor form-control" name="suggestions" placeholder="some value"></textarea>
+                                </div>
+                                <div class="card-footer p-1">
+                                    <button type="submit" class="btn text-white bg-green-600 btn-sm ps-3 pe-3 pt-2 pb-2">Add Maintenance Record</button>
+                                    <a href="{{ url()->previous() }}" class="btn text-white bg-red-600 btn-sm ps-3 pe-3 pt-2 pb-2"> 
+                                        Cancel
+                                    </a> 
+                                </div>                    
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group ps-2">
-                <label for="health" class="">Tree Health Status </label>
-                    <select name="health" id="health">
-                    <option value="Unhealthy">Not So Healthy</option>
-                    <option value="Critical">Reqires Immediate Attention</option>
-                    <option value="Healthy">Healthy</option>    
-                </select>
-            </div>
-            <div id="extraField">
-            <textarea class="ckeditor form-control" name="suggestions" placeholder="some value"></textarea>
-            </div>
-            <div class="card-footer p-1">
-                <button type="submit" class="btn text-white bg-green-600 btn-sm ps-3 pe-3 pt-2 pb-2">Add Maintenance Record</button>
-                <a href="{{ url()->previous() }}" class="btn text-white bg-red-600 btn-sm ps-3 pe-3 pt-2 pb-2"> 
-                    Cancel
-                </a> 
-            </div>                    
-        </form>
-    </div>
+        </div>
 </div>
+
+
+
+
 @endsection
