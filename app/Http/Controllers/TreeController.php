@@ -26,13 +26,31 @@ class TreeController extends Controller
     {
         $trees = Tree::where('id', $id)->first();
         $treeImages = TreeImages::where('tree_id', $id)->get();
-        //return dd($treeImages);
         return view('pages.tree.edit', compact('trees', 'treeImages'));
     }
 
     public function update(Request $request, $id)
     {
-        
+        try {         
+            $request->validate([ 
+                'name' => 'required', 
+                'description' => 'required', 
+                'health' => 'required', 
+                'location' => 'required', 
+            ]); 
+
+            $name = $request->name;
+            $description = $request->description;
+            $health = $request->health;
+            $location = $request->location;
+            
+            Tree::where('id', $id)->update(['name'=>$name, 'description'=>$description, 'health'=> $health, 'location'=>$location]);
+		}
+		catch (\Exception $e) {
+			return response()->json(['status'=>'exception', 'msg'=>$e->getMessage()]);
+		}
+
+        return response()->json(['status'=>"success",'tree_id'=>$id]);
     }
 
     public function storeData(Request $request)
@@ -81,16 +99,19 @@ class TreeController extends Controller
                 $tree->name = $imageName;
                 $tree->tree_id = $treeid;
                 $tree->save();
-
             }
-            
-            
-            return redirect(route('announcement.index'));
+
+            return redirect(route('tree.index'));
         }
 	}
 
-    public function destroy()
+    public function destroy(Request $request, $id)
     {
+        TreeImages::where('tree_id', $id)->delete();
+        Tree::where('id', $id)->delete();
+
+        return redirect(route('tree.index'));
 
     }
+    
 }

@@ -37,6 +37,8 @@ Route::post('/tree/create', [TreeController::class, 'storeData'])->name('tree.st
 Route::post('/tree/storeimage', [TreeController::class, 'storeImage'])->name('tree.storeimage');
 Route::get('/tree/{id}/edit', [TreeController::class, 'edit'])->name('tree.edit');
 Route::put('/tree/{id}/edit', [TreeController::class, 'update'])->name('tree.update');
+Route::get('/tree/{id}/delete', [TreeController::class, 'destroy'])->name('tree.delete');
+
 
 // I have added the route(s) below just to make it easier to check the output to the browser.
 Route::get('/users', [App\Http\Controllers\UserController::class, 'index'])->name('pages.user.index');

@@ -12,9 +12,6 @@
     .btn{
         text-transform: unset !important;
     }
-   // #dataTables_Filter{
-   //     float: right;
-  //  }
 
   .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
       background: none;
@@ -22,13 +19,15 @@
       color: #152238 !important;
     }
 
-
-    /*below block of css for change style when active*/
-
     .dataTables_wrapper .dataTables_paginate .paginate_button:active {
       background: none;
       border: none;
       color: #152238 !important;
+    }
+
+    .card{
+        border-radius: 10px;
+        border: none;
     }
 
 </style>
@@ -71,7 +70,7 @@
         <!-- Add Content Here -->
         <div class="row">
             <div class="col-12">
-                <div class="card mb-6 text-sm">
+                <div class="card mb-6 ms-2 me-2 text-sm">
                     <div class="card-header pb-3" style="background-color:#fff;">
                         <div class="text-lg font-weight-bolder"> Manage all announcements in your database </div>
                         <div class="text-secondary text-sm " id="subheading"> </div>
@@ -90,20 +89,20 @@
                             <table class=" align-items-center mb-1 mt-0 hover row-border" style="width:100%;" id="all-announcements">
                                 <thead>
                                     <tr class="bg-gray-100">
-                                        <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7"> Title </th>
-                                        <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7"> Author </th>
-                                        <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7"> Published On </th>
-                                        <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7"> Options </th>
+                                        <th class="text-uppercase text-center text-secondary text-sm font-weight-bolder opacity-7"> Title </th>
+                                        <th class="text-uppercase text-center text-secondary text-sm font-weight-bolder opacity-7"> Author </th>
+                                        <th class="text-uppercase text-center text-secondary text-sm font-weight-bolder opacity-7"> Published On </th>
+                                        <th class="text-uppercase text-center text-secondary text-sm font-weight-bolder opacity-7"> Options </th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                 @foreach($announcements as $announcement)
                                 <tr>
-                                    <td class="text-sm" id="title"> {{ $announcement->title }} </td>
-                                    <td class="text-sm"> Name </td>
-                                    <td class="text-sm"> {{ $announcement->created_at }} </td>
-                                    <td class="text-sm"> 
+                                    <td class="text-sm text-center" id="title"> {{ $announcement->title }} </td>
+                                    <td class="text-sm text-center"> Name </td>
+                                    <td class="text-sm text-center"> {{ $announcement->created_at }} </td>
+                                    <td class="text-sm text-center pb-0 pt-3"> 
                                        <a href='/announcement/{{ $announcement->id }}/edit' class="btn bg-gradient-primary text-sm">
                                             Manage
                                        </a>

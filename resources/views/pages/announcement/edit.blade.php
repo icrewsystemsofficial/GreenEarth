@@ -10,6 +10,9 @@
     .btn{
         text-transform: unset !important;
     }
+    .card{
+        border-radius: 10px;
+    }
 </style>
 @endsection
 

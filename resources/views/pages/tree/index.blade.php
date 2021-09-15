@@ -77,7 +77,7 @@
                     <div class="card-body mt-0 mb-4">
                        
                         <div class="btn-group flex pb-2" >
-                            <button type="button" class="btn bg-gradient-dark text-sm ps-3 pe-3 pt-2 pb-2" > Add Tree </button>
+                            <a href="{{ route('tree.create') }}" class="btn bg-gradient-dark text-sm ps-3 pe-3 pt-2 pb-2" > Add Tree </a>
                         </div>
                         <div class="text-sm" style="float:right; text-align: right">
                             Search : <input type="text" id="filterbox" style="border: 1px solid #808080">
@@ -110,7 +110,7 @@
                                        <a href='/tree/{{ $tree->id }}/history' class="btn btn-info text-sm">
                                             History
                                        </a>
-                                       <a href='/tree/{{ $tree->id }}/delete' class="btn btn-danger text-sm">
+                                       <a onclick="return confirm('Are you sure?')" href='/tree/{{ $tree->id }}/delete' class="btn btn-danger text-sm">
                                             Delete
                                        </a>
                                     </td>

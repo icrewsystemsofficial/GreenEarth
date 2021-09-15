@@ -99,8 +99,6 @@
                         data: formData,
                         success: function(result){
                             if (result.status == "success"){
-                                var treeid = result.tree_id;
-						        $("#treeid").val(treeid);
                                 myDropzone.processQueue();
                             }
                             else{
@@ -117,7 +115,8 @@
                 });
 
                 this.on("success", function(file, response){
-                    
+                    $('.dropzone-previews').empty();
+                    location.reload(true);
                 });
 
                 this.on("queuecomplete", function(){
@@ -146,9 +145,9 @@
                 <div class="card ">
                     <div class="card-body text-sm">
                         <form method="post" name="trees-create-form" id="trees-create-form" enctype="multipart/form-data" action="/tree/{{$trees->id}}/edit" class="ckeditor dropzone">
-                       {{ method_field('POST') }}
+                       {{ method_field('PUT') }}
                             @csrf
-                            <input type="hidden" class="treeid" name="treeid" id="treeid" value="{{$trees->id}}">
+                            <input type="hidden" class="treeid" name="treeid" id="treeid" value="{{ $trees->id}}">
                             <div class="form-group ps-3 pe-3">
                                 <label> Name </label>
                                 <input type="text" name="name" class="form-control text-sm" value="{{ $trees->name }}"/>
@@ -161,9 +160,9 @@
                             <div class="form-group ps-3 pe-3 text-sm">
                                 <label for="health" class="pe-4"> Health </label>
                                 <select name="health" id="health">
-                                    <option value="healthy"> Healthy </option>
-                                    <option value="notHealthy"> Not So Healthy </option>
-                                    <option value="attention"> Needs Immediate Attention </option>
+                                    <option {{ $trees->health == 'Healthy' ? 'selected':'' }}> Healthy </option>
+                                    <option {{ $trees->health == 'Not So Healthy' ? 'selected':'' }}> Not So Healthy </option>
+                                    <option {{ $trees->health == ' Needs Immediate Attention' ? 'selected':'' }}> Needs Immediate Attention </option>
                                 </select>
                             </div>
 
@@ -180,31 +179,24 @@
                                         </span>
                                     </div>
                                     <div class="dropzone-previews">
-
                                     </div>
                             </div>
 
                             <div class="form-group ps-3 pb-4">
                                 <div class="row row-cols-lg-5 row-cols-md-3 g-2 ">
-                                    
                                     @foreach($treeImages as $treeImage)
                                     <div class="col" style="column-gap: 0.25rem;">
                                         <div class="card pe-0" style="width:200px; border:none;">
-                                            <a href="#"> <i class="fa fa-close pe-2" style="float: right; "></i> </a>
-                                            <img class="card-img-top gallery" src="{{ asset('uploads/images/')}}/{{ $treeImage->name }}" />
+                                            <img class="card-img-top gallery" src="{{ asset('uploads/images/') }}/{{ $treeImage->name }}" />
                                         </div>   
                                     </div>   
                                     @endforeach
-                                    
-        
                                 </div>
-                                    
-                            
                             </div>
                             
                             <div class="card-footer ps-3">
                                 <button type="submit" class="btn text-white bg-green-600 btn-sm ps-3 pe-3 pt-2 pb-2"> Update Tree </button>
-                                <a href="{{ url()->previous() }}" class="btn text-white bg-red-600 btn-sm ps-3 pe-3 pt-2 pb-2"> 
+                                <a href="{{ Route('tree.index') }}" class="btn text-white bg-red-600 btn-sm ps-3 pe-3 pt-2 pb-2"> 
                                     Back
                                </a> 
                             </div>
