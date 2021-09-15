@@ -73,8 +73,8 @@
             <div class="col-12">
                 <div class="card mb-6 text-sm">
                     <div class="card-header pb-3" style="background-color:#fff;">
-                        <div class="text-lg font-weight-bolder"> Manage all announcements in your database </div>
-                        <div class="text-secondary text-sm " id="subheading"> </div>
+                        <div class="text-lg font-weight-bolder"> Tree Maintenance History </div>
+                        <div class="text-secondary text-sm " id="subheading">tree info</div>
                     </div>
                    
                     
@@ -101,27 +101,36 @@
                                 @foreach ($maintenance_log as $maintenance_record)    
                                 <tr>
                                     <td class="text-sm" id="title"> {{$maintenance_record->title}} </td>
-                                    <td class="text-sm"> Name </td>
-                                    <td class="text-sm"> werwerer </td>
+                                    <td class="text-sm"> {{$maintenance_record->created_at}} </td>
+                                    <td class="text-sm"> {{$maintenance_record->health}} </td>
                                     <td class="text-sm">
                                         <!-- Button trigger modal -->
-                                        <button type="button" class="btn bg-gradient-primary text-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                            Launch demo modal
+                                        <button type="button" class="btn bg-gradient-primary text-sm" data-bs-toggle="modal" data-bs-target="#show<?php echo $maintenance_record->id ?>">
+                                            Show More
                                         </button>
                                         <!-- Modal -->
-                                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id="show<?php echo $maintenance_record->id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                    <h5 class="modal-title" id="exampleModalLabel">{{$maintenance_record->title}}</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    {{$maintenance_record->description}}
+                                                    <div>
+                                                        <p>Maintenance number: {{$maintenance_record->id}}</p> 
+                                                        <br>
+                                                        <p>Performed at: {{$maintenance_record->created_at}}</p>
+                                                        <br>
+                                                        <p>Description: {{$maintenance_record->description}}</p>
+                                                        <br>
+                                                        <p>Tree health: {{$maintenance_record->health}}</p>
+                                                        <br>
+                                                        <p>How the tree can be saved: {{$maintenance_record->suggestions}}</p>
+                                                    </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Dismiss</button>
                                                 </div>
                                                 </div>
                                             </div>

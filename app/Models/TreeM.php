@@ -11,7 +11,7 @@ class TreeM extends Model
 
     protected $fillable = [
         'title',
-        'FKkk',
+        'tree_id',
         'description',
         'health',
         'suggestions',

@@ -15,8 +15,8 @@ class CreateTreeMSTable extends Migration
     {
         Schema::create('tree_m_s', function (Blueprint $table) {
             $table->id();
-            $table->text('FKkk')->nullable();
-            //later add FK for treeID
+            $table->unsignedBigInteger('tree_id')->default(5);
+            //$table->foreign('treeID')->references('id')->on('trees');
             $table->text('title');
             $table->text('description');
             $table->string('health');
@@ -25,10 +25,6 @@ class CreateTreeMSTable extends Migration
         });
     }
 
-            
-  //          $table->string('role')->default('Role');;
-//            $table->timestamps();
-        
 
     /**
      * Reverse the migrations.

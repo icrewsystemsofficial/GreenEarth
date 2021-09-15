@@ -40,6 +40,7 @@ Route::get('/users', [App\Http\Controllers\UserController::class, 'index'])->nam
 Route::get('/maint', [App\Http\Controllers\TreeMaintenanceController::class, 'create'])->name('pages.tree.add_maintenance');
 
 // Dummy route for viewing a tree's maintenance history.
+//$id = 5;
 Route::get('/history', [App\Http\Controllers\TreeMaintenanceController::class, 'index'])->name('pages.tree.history_maintenance');
 
 // Storing maintenance records.

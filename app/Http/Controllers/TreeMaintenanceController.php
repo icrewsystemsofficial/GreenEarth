@@ -14,11 +14,15 @@ class TreeMaintenanceController extends Controller
      */
     public function index()
     {
-        $maintenance_log = TreeM::all();
+        $id = 5;
+        $maintenance_log = TreeM::where('tree_id', '=', $id);
+        //$maintenance_log = TreeM::all();
+        //return $maintenance_log;
         //return view('users');
         //return $users;
         return view('pages.tree.history_maintenance', compact('maintenance_log'));
-        //return view('pages.tree.history_maintenance');
+        //$builder->where('created_at', '<', now()->subYears(2000));
+
     }
 
     /**

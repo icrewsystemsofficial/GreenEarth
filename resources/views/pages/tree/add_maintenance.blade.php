@@ -55,12 +55,11 @@
             <div class="col-12">
                 <div class="card mb-6 text-sm">
                     <div class="card-header pb-3" style="background-color:#fff;">
-                        <div class="text-lg font-weight-bolder"> Manage all announcements in your database </div>
-                        <div class="text-secondary text-sm " id="subheading"> </div>
+                        <div class="text-lg font-weight-bolder"> Add Tree Maintenance Record </div>
+                        <div class="text-secondary text-sm " id="subheading">tree info here and dtae and time </div>
                     </div>
                     <div class="card-body mt-0 mb-4">
                     <div>
-                        <div>Space for Tree name, etc. (anything that helps volunteer remember what tree theyre adding record for); will work on this later</div>
                         <div>
                             <form method="post" action="{{ route('maintenance.store') }}" enctype="multipart/form-data">
                                 {{ method_field('POST') }}
@@ -69,7 +68,7 @@
                                     <label><strong>Title</strong></label>
                                     <input type="text" name="title" placeholder="Maintenance Title" class="form-control"/>
                                 </div>  
-                                <div class="form-group pb-5 ps-2">
+                                <div class="form-group pb-2 ps-2">
                                     <label><strong>Description</strong></label>
                                     <textarea id="description" class="ckeditor form-control" name="description"></textarea>
                                 </div>
@@ -81,10 +80,11 @@
                                         <option value="Healthy">Healthy</option>    
                                     </select>
                                 </div>
-                                <div id="extraField">
-                                <textarea class="ckeditor form-control" name="suggestions" placeholder="some value"></textarea>
+                                <div id="extraField" class="ps-2">
+                                    <label><strong>What can be done to save the tree?</strong></label>
+                                    <textarea class="ckeditor form-control" name="suggestions" placeholder="some value"></textarea>
                                 </div>
-                                <div class="card-footer p-1">
+                                <div class="card-footer p-2 my-5 ps-2">
                                     <button type="submit" class="btn text-white bg-green-600 btn-sm ps-3 pe-3 pt-2 pb-2">Add Maintenance Record</button>
                                     <a href="{{ url()->previous() }}" class="btn text-white bg-red-600 btn-sm ps-3 pe-3 pt-2 pb-2"> 
                                         Cancel
