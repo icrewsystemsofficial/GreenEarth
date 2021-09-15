@@ -23,8 +23,8 @@ class AnnouncementController extends Controller
 
     public function edit($id)
     {
-        $announcements = DB::select('select * from announcements where id = ?',[$id]);
-        return view('pages.announcement.edit', ['announcements'=>$announcements]);
+        $announcements = Announcement::where('id', $id)->first();
+        return view('pages.announcement.edit', compact('announcements'));
     }
 
     public function update(Request $request, $id)
@@ -35,8 +35,7 @@ class AnnouncementController extends Controller
         ]); 
         $title = $request->input('title');
         $body = $request->input('body');
-        DB::update('update announcements set title = ? where id = ?',[$title,$id]);
-        DB::update('update announcements set body = ? where id = ?',[$body,$id]);
+        Announcement::where('id', $id)->update(['title'=>$title, 'body'=>$body]);
         return redirect(route('announcement.index'));
     }
 
