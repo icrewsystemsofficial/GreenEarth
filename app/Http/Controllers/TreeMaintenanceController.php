@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TreeM;
 use App\Models\Tree;
+Use \Carbon\Carbon;
+
 
 class TreeMaintenanceController extends Controller
 {
@@ -54,6 +56,13 @@ class TreeMaintenanceController extends Controller
         ]); 
     
         TreeM::create($request->all());
+        
+        $health = $request->health;
+        $last_maintained = Carbon::now();
+        $tree_id = $request->tree_id;
+            
+        Tree::where('id', $tree_id)->update(['health'=> $health, 'last_maintained'=>$last_maintained]);
+        
         return redirect(route('tree.index'));
 
         //TreeM::create([

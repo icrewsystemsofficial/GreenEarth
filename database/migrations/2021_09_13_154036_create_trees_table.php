@@ -19,6 +19,7 @@ class CreateTreesTable extends Migration
             $table->text('description');
             $table->string('health')->default('Healthy');
             $table->string('location')->default('India');
+            $table->timestamp('last_maintained')->nullable();
             $table->timestamps();
         });
     }

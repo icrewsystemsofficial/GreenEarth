@@ -55,7 +55,7 @@
         var info = table.page.info();
         var count = info.recordsTotal;
         var subheading = document.getElementById('subheading');
-        subheading.innerHTML = "There are a total of " + count +" announcements in your database";
+        subheading.innerHTML = "There are a total of " + count +" maintenance records for this tree";
 
         $("#filterbox").keyup(function() {
             table.search($(this).val()).draw();
@@ -74,7 +74,8 @@
                 <div class="card mb-6 text-sm">
                     <div class="card-header pb-3" style="background-color:#fff;">
                         <div class="text-lg font-weight-bolder"> Tree Maintenance History </div>
-                        <div class="text-secondary text-sm " id="subheading">tree info</div>
+                        <div class="text-secondary text-sm ">{{$tree->name}} planted at {{$tree->location}} on {{$tree->created_at}}</div>
+                        <div class="text-secondary text-sm " id="subheading"></div>
                     </div>
                    
                     

@@ -56,7 +56,7 @@
                 <div class="card mb-6 text-sm">
                     <div class="card-header pb-3" style="background-color:#fff;">
                         <div class="text-lg font-weight-bolder"> Add Tree Maintenance Record </div>
-                        <div class="text-secondary text-sm " id="subheading">{{$tree->name}} tree info here and dtae and time </div>
+                        <div class="text-secondary text-sm " id="subheading">{{$tree->name}} planted at {{$tree->location}} on {{$tree->created_at}}</div>
                     </div>
                     <div class="card-body mt-0 mb-4">
                     <div>

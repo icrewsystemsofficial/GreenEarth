@@ -13,6 +13,7 @@ class Tree extends Model
         'name',
         'description',
         'location',
-        'health'
+        'health',
+        'last_maintained',
     ];
 }

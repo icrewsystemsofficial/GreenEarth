@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use http\Env\Response;
 use App\Models\Tree;
 use App\Models\TreeImages;
+use App\Models\TreeM;
 use DB;
 use DataTables;
 
@@ -108,6 +109,7 @@ class TreeController extends Controller
     public function destroy(Request $request, $id)
     {
         TreeImages::where('tree_id', $id)->delete();
+        TreeM::where('tree_id', $id)->delete();
         Tree::where('id', $id)->delete();
 
         return redirect(route('tree.index'));
