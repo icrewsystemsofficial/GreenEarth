@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\TreeController;
 use Spatie\Activitylog\Models\Activity;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\TreeMaintenanceController;
@@ -26,11 +27,18 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/announcement', [AnnouncementController::class, 'index'])->name('announcement.index');
-//Route::get('/announcement', [AnnouncementController::class, 'getAll'])->name('announcement.getAll');
 Route::get('/announcement/create', [AnnouncementController::class, 'create'])->name('announcement.create');
 Route::post('/announcement/create', [AnnouncementController::class, 'store'])->name('announcement.store');
 Route::get('/announcement/{id}/edit', [AnnouncementController::class, 'edit'])->name('announcement.edit');
 Route::put('/announcement/{id}/edit', [AnnouncementController::class, 'update'])->name('announcement.update');
+
+Route::get('/tree', [TreeController::class, 'index'])->name('tree.index');
+Route::get('/tree/create', [TreeController::class, 'create'])->name('tree.create');
+Route::post('/tree/create', [TreeController::class, 'storeData'])->name('tree.store');
+Route::post('/tree/storeimage', [TreeController::class, 'storeImage'])->name('tree.storeimage');
+Route::get('/tree/{id}/edit', [TreeController::class, 'edit'])->name('tree.edit');
+Route::put('/tree/{id}/edit', [TreeController::class, 'update'])->name('tree.update');
+Route::get('/tree/{id}/delete', [TreeController::class, 'destroy'])->name('tree.delete');
 
 
 // I have added the route(s) below just to make it easier to check the output to the browser.
