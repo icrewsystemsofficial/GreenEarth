@@ -15,8 +15,8 @@ class CreateTreeMSTable extends Migration
     {
         Schema::create('tree_m_s', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tree_id')->default(5);
-            //$table->foreign('treeID')->references('id')->on('trees');
+            $table->unsignedBigInteger('tree_id');
+            $table->foreign('tree_id')->references('id')->on('trees');
             $table->text('title');
             $table->text('description');
             $table->string('health');

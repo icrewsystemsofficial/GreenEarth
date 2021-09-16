@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TreeM;
+use App\Models\Tree;
 
 class TreeMaintenanceController extends Controller
 {
@@ -12,15 +13,17 @@ class TreeMaintenanceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        $id = 5;
-        $maintenance_log = TreeM::where('tree_id', '=', $id);
+        //$id = 5;
+        //return $id;
+        $maintenance_log = TreeM::where('tree_id', $id)->get();
+        $tree = Tree::where('id', $id)->first();
         //$maintenance_log = TreeM::all();
         //return $maintenance_log;
         //return view('users');
         //return $users;
-        return view('pages.tree.history_maintenance', compact('maintenance_log'));
+        return view('pages.tree.history_maintenance', compact('maintenance_log', 'tree'));
         //$builder->where('created_at', '<', now()->subYears(2000));
 
     }
@@ -30,9 +33,11 @@ class TreeMaintenanceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        return view('pages.tree.add_maintenance');
+        //return $id;
+        $tree = Tree::where('id', $id)->first();
+        return view('pages.tree.add_maintenance', compact('tree'));
     }
 
     /**
@@ -49,7 +54,12 @@ class TreeMaintenanceController extends Controller
         ]); 
     
         TreeM::create($request->all());
-        return redirect(route('pages.tree.history_maintenance'));
+        return redirect(route('tree.index'));
+
+        //TreeM::create([
+          //  'id' => $request->id,
+            //'tree_id'=> $request->
+        //]);
     }
 
     /**

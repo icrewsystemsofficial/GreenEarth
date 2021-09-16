@@ -45,14 +45,14 @@ Route::get('/tree/{id}/delete', [TreeController::class, 'destroy'])->name('tree.
 Route::get('/users', [App\Http\Controllers\UserController::class, 'index'])->name('pages.user.index');
 
 // I have added a dummy route so I can easily view the tree maintenance form.
-Route::get('/maint', [App\Http\Controllers\TreeMaintenanceController::class, 'create'])->name('pages.tree.add_maintenance');
+Route::get('/tree/{id}/add-maintenance', [App\Http\Controllers\TreeMaintenanceController::class, 'create'])->name('pages.tree.add_maintenance');
 
 // Dummy route for viewing a tree's maintenance history.
 //$id = 5;
-Route::get('/history', [App\Http\Controllers\TreeMaintenanceController::class, 'index'])->name('pages.tree.history_maintenance');
+Route::get('/tree/{id}/history', [App\Http\Controllers\TreeMaintenanceController::class, 'index'])->name('pages.tree.history_maintenance');
 
 // Storing maintenance records.
-Route::post('/maint', [TreeMaintenanceController::class, 'store'])->name('maintenance.store');
+Route::post('/tree/{id}/add-maintenance', [TreeMaintenanceController::class, 'store'])->name('maintenance.store');
 
 
 /* Route::get('/activity', function () {
