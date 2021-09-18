@@ -12,9 +12,9 @@
     .btn{
         text-transform: unset !important;
     }
-   // #dataTables_Filter{
-   //     float: right;
-  //  }
+    #dataTables_Filter{
+        float: right;
+    }
 
   .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
       background: none;
