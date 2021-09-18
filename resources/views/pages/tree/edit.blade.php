@@ -42,7 +42,20 @@
         border-radius:10px;
     }
 
-    
+    .container { 
+        position: relative; 
+    }
+
+    .container img { 
+        display: block; 
+    }
+
+    .container .fa-times-circle { 
+        position: absolute; 
+        top:0; 
+        right:0; 
+        font-size:20px;
+    }
 
 </style>
 @endsection
@@ -100,6 +113,7 @@
                         success: function(result){
                             if (result.status == "success"){
                                 myDropzone.processQueue();
+                                
                             }
                             else{
                                 console.log("error");
@@ -162,7 +176,7 @@
                                 <select name="health" id="health">
                                     <option {{ $trees->health == 'Healthy' ? 'selected':'' }}> Healthy </option>
                                     <option {{ $trees->health == 'Not So Healthy' ? 'selected':'' }}> Not So Healthy </option>
-                                    <option {{ $trees->health == ' Needs Immediate Attention' ? 'selected':'' }}> Needs Immediate Attention </option>
+                                    <option {{ $trees->health == 'Needs Immediate Attention' ? 'selected':'' }}> Needs Immediate Attention </option>
                                 </select>
                             </div>
 
@@ -186,7 +200,10 @@
                                 <div class="row row-cols-lg-5 row-cols-md-3 g-2 ">
                                     @foreach($treeImages as $treeImage)
                                     <div class="col" style="column-gap: 0.25rem;">
-                                        <div class="card pe-0" style="width:200px; border:none;">
+                                        <div class="card container pe-0" style="width:200px; border:none;">
+                                            <a onclick="return confirm('Are you sure?')" href="/tree/{{$trees->id}}/edit/{{$treeImage->id}}">
+                                                <i class="fas fa-times-circle pe-2 pt-1 text-white" style="float: right;"></i>
+                                            </a>
                                             <img class="card-img-top gallery" src="{{ asset('uploads/images/') }}/{{ $treeImage->name }}" />
                                         </div>   
                                     </div>   

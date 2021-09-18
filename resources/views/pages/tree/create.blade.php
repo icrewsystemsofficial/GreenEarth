@@ -89,6 +89,7 @@
                                 var treeid = result.tree_id;
 						        $("#treeid").val(treeid);
                                 myDropzone.processQueue();
+                                window.location.href = "{{URL::to('tree')}}";
                             }
                             else{
                                 console.log("error");
@@ -108,7 +109,7 @@
                 });
 
                 this.on("queuecomplete", function(){
-
+                    
                 });
 
                 this.on("sendingmultiple", function(files, response){
@@ -148,9 +149,9 @@
                             <div class="form-group ps-3 pe-3 text-sm">
                                 <label for="health" class="pe-4"> Health </label>
                                 <select name="health" id="health">
-                                    <option value="healthy"> Healthy </option>
-                                    <option value="notHealthy"> Not So Healthy </option>
-                                    <option value="attention"> Needs Immediate Attention </option>
+                                    <option value="Healthy"> Healthy </option>
+                                    <option value="Not So Healthy"> Not So Healthy </option>
+                                    <option value="Needs Immediate Attention"> Needs Immediate Attention </option>
                                 </select>
                             </div>
 
@@ -167,13 +168,11 @@
                                         </span>
                                     </div>
                                     <div class="dropzone-previews">
-
                                     </div>
                             </div>
                             
                             <div class="card-footer p-3">
                                 <button type="submit" class="btn bg-gradient-dark text-sm btn-sm ps-3 pe-3 pt-2 pb-2"> Save </button>
-                               
                             </div>
                             
                         </form>

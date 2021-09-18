@@ -37,6 +37,7 @@ Route::post('/tree/create', [TreeController::class, 'storeData'])->name('tree.st
 Route::post('/tree/storeimage', [TreeController::class, 'storeImage'])->name('tree.storeimage');
 Route::get('/tree/{id}/edit', [TreeController::class, 'edit'])->name('tree.edit');
 Route::put('/tree/{id}/edit', [TreeController::class, 'update'])->name('tree.update');
+Route::get('/tree/{treeid}/edit/{id}', [TreeController::class, 'deleteImage'])->name('tree.deleteImage');
 Route::get('/tree/{id}/delete', [TreeController::class, 'destroy'])->name('tree.delete');
 
 
