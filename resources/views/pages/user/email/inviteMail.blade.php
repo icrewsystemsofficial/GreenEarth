@@ -1,3 +1,5 @@
+
+
 @component('mail::message')
 
 Hey {{$mailInfo['name']}} .. <br><br>

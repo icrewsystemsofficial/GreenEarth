@@ -30,6 +30,7 @@ class User_invite extends Mailable
     public function build()
     {
         return $this->markdown('pages.user.email.inviteMail')
+                ->subject('GreenEarth - New Account confirmation')
                 ->with('mailInfo', $this->mailInfo);
     }
 }

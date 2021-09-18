@@ -97,13 +97,20 @@ class UserController extends Controller
 
     public function create_user(Request $req)
     {
+        $req -> validate([
+
+            'password'=>'confirmed'
+        ]);
+
+
         $user = new User;
         $user->name=$req->input('name');
         $user->email= $req->input('email');
         $user->password= Hash::make($req->input('password'));
-        $role= $req->input('role');
-        $user->givePermissionTo($role);
-        $user->assignRole($role);
+        $user->role= $req->input('role');
+        #$user->givePermissionTo($role);
+        #$user->assignRole($role);
+
         $user->save();
 
         $data=temp_user::where('email',$req->input('email')) -> first();
@@ -120,12 +127,12 @@ class UserController extends Controller
        /*  $delete_user_temp = temp_user::find($req->input('email'));
         return($delete_user_temp); */
 
-        
+
         /* activity()
         ->causedBy($user)
         ->log('Created a new user called '.$user->name.''); */
        // notify()->success("Successfully Created","created");
-       
+
 
         /* $user= new user;
         #$tempuser->uuid('id');

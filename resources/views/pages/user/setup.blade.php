@@ -10,15 +10,15 @@
                     <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
                         <div class="card card-plain mt-8">
                             <div class="card-header pb-0 text-left bg-transparent">
-                                <h3 class="font-weight-bolder text-info text-gradient">Welcome!</h3>
-                                <p class="mb-0">Enter your details below to setup your account</p>
+                                <h3 class="font-weight-bolder text-info text-gradient">Welcome {{$data->name}}!</h3>
+                                <p class="mb-0">Set up password to complete account initialisation</p>
                             </div>
                             <div class="card-body">
                                 <form method="post" action="/users/setup/add_user">
                                     @csrf
-                                    <label>Name</label>
+                                    {{-- <label>Name</label> --}}
                                     <div class="mb-3">
-                                        <input id="name" placeholder="" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $data->name }}" required autocomplete="name" autofocus >
+                                        <input id="name" placeholder="" type="hidden" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $data->name }}" required autocomplete="name" autofocus >
 
                                         @error('name')
                                         <span class="invalid-feedback" role="alert">
@@ -27,11 +27,21 @@
                                         @enderror
 
                                     </div>
-                                    <label>Email</label>
+                                    {{-- <label>Email</label> --}}
                                     <div class="mb-3">
-                                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{$data->email }}" required autocomplete="email" >
+                                        <input id="email" type="hidden" class="form-control @error('email') is-invalid @enderror" name="email" value="{{$data->email }}" required autocomplete="email" >
 
                                         @error('email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+
+                                    </div>
+                                    <div class="mb-3">
+                                        <input id="role" type="hidden" class="form-control @error('role') is-invalid @enderror" name="role" value="{{$data->role }}" required autocomplete="role" >
+
+                                        @error('role')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -48,9 +58,9 @@
                                         </span>
                                         @enderror
                                     </div>
-                                    <label>Confirm Password</label>
+                                    <label for="conf-password">Confirm Password</label>
                                     <div class="mb-3">
-                                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                        <input id="password_confirmation" type="password" class="form-control @error('conf-password') is-invalid @enderror" name="password_confirmation" required autocomplete="new-password">
                                     </div>
                                     <div class="text-center">
                                         <button type="submit" class="btn bg-gradient-primary w-100 mt-4 mb-0">Setup my Account</button>
