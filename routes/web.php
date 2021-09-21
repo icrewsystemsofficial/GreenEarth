@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnnouncementController;
 use Spatie\Activitylog\Models\Activity;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,3 +42,18 @@ Route::get('/users', [App\Http\Controllers\UserController::class, 'index'])->nam
 
 Route::get("activity",[ActivityController::class,'disp']);
 
+Route::get('/users/create', function () {
+    return view('pages.user.user_create');
+});
+
+Route::post('users/create/new',[UserController::class,'create_temp']);
+
+Route::get('/mail-send', [UserController::class, 'mailSend']);
+
+/* Route::get('/users/setup/{uuid}', function () {
+    return view('pages.user.setup');
+}); */
+
+Route::get('/users/setup/{uuid}',[UserController::class,'setup']);
+
+Route::post('/users/setup/add_user',[UserController::class,'create_user']);
