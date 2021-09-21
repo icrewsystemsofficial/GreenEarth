@@ -90,7 +90,9 @@
                                         <th class="text-uppercase text-center text-secondary text-sm font-weight-bolder opacity-7"> Tree Name </th>
                                         <th class="text-uppercase text-center text-secondary text-sm font-weight-bolder opacity-7"> Tree Planted On </th>
                                         <th class="text-uppercase text-center text-secondary text-sm font-weight-bolder opacity-7"> Last Maintained </th>
+
                                         <th class="text-uppercase text-center text-secondary text-sm font-weight-bolder opacity-7"> Health </th>
+
                                         <th class="text-uppercase text-center text-secondary text-sm font-weight-bolder opacity-7"> Actions </th>
                                     </tr>
                                 </thead>
@@ -102,6 +104,7 @@
                                     <td class="text-sm text-center"> {{ $tree->created_at }} </td>
                                     <td class="text-sm text-center"> {{ $tree->last_maintained }} </td>
                                     <td class="text-sm text-center"> {{ $tree->health }} </td>
+
                                     <td class="text-sm text-center pb-0 pt-3"> 
                                        <a href='/tree/{{ $tree->id }}/edit' class="btn btn-primary text-sm">
                                             Edit

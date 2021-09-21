@@ -102,18 +102,26 @@ class TreeController extends Controller
                 $tree->save();
             }
 
-            return redirect(route('tree.index'));
+            return redirect()->route('tree.index');
         }
+
+        return redirect()->route('tree.index');
+
 	}
+
+    public function deleteImage(Request $request, $treeid, $id)
+    {
+        TreeImages::where('id', $id)->delete();
+        return back();
+
+    }
 
     public function destroy(Request $request, $id)
     {
         TreeImages::where('tree_id', $id)->delete();
-        TreeM::where('tree_id', $id)->delete();
         Tree::where('id', $id)->delete();
 
         return redirect(route('tree.index'));
-
     }
     
 }
