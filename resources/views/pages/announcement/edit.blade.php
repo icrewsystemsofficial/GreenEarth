@@ -10,6 +10,9 @@
     .btn{
         text-transform: unset !important;
     }
+    .card{
+        border-radius: 10px;
+    }
 </style>
 @endsection
 
@@ -29,7 +32,7 @@
             <div class="col-md-12">
                 <div class="card ">
                     <div class="card-body text-sm">
-                        <form action="/announcement/<?php echo $announcements[0]->id; ?>/edit" enctype="multipart/form-data" method="post">
+                        <form action="/announcement/{{$announcements->id}}/edit" enctype="multipart/form-data" method="post">
                             @csrf
                             @method('put')
                             <div class="form-group ps-2">
@@ -41,11 +44,11 @@
                             </div>
                             <div class="form-group ps-2">
                                 <label> Title </label>
-                                <input type="text" name="title" placeholder="Announcement Title" class="form-control text-sm" value="{{ $announcements[0]->title }}"/>
+                                <input type="text" name="title" placeholder="Announcement Title" class="form-control text-sm" value="{{ $announcements->title }}"/>
                             </div>  
                             <div class="form-group pb-5 ps-2">
                                 <label><strong> Body </strong></label>
-                                <textarea class="ckeditor form-control" name="body"> {{ $announcements[0]->body }} </textarea>
+                                <textarea class="ckeditor form-control" name="body"> {{ $announcements->body }} </textarea>
                             </div>
                             <div class="card-footer p-2">
                                 <button type="submit" class="btn text-white bg-green-600 btn-sm ps-3 pe-3 pt-2 pb-2">Update Announcement</button>
