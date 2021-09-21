@@ -5,6 +5,7 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\TreeController;
 use Spatie\Activitylog\Models\Activity;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\TreeMaintenanceController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -38,12 +39,19 @@ Route::post('/tree/create', [TreeController::class, 'storeData'])->name('tree.st
 Route::post('/tree/storeimage', [TreeController::class, 'storeImage'])->name('tree.storeimage');
 Route::get('/tree/{id}/edit', [TreeController::class, 'edit'])->name('tree.edit');
 Route::put('/tree/{id}/edit', [TreeController::class, 'update'])->name('tree.update');
+
 Route::get('/tree/{treeid}/edit/{id}', [TreeController::class, 'deleteImage'])->name('tree.deleteImage');
 Route::get('/tree/{id}/delete', [TreeController::class, 'destroy'])->name('tree.delete');
 
 
 // I have added the route(s) below just to make it easier to check the output to the browser.
 Route::get('/users', [App\Http\Controllers\UserController::class, 'index'])->name('pages.user.index');
+
+// I have added a dummy route so I can easily view the tree maintenance form.
+Route::get('/tree/{id}/add-maintenance', [App\Http\Controllers\TreeMaintenanceController::class, 'create'])->name('pages.tree.add_maintenance');
+Route::get('/tree/{id}/history', [App\Http\Controllers\TreeMaintenanceController::class, 'index'])->name('pages.tree.history_maintenance');
+Route::post('/tree/{id}/add-maintenance', [TreeMaintenanceController::class, 'store'])->name('maintenance.store');
+
 
 /* Route::get('/activity', function () {
     return view('welcome');

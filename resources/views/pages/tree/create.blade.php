@@ -89,6 +89,7 @@
                                 var treeid = result.tree_id;
 						        $("#treeid").val(treeid);
                                 myDropzone.processQueue();
+                                
                                 window.location.href = "{{URL::to('tree')}}";
                             }
                             else{
@@ -109,7 +110,7 @@
                 });
 
                 this.on("queuecomplete", function(){
-                    
+                
                 });
 
                 this.on("sendingmultiple", function(files, response){
