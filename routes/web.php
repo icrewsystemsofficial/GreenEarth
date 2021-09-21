@@ -6,6 +6,7 @@ use App\Http\Controllers\TreeController;
 use Spatie\Activitylog\Models\Activity;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\TreeMaintenanceController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,3 +57,18 @@ Route::post('/tree/{id}/add-maintenance', [TreeMaintenanceController::class, 'st
 
 Route::get("activity",[ActivityController::class,'disp']);
 
+Route::get('/users/create', function () {
+    return view('pages.user.user_create');
+});
+
+Route::post('users/create/new',[UserController::class,'create_temp']);
+
+Route::get('/mail-send', [UserController::class, 'mailSend']);
+
+/* Route::get('/users/setup/{uuid}', function () {
+    return view('pages.user.setup');
+}); */
+
+Route::get('/users/setup/{uuid}',[UserController::class,'setup']);
+
+Route::post('/users/setup/add_user',[UserController::class,'create_user']);

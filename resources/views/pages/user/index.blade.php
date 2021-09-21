@@ -27,9 +27,9 @@
             </div>
         @endif
         <div class="position-relative">
-            <button type="button" class="btn btn-warning">
+            <a type="button" class="btn btn-warning" style="background-color:green" href="users/create">
                 Create a user
-            </button>
+            </a>
         </div>
         <table id="table_id" class="display">
             <thead>
@@ -48,14 +48,14 @@
                     <td>{{$user->name}}</td>
                     <td>#{{$user->id}}</td>
                     <td>{{$user->email}}</td>
-                    <td>not coded</td>
+                    <td>{{$user->role}}</td>
                     <td>{{$user->created_at}} <?php echo date('m'); ?></td>
                     <td>
                         <div>
-                            <button type="button" class="btn btn-primary rounded-circle">
+                            <button type="button" class="btn btn-primary " style="background-color:green">
                                 <i class="bi bi-pencil-fill"></i>
                             </button>
-                            <button type="button" class="btn btn-danger rounded-circle">
+                            <button type="button" class="btn btn-danger ">
                                 <i class="bi bi-trash-fill"></i>
                             </button>
                         </div>
