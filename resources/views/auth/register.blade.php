@@ -9,8 +9,12 @@
                     <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
                         <div class="card card-plain mt-8">
                             <div class="card-header pb-0 text-left bg-transparent">
-                                <h3 class="font-weight-bolder text-info text-gradient">Welcome!</h3>
-                                <p class="mb-0">Enter your details below to create an account</p>
+                                <h3 class="font-weight-bolder text-success text-gradient">
+                                    Register
+                                </h3>
+                                <p class="mb-0">
+                                    Create a FREE account at GreenEarth to access the portal
+                                </p>
                             </div>
                             <div class="card-body">
                                 <form method="POST" action="{{ route('register') }}">
@@ -52,7 +56,7 @@
                                         <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                                     </div>
                                     <div class="text-center">
-                                        <button type="submit" class="btn bg-gradient-primary w-100 mt-4 mb-0">Register</button>
+                                        <button type="submit" class="btn bg-gradient-success w-100 mt-4 mb-0">Register</button>
                                     </div>
                                 </form>
                             </div>
@@ -60,7 +64,7 @@
                                 @if (Route::has('login'))
                                 <p class="mb-4 text-sm mx-auto">
                                     Already have an account?
-                                    <a href="{{ route('login') }}" class="text-primary text-gradient font-weight-bold">Login</a>
+                                    <a href="{{ route('login') }}" class="text-success text-gradient font-weight-bold">Login</a>
                                 </p>
                                 @endif
                             </div>
@@ -68,9 +72,13 @@
                     </div>
                     <div class="col-md-6">
                         <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
-                            <?php $imgurl = asset('img/curved-images/curved6.jpg'); ?>
+                            <?php
+                                // $imgurl = asset('img/curved-images/curved6.jpg');
+                                $imgurl = 'https://images.unsplash.com/photo-1541855951501-fc42a85d86d3?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZGFyayUyMGdyZWVufGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1';
+                            ?>
                             <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6" style="background-image:url('{{$imgurl}}')"></div>
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>
