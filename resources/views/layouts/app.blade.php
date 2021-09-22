@@ -8,9 +8,26 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="apple-touch-icon" sizes="76x76" href="{{asset('img/apple-icon.png')}}">
     <link rel="icon" type="image/png" href="{{asset('img/favicon.png')}}">
-    <title>
-        @yield('pageTitle')
-    </title>
+    <!-- Primary Meta Tags -->
+    <title>@yield('pageTitle', config('app.name')) - An initiative towards sustainable internet</title>
+    <meta name="title" content="{{ config('app.name') }} - An initiative towards sustainable internet">
+    <meta name="description" content="The internet is made up of servers that produce CO2 (carbon-dioxide), which is harmful for the atmosphere. For sustainable internet and to reduce YOUR carbon footprint, we plant the trees required to cover your entire CO2 emission. ">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ config('app.url') }}">
+    <meta property="og:title" content="{{ config('app.name') }} - An initiative towards sustainable internet">
+    <meta property="og:description" content="The internet is made up of servers that produce CO2 (carbon-dioxide), which is harmful for the atmosphere. For sustainable internet and to reduce YOUR carbon footprint, we plant the trees required to cover your entire CO2 emission. ">
+    <meta property="og:image" content="{{ config('app.url') }}assets/meta-tags-16a33a6a8531e519cc0936fbba0ad904e52d35f34a46c97a2c9f6f7dd7d336f2.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ config('app.url') }}">
+    <meta property="twitter:title" content="{{ config('app.name') }} - An initiative towards sustainable internet">
+    <meta property="twitter:description" content="The internet is made up of servers that produce CO2 (carbon-dioxide), which is harmful for the atmosphere. For sustainable internet and to reduce YOUR carbon footprint, we plant the trees required to cover your entire CO2 emission. ">
+    <meta property="twitter:image" content="{{ config('app.url') }}assets/meta-tags-16a33a6a8531e519cc0936fbba0ad904e52d35f34a46c97a2c9f6f7dd7d336f2.png">
+
+
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Nucleo Icons -->
@@ -21,7 +38,7 @@
     <link href="{{asset('css/nucleo-svg.css')}}" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="{{asset('css/soft-ui-dashboard.css')}}" rel="stylesheet" />
-
+    @notifyCss
     @yield('css')
 </head>
 
@@ -131,34 +148,21 @@
         </nav>
         <!-- End Navbar -->
 
+
         @yield('content')
 
-        <footer class="footer pt-3  ">
+        <footer class="footer pt-3">
             <div class="container-fluid">
                 <div class="row align-items-center justify-content-lg-between">
                     <div class="col-lg-6 mb-lg-0 mb-4">
                         <div class="copyright text-center text-sm text-muted text-lg-start">
-                            © <script>
-                                document.write(new Date().getFullYear())
-                            </script>,
-                            made with <i class="fa fa-heart"></i> by
-                            <a href="https://www.icrewsystems.com" class="font-weight-bold" target="_blank">Icrewsystems SE LLP</a>
-                            for a better web.
+                            {{ config('app.name') }} - An initiative by icrewsystems
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <ul class="nav nav-footer justify-content-center justify-content-lg-end">
                             <li class="nav-item">
-                                <a href="https://www.icrewsystems.com" class="nav-link text-muted" target="_blank">Icrewsystems SE LLP</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
+                                <a href="https://www.icrewsystems.com" class="nav-link text-muted" target="_blank">Open Source Credits</a>
                             </li>
                         </ul>
                     </div>
@@ -166,6 +170,10 @@
             </div>
         </footer>
     </main>
+
+    <div style="z-index: 500000;">
+        <x:notify-messages />
+    </div>
 
     <!--   Core JS Files   -->
     <script src="{{asset('js/core/popper.min.js')}}"></script>
@@ -357,6 +365,7 @@
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{asset('js/soft-ui-dashboard.min.js')}}"></script>
 
+    @notifyJs
     @yield('js')
 </body>
 
