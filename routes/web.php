@@ -1,12 +1,13 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AnnouncementController;
-use App\Http\Controllers\TreeController;
 use Spatie\Activitylog\Models\Activity;
-use App\Http\Controllers\ActivityController;
-use App\Http\Controllers\TreeMaintenanceController;
+use App\Http\Controllers\TreeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\TreeMaintenanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//TODO Wrap this inside a route group. - Leonard
 
 Route::get('/announcement', [AnnouncementController::class, 'index'])->name('announcement.index');
 Route::get('/announcement/create', [AnnouncementController::class, 'create'])->name('announcement.create');
