@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Portal\Admin;
 
 use Illuminate\Http\Request;
 use App\Models\Announcement;
+use App\Http\Controllers\Controller;
 use DB;
 use DataTables;
 
@@ -36,7 +37,7 @@ class AnnouncementController extends Controller
         $title = $request->input('title');
         $body = $request->input('body');
         Announcement::where('id', $id)->update(['title'=>$title, 'body'=>$body]);
-        return redirect(route('announcement.index'));
+        return redirect(route('portal.admin.announcements.index'));
     }
 
     public function store(Request $request)
@@ -47,7 +48,7 @@ class AnnouncementController extends Controller
         ]); 
     
         Announcement::create($request->all());
-        return redirect(route('announcement.index'));
+        return redirect(route('portal.admin.announcements.index'));
     }
 
     public function destroy()

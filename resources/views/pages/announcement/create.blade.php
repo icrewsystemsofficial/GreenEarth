@@ -11,7 +11,8 @@
         text-transform: unset !important;
     }
     .card{
-        border-radius: 10px;
+        border-radius: 15px;
+        border: none;
     }
 </style>
 @endsection
@@ -32,7 +33,7 @@
             <div class="col-md-12">
                 <div class="card ">
                     <div class="card-body text-sm">
-                        <form method="post" action="{{ route('announcement.store') }}" enctype="multipart/form-data">
+                        <form method="post" action="{{ route('portal.admin.announcements.store') }}" enctype="multipart/form-data">
                        {{ method_field('POST') }}
                             @csrf
                             <div class="form-group ps-2">

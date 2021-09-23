@@ -26,7 +26,7 @@
     }
 
     .card{
-        border-radius: 10px;
+        border-radius: 15px;
         border: none;
     }
 
@@ -71,7 +71,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card mb-6 ms-2 me-2 text-sm">
-                    <div class="card-header pb-3" style="background-color:#fff;">
+                    <div class="card-header pb-3" style="background-color:#fff; border-radius:15px 15px 0px 0px;">
                         <div class="text-lg font-weight-bolder"> Manage all announcements in your database </div>
                         <div class="text-secondary text-sm " id="subheading"> </div>
                     </div>
@@ -103,7 +103,7 @@
                                     <td class="text-sm text-center"> Name </td>
                                     <td class="text-sm text-center"> {{ $announcement->created_at }} </td>
                                     <td class="text-sm text-center pb-0 pt-3"> 
-                                       <a href='/announcement/{{ $announcement->id }}/edit' class="btn bg-gradient-primary text-sm">
+                                       <a href="{{ route('portal.admin.announcements.edit', $announcement->id) }}" class="btn bg-gradient-primary text-sm">
                                             Manage
                                        </a>
                                     </td>
