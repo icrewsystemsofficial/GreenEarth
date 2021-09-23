@@ -27,7 +27,7 @@
             </div>
         @endif
         <div class="position-relative">
-            <a type="button" class="btn btn-warning" style="background-color:green" href="users/create">
+            <a type="button" class="btn btn-success"  href="users/create">
                 Create a user
             </a>
         </div>
@@ -52,7 +52,7 @@
                     <td>{{$user->created_at}} <?php echo date('m'); ?></td>
                     <td>
                         <div>
-                            <button type="button" class="btn btn-primary " style="background-color:green">
+                            <button type="button" class="btn btn-success " >
                                 <i class="bi bi-pencil-fill"></i>
                             </button>
                             <button type="button" class="btn btn-danger ">
