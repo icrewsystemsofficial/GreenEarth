@@ -9,8 +9,10 @@
                     <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
                         <div class="card card-plain mt-8">
                             <div class="card-header pb-0 text-left bg-transparent">
-                                <h3 class="font-weight-bolder text-info text-gradient">Welcome back</h3>
-                                <p class="mb-0">Enter your email and password to sign in</p>
+                                <h3 class="font-weight-bolder text-success text-gradient">Login</h3>
+                                <p class="mb-0">
+                                    login to your GreenEarth account to access the portal
+                                </p>
                             </div>
                             <div class="card-body">
                             <form method="POST" action="{{ route('login') }}">
@@ -40,7 +42,7 @@
                                         <label class="form-check-label" for="remember">Remember me</label>
                                     </div>
                                     <div class="text-center">
-                                        <button type="submit" class="btn bg-gradient-primary w-100 mt-4 mb-0">Login</button>
+                                        <button type="submit" class="btn bg-gradient-success w-100 mt-4 mb-0">Login</button>
                                     </div>
                                 </form>
                             </div>
@@ -48,11 +50,11 @@
                                 @if (Route::has('register'))
                                     <p class="mb-4 text-sm mx-auto">
                                         Don't have an account?
-                                        <a href="{{ route('register') }}" class="text-primary text-gradient font-weight-bold">Register</a>
+                                        <a href="{{ route('register') }}" class="text-success font-weight-bold">Register</a>
                                     </p>
                                 @endif
                                 @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
+                                    <a class="btn btn-link text-success" href="{{ route('password.request') }}">
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif
@@ -61,7 +63,10 @@
                     </div>
                     <div class="col-md-6">
                         <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
-                            <?php $imgurl = asset('img/curved-images/curved6.jpg'); ?>
+                            <?php
+                                // $imgurl = asset('img/curved-images/curved6.jpg');
+                                $imgurl = 'https://images.unsplash.com/photo-1541855951501-fc42a85d86d3?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZGFyayUyMGdyZWVufGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1';
+                            ?>
                             <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6" style="background-image:url('{{$imgurl}}')"></div>
                         </div>
                     </div>

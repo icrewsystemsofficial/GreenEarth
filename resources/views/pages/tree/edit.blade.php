@@ -85,7 +85,7 @@
     $(function(){
         var myDropzone = new Dropzone("div#dropzoneDragArea", {
             paramName: "file",
-            url: "{{ route('tree.storeimage') }}",
+            url: "{{ route('portal.admin.tree.storeimage') }}",
             previewsContainer: 'div.dropzone-previews',
             addRemoveLinks: true,
             autoProcessQueue: false,
@@ -159,7 +159,7 @@
             <div class="col-md-12">
                 <div class="card ">
                     <div class="card-body text-sm">
-                        <form method="post" name="trees-create-form" id="trees-create-form" enctype="multipart/form-data" action="/tree/{{$trees->id}}/edit" class="ckeditor dropzone">
+                        <form method="post" name="trees-create-form" id="trees-create-form" enctype="multipart/form-data" action="portal/admin/tree/{{$trees->id}}/edit" class="ckeditor dropzone">
                        {{ method_field('PUT') }}
                             @csrf
                             <input type="hidden" class="treeid" name="treeid" id="treeid" value="{{ $trees->id}}">
@@ -216,7 +216,7 @@
                             
                             <div class="card-footer ps-3">
                                 <button type="submit" class="btn text-white bg-green-600 btn-sm ps-3 pe-3 pt-2 pb-2"> Update Tree </button>
-                                <a href="{{ Route('tree.index') }}" class="btn text-white bg-red-600 btn-sm ps-3 pe-3 pt-2 pb-2"> 
+                                <a href="{{ Route('portal.admin.tree.index') }}" class="btn text-white bg-red-600 btn-sm ps-3 pe-3 pt-2 pb-2"> 
                                     Back
                                </a> 
                             </div>

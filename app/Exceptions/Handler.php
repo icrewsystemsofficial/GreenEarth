@@ -34,11 +34,14 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            redirect(view());
-        });
+        //This was commented by Leonard. Was throwing an error.
+        // 22 Sept, 2021.
+
+        // $this->reportable(function (Throwable $e) {
+        //     redirect(view());
+        // });
     }
-    
+
 
 
 

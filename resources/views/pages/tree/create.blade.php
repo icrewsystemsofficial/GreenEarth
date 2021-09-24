@@ -49,16 +49,16 @@
        $('.ckeditor').ckeditor();
     });
 </script>
-    
+
 <script>
     Dropzone.autoDiscover = false;
-    
+
     let token = $('meta[name="csrf-token"]').attr('content');
-    
+
     $(function(){
         var myDropzone = new Dropzone("div#dropzoneDragArea", {
             paramName: "file",
-            url: "{{ route('tree.storeimage') }}",
+            url: "{{ route('portal.admin.tree.storeimage') }}",
             previewsContainer: 'div.dropzone-previews',
             addRemoveLinks: true,
             autoProcessQueue: false,
@@ -76,10 +76,10 @@
                     event.preventDefault();
 
                     URL = $("#trees-create-form").attr('action');
-                    
+
                     CKEDITOR.instances.description.updateElement();
                     formData = $("#trees-create-form").serialize();
-                    
+
                     $.ajax({
                         type: 'POST',
                         url: URL,
@@ -89,8 +89,8 @@
                                 var treeid = result.tree_id;
 						        $("#treeid").val(treeid);
                                 myDropzone.processQueue();
-                                
-                                window.location.href = "{{URL::to('tree')}}";
+
+                                window.location.href = "{{URL::to('portal/admin/tree')}}";
                             }
                             else{
                                 console.log("error");
@@ -106,11 +106,11 @@
                 });
 
                 this.on("success", function(file, response){
-                    
+
                 });
 
                 this.on("queuecomplete", function(){
-                
+
                 });
 
                 this.on("sendingmultiple", function(files, response){
@@ -124,7 +124,7 @@
         });
     });
 </script>
-    
+
 @endsection
 
 @section('content')
@@ -134,14 +134,14 @@
             <div class="col-md-12">
                 <div class="card ">
                     <div class="card-body text-sm">
-                        <form method="post" name="trees-create-form" id="trees-create-form" enctype="multipart/form-data" action="{{ route('tree.store') }}" class="ckeditor dropzone">
+                        <form method="post" name="trees-create-form" id="trees-create-form" enctype="multipart/form-data" action="{{ route('portal.admin.tree.store') }}" class="ckeditor dropzone">
                        {{ method_field('POST') }}
                             @csrf
                             <input type="hidden" class="treeid" name="treeid" id="treeid" value="">
                             <div class="form-group ps-3 pe-3">
                                 <label> Name </label>
                                 <input type="text" name="name" class="form-control text-sm"/>
-                            </div>  
+                            </div>
                             <div class="form-group pb-2 ps-3 pe-3">
                                 <label><strong> Description </strong></label>
                                 <textarea type="text" class="ckeditor form-control text-sm" id="description" name="description"></textarea>
@@ -159,7 +159,7 @@
                             <div class="form-group ps-3 pe-3">
                                 <label> Location </label>
                                 <input type="text" name="location" class="form-control text-sm bg-white-600"/>
-                            </div> 
+                            </div>
 
                             <div class="form-group ps-3 pb-4 pe-5">
                                 <label> Photo </label>
@@ -171,11 +171,11 @@
                                     <div class="dropzone-previews">
                                     </div>
                             </div>
-                            
+
                             <div class="card-footer p-3">
                                 <button type="submit" class="btn bg-gradient-dark text-sm btn-sm ps-3 pe-3 pt-2 pb-2"> Save </button>
                             </div>
-                            
+
                         </form>
                     </div>
                 </div>
