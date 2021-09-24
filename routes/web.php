@@ -27,6 +27,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\TreeMaintenanceController;
 use App\Http\Controllers\Portal\Admin\UserController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,8 +68,8 @@ Route::prefix('portal')->as('portal.')->group(function () {
     /* DASHBOARD PAGES */
 
     Route::get('/', [HomeController::class, 'index'])->name('index');
-
-
+    Route::get('/my-profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::resource('users',ProfileController::class);
 
     /************************
         -- ADMIN ROUTES --
