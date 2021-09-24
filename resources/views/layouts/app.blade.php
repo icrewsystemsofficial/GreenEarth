@@ -37,8 +37,8 @@
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link href="{{asset('css/nucleo-svg.css')}}" rel="stylesheet" />
     <!-- CSS Files -->
-    {{-- <link id="pagestyle" href="{{asset('css/soft-ui-dashboard.css')}}" rel="stylesheet" /> --}}
-    <link rel="stylesheet" href="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/css/soft-design-system-pro.min.css?v=1.0.8">
+    <link id="pagestyle" href="{{asset('css/soft-ui-dashboard.css')}}" rel="stylesheet" />
+
     @notifyCss
     @yield('css')
 </head>
