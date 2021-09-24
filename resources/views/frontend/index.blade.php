@@ -15,7 +15,7 @@
                 </h1> --}}
 
                 <h1 class="text-white pt-3 mt-n5 h1">
-                    Carbon netrality is a <span class="text-success text-gradient">necessity</span>
+                    Carbon neutrality is a <span class="text-success text-gradient">necessity</span>
                     <br>
                     <small class="text-sm">
                         If you have a website, you are an unconscious contributor

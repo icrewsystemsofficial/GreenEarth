@@ -52,6 +52,23 @@ Auth::routes();
 
 Route::prefix('home')->as('home.')->group(function () {
     Route::get('/', [FrontendController::class, 'index'])->name('index');
+    Route::get('/calculate', [FrontendController::class, 'comingsoon']);
+    Route::get('/certificate/{uuid}', [FrontendController::class, 'index']);
+
+    Route::get('/directory', [FrontendController::class, 'index']);
+    Route::get('/track-my-tree/{uuid}', [FrontendController::class, 'index']);
+    Route::get('/statistics', [FrontendController::class, 'index']);
+
+    Route::get('/about', [FrontendController::class, 'index']);
+    Route::get('/contributors', [FrontendController::class, 'index']);
+    Route::get('/investors', [FrontendController::class, 'index']);
+    Route::get('/partners', [FrontendController::class, 'index']);
+    Route::get('/announcements', [FrontendController::class, 'index']);
+    Route::get('/blog', [FrontendController::class, 'index']);
+
+    Route::get('/coming-soon', [FrontendController::class, 'comingsoon'])->name('coming-soon');
+
+
     Route::get('/verify/{uuid}', [UserController::class, 'verify'])->name('users.verify');
 });
 
