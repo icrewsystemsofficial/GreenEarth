@@ -68,6 +68,11 @@ Route::prefix('portal')->as('portal.')->group(function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('index');
 
+     /* ANNOUNCEMENT MODULE - View Announcements */
+     Route::prefix('announcements')->as('announcements.')->group(function () {
+        Route::get('/', [AnnouncementController::class, 'index'])->name('index');
+        Route::get('/view/{id}', [AnnouncementController::class, 'view'])->name('view');
+    });
 
 
     /************************
@@ -95,7 +100,6 @@ Route::prefix('portal')->as('portal.')->group(function () {
             Route::post('/setup/add_user',[UserController::class, 'create_user']);
         });
 
-
         /* ANNOUNCEMENT MODULE */
         Route::prefix('announcements')->as('announcements.')->group(function () {
             Route::get('/', [AnnouncementController::class, 'index'])->name('index');
@@ -104,9 +108,9 @@ Route::prefix('portal')->as('portal.')->group(function () {
             Route::get('/edit/{id}', [AnnouncementController::class, 'edit'])->name('edit');
             Route::put('/edit/{id}', [AnnouncementController::class, 'update'])->name('update');
         });
-
-
+        
     });
+
 });
 
 
