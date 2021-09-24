@@ -101,13 +101,13 @@ Route::prefix('portal')->as('portal.')->group(function () {
             Route::get('/create', [TreeController::class, 'create'])->name('create');
             Route::post('/create', [TreeController::class, 'storeData'])->name('store');
             Route::post('/storeimage', [TreeController::class, 'storeImage'])->name('storeimage');
-            Route::get('/{id}/edit', [TreeController::class, 'edit'])->name('edit');
-            Route::put('/{id}/edit', [TreeController::class, 'update'])->name('update');
-            Route::get('/{treeid}/edit/{id}', [TreeController::class, 'deleteImage'])->name('deleteImage');
-            Route::get('/{id}/delete', [TreeController::class, 'destroy'])->name('delete');
-            Route::get('/tree/{id}/add-maintenance', [TreeMaintenanceController::class, 'create'])->name('add_maintenance');
-            Route::get('/tree/{id}/history', [TreeMaintenanceController::class, 'index'])->name('history_maintenance');
-            Route::post('/tree/{id}/add-maintenance', [TreeMaintenanceController::class, 'store'])->name('maintenance_store');
+            Route::get('/edit/{id}', [TreeController::class, 'edit'])->name('edit');
+            Route::put('/edit/{id}', [TreeController::class, 'update'])->name('update');
+            Route::get('/edit/{treeid}/{id}', [TreeController::class, 'deleteImage'])->name('deleteImage');
+            Route::get('/delete/{id}', [TreeController::class, 'destroy'])->name('delete');
+            Route::get('/add-maintenance/{id}', [TreeMaintenanceController::class, 'create'])->name('add_maintenance');
+            Route::get('/history/{id}', [TreeMaintenanceController::class, 'index'])->name('history_maintenance');
+            Route::post('/add-maintenance/{id}', [TreeMaintenanceController::class, 'store'])->name('maintenance_store');
 
         });
 
@@ -130,7 +130,7 @@ Route::put('/announcement/{id}/edit', [AnnouncementController::class, 'update'])
 
 
 
-//Trees Module
+//Trees Module - Before cleaning. Kept for refernce if there is any need of edit.
 
 /*     Route::get('/tree', [TreeController::class, 'index'])->name('tree.index');
     Route::get('/tree/create', [TreeController::class, 'create'])->name('tree.create');

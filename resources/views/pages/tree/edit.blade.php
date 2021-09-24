@@ -36,24 +36,24 @@
     }
 
     .gallery{
-        width:200px; 
-        height:200px; 
+        width:200px;
+        height:200px;
         object-fit:cover;
         border-radius:10px;
     }
 
-    .container { 
-        position: relative; 
+    .container {
+        position: relative;
     }
 
-    .container img { 
-        display: block; 
+    .container img {
+        display: block;
     }
 
-    .container .fa-times-circle { 
-        position: absolute; 
-        top:0; 
-        right:0; 
+    .container .fa-times-circle {
+        position: absolute;
+        top:0;
+        right:0;
         font-size:20px;
     }
 
@@ -76,12 +76,12 @@
        $('.ckeditor').ckeditor();
     });
 </script>
-    
+
 <script>
     Dropzone.autoDiscover = false;
-    
+
     let token = $('meta[name="csrf-token"]').attr('content');
-    
+
     $(function(){
         var myDropzone = new Dropzone("div#dropzoneDragArea", {
             paramName: "file",
@@ -103,10 +103,10 @@
                     event.preventDefault();
 
                     URL = $("#trees-create-form").attr('action');
-                    
+
                     CKEDITOR.instances.description.updateElement();
                     formData = $("#trees-create-form").serialize();
-                    
+
                     $.ajax({
                         type: 'POST',
                         url: URL,
@@ -149,7 +149,7 @@
         });
     });
 </script>
-    
+
 @endsection
 
 @section('content')
@@ -159,14 +159,14 @@
             <div class="col-md-12">
                 <div class="card ">
                     <div class="card-body text-sm">
-                        <form method="post" name="trees-create-form" id="trees-create-form" enctype="multipart/form-data" action="portal/admin/tree/{{$trees->id}}/edit" class="ckeditor dropzone">
+                        <form method="post" name="trees-create-form" id="trees-create-form" enctype="multipart/form-data" action="{{route('portal.admin.tree.edit',$trees->id)}}" class="ckeditor dropzone">
                        {{ method_field('PUT') }}
                             @csrf
                             <input type="hidden" class="treeid" name="treeid" id="treeid" value="{{ $trees->id}}">
                             <div class="form-group ps-3 pe-3">
                                 <label> Name </label>
                                 <input type="text" name="name" class="form-control text-sm" value="{{ $trees->name }}"/>
-                            </div>  
+                            </div>
                             <div class="form-group pb-2 ps-3 pe-3">
                                 <label><strong> Description </strong></label>
                                 <textarea type="text" class="ckeditor form-control text-sm" id="description" name="description"> {{ $trees->description }} </textarea>
@@ -185,7 +185,7 @@
                             <div class="form-group ps-3 pe-3">
                                 <label> Location </label>
                                 <input type="text" name="location" class="form-control text-sm bg-white-600" value="{{ $trees->location }}"/>
-                            </div> 
+                            </div>
 
                             <div class="form-group ps-3 pb-4 pe-5">
                                 <label> Photo </label>
@@ -204,23 +204,23 @@
                                     <div class="col" style="column-gap: 0.25rem;">
 
                                         <div class="card container pe-0" style="width:200px; border:none;">
-                                            <a onclick="return confirm('Are you sure?')" href="/tree/{{$trees->id}}/edit/{{$treeImage->id}}">
+                                            <a onclick="return confirm('Are you sure?')" href="{{route('portal.admin.tree.edit',$trees->id,$treeImage->id)}}">
                                                 <i class="fas fa-times-circle pe-2 pt-1 text-white" style="float: right;"></i>
                                             </a>
                                             <img class="card-img-top gallery" src="{{ asset('uploads/images/') }}/{{ $treeImage->name }}" />
-                                        </div>   
-                                    </div>   
+                                        </div>
+                                    </div>
                                     @endforeach
                                 </div>
                             </div>
-                            
+
                             <div class="card-footer ps-3">
                                 <button type="submit" class="btn text-white bg-green-600 btn-sm ps-3 pe-3 pt-2 pb-2"> Update Tree </button>
-                                <a href="{{ Route('portal.admin.tree.index') }}" class="btn text-white bg-red-600 btn-sm ps-3 pe-3 pt-2 pb-2"> 
+                                <a href="{{ route('portal.admin.tree.index') }}" class="btn text-white bg-red-600 btn-sm ps-3 pe-3 pt-2 pb-2">
                                     Back
-                               </a> 
+                               </a>
                             </div>
-                            
+
                         </form>
                     </div>
                 </div>

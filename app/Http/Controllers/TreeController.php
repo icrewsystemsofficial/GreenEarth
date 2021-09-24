@@ -32,19 +32,19 @@ class TreeController extends Controller
 
     public function update(Request $request, $id)
     {
-        try {         
-            $request->validate([ 
-                'name' => 'required', 
-                'description' => 'required', 
-                'health' => 'required', 
-                'location' => 'required', 
-            ]); 
+        try {
+            $request->validate([
+                'name' => 'required',
+                'description' => 'required',
+                'health' => 'required',
+                'location' => 'required',
+            ]);
 
             $name = $request->name;
             $description = $request->description;
             $health = $request->health;
             $location = $request->location;
-            
+
             Tree::where('id', $id)->update(['name'=>$name, 'description'=>$description, 'health'=> $health, 'location'=>$location]);
 		}
 		catch (\Exception $e) {
@@ -56,13 +56,13 @@ class TreeController extends Controller
 
     public function storeData(Request $request)
 	{
-		try {         
-            $request->validate([ 
-                'name' => 'required', 
-                'description' => 'required', 
-                'health' => 'required', 
-                'location' => 'required', 
-            ]); 
+		try {
+            $request->validate([
+                'name' => 'required',
+                'description' => 'required',
+                'health' => 'required',
+                'location' => 'required',
+            ]);
 
 			$tree = new Tree;
             $tree->name = $request->name;
@@ -70,7 +70,7 @@ class TreeController extends Controller
             $tree->health = $request->health;
             $tree->location = $request->location;
             $tree->save();
-            $tree_id = $tree->id; 
+            $tree_id = $tree->id;
 		}
 		catch (\Exception $e) {
 			return response()->json(['status'=>'exception', 'msg'=>$e->getMessage()]);
@@ -87,9 +87,9 @@ class TreeController extends Controller
 
             foreach($all_images as $image){
                 $treeid = $request->treeid;
-                
+
                 $imageName = strtotime(now()).rand(11111,99999).'.'.$image->getClientOriginalExtension();
-                
+
                 if(!is_dir(public_path() . '/uploads/images/')){
                     mkdir(public_path() . '/uploads/images/', 0777, true);
                 }
@@ -102,10 +102,10 @@ class TreeController extends Controller
                 $tree->save();
             }
 
-            return redirect()->route('tree.index');
+            return redirect()->route('portal.admin.tree.index');
         }
 
-        return redirect()->route('tree.index');
+        return redirect()->route('portal.admin.tree.index');
 
 	}
 
@@ -121,7 +121,7 @@ class TreeController extends Controller
         TreeImages::where('tree_id', $id)->delete();
         Tree::where('id', $id)->delete();
 
-        return redirect(route('tree.index'));
+        return redirect(route('portal.admin.tree.index'));
     }
-    
+
 }

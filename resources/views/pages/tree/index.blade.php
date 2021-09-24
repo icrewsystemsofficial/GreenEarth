@@ -106,16 +106,16 @@
                                     <td class="text-sm text-center"> {{ $tree->health }} </td>
 
                                     <td class="text-sm text-center pb-0 pt-3">
-                                       <a href='/portal/admin/tree/{{ $tree->id }}/edit' class="btn btn-primary text-sm">
+                                       <a href="{{route('portal.admin.tree.edit',$tree->id)}}" class="btn btn-primary text-sm">
                                             Edit
                                        </a>
-                                       <a href='/portal/admin/tree/{{ $tree->id }}/add-maintenance' class="btn btn-secondary text-sm">
+                                       <a href="{{route('portal.admin.tree.add_maintenance', $tree->id )}}" class="btn btn-secondary text-sm">
                                             Add Maintenance
                                        </a>
-                                       <a href='/portal/admin/tree/{{ $tree->id }}/history' class="btn btn-info text-sm">
+                                       <a href="{{route('portal.admin.tree.history_maintenance', $tree->id )}}" class="btn btn-info text-sm">
                                             History
                                        </a>
-                                       <a onclick="return confirm('Are you sure?')" href='/tree/{{ $tree->id }}/delete' class="btn btn-danger text-sm">
+                                       <a onclick="return confirm('Are you sure?')" href="{{route('portal.admin.tree.delete', $tree->id )}}" class="btn btn-danger text-sm">
                                             Delete
                                        </a>
                                     </td>
