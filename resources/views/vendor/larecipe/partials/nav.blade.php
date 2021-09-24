@@ -6,7 +6,7 @@
             <a href="{{ url('/') }}" class="flex items-center flex-no-shrink text-black mx-4">
                 @include("larecipe::partials.logo")
 
-                <p class="inline-block font-semibold mx-1 text-grey-dark">
+                <p class="inline-block font-semibold mx-1 text-green-500">
                     {{ config('app.name') }}
                 </p>
             </a>

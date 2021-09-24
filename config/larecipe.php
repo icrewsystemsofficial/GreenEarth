@@ -14,7 +14,7 @@ return [
     */
 
     'docs'        => [
-        'route'   => '/docs',
+        'route'   => 'portal/docs',
         'path'    => '/resources/docs',
         'landing' => 'overview',
         'middleware' => ['web'],
@@ -123,10 +123,10 @@ return [
         'code_theme'     => 'dark', // or: light
         'fav'            => '',     // eg: fav.png
         'fa_v4_shims'    => true, // Add FontAwesome v4 shims prevent BC break
-        'show_side_bar'  => true,
+        'show_side_bar'  => false,
         'colors'         => [
-            'primary'    => '#787AF6',
-            'secondary'  => '#2b9cf2'
+            'primary'    => '#76f274',
+            'secondary'  => '#262e26'
         ],
 
         'theme_order'    => null // ['LaRecipeDarkTheme', 'customTheme']
@@ -145,11 +145,11 @@ return [
     */
 
     'seo'                 => [
-        'author'          => '',
-        'description'     => '',
-        'keywords'        => '',
+        'author'          => 'icrewsystems',
+        'description'     => 'The internet is made up of servers that produce CO2 (carbon-dioxide), which is harmful for the atmosphere. For sustainable internet and to reduce YOUR carbon footprint, we plant the trees required to cover your entire CO2 emission.',
+        'keywords'        => 'carbon neutral, greenearth, icrewsystems, icrewsystems software engineering, carbon positive, climate change, united nations climate change, companies that support climate change',
         'og'              => [
-            'title'       => '',
+            'title'       => config('app.name'),
             'type'        => 'article',
             'url'         => '',
             'image'       => '',
@@ -171,11 +171,11 @@ return [
    */
 
   'forum'                   => [
-        'enabled'           => false,
+        'enabled'           => true,
         'default'           => 'disqus',
         'services'          => [
             'disqus'        => [
-                'site_name' => '', // yoursite.disqus.com
+                'site_name' => 'icrewsystems.disqus.com', // yoursite.disqus.com
             ]
         ]
     ],
