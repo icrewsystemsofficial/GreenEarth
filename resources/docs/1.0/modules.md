@@ -3,7 +3,7 @@
 ---
 
 -   [Tree Management](#section-1)
--   [Volunteer Management](#section-2)
+-   [User Management](#section-2)
 -   [Activity Management](#section-3)
 -   [Announcement Management](#section-4)
 
@@ -47,7 +47,7 @@ Here, a volunteer can quickly document maintenance they have performed on a part
 
 <a name="section-2"></a>
 
-## Volunteer (User) Management
+## User (Volunteer) Management
 Volunteers are at the heard of the GreenEarth initiative. Without their unbridled generosity, it would be next to impossible to neutralise carbon emissions! For the Administrator, it is of paramount importance than they are able to view information about all of their current volunteers in a manner that is effective and efficient.
 
 ### View all Users

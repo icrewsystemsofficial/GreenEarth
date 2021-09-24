@@ -77,7 +77,7 @@ This could be any location as per your convenience.
 
 ## 4. Configure the Database
 
-Now that you have successfully installed Laravel and have cloned the repository, it is now time to get your local database set-up!
+Now that you have successfully installed Laravel and have cloned the repository, it is now time to get your local database set up!
 
 1. You will need to create a *.env* file, which allows you to modify your current project environment. Simply run the code in the following line:
 
