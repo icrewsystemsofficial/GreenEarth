@@ -25,6 +25,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TreeController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\TreeMaintenanceController;
 use App\Http\Controllers\Portal\Admin\UserController;
 
@@ -40,7 +41,7 @@ use App\Http\Controllers\Portal\Admin\UserController;
 */
 
 Route::get('/', function () {
-    return "This should redirect to the index method of the home route group -Leonard";
+    return redirect(route('home.index'));
 });
 
 Auth::routes();
@@ -50,8 +51,7 @@ Auth::routes();
  ************************/
 
 Route::prefix('home')->as('home.')->group(function () {
-    Route::get('/', [HomeController::class, 'index'])->name('index');
-
+    Route::get('/', [FrontendController::class, 'index'])->name('index');
     Route::get('/verify/{uuid}', [UserController::class, 'verify'])->name('users.verify');
 });
 
