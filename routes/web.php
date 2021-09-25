@@ -46,34 +46,36 @@ Route::get('/', function () {
 
 Auth::routes();
 
-    /************************
+/************************
         -- FRONTEND ROUTES --
-    ************************/
+ ************************/
 
-    Route::prefix('home')->as('home.')->group(function () {
-        Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::prefix('home')->as('home.')->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('index');
 
-        Route::get('/verify/{uuid}', [UserController::class, 'verify'])->name('users.verify');
+    Route::get('/verify/{uuid}', [UserController::class, 'verify'])->name('users.verify');
+});
 
-    });
 
-
-    /************************
+/************************
         -- PORTAL ROUTES --
-    ************************/
+ ************************/
 
-    //Route group for the dashboard
+//Route group for the dashboard
 Route::prefix('portal')->as('portal.')->group(function () {
 
     /* DASHBOARD PAGES */
 
     Route::get('/', [HomeController::class, 'index'])->name('index');
+
     Route::get('/my-profile', [ProfileController::class, 'index'])->name('profile.index');
-    Route::resource('users',ProfileController::class);
+    Route::resource('users', ProfileController::class);
+
+    Route::get('/home/certificate/{business_id}', [CertificateGenerator::class, 'displayPDF'])->name('certificate.display');
 
     /************************
         -- ADMIN ROUTES --
-    ************************/
+     ************************/
 
     Route::prefix('admin')->as('admin.')->group(function () {
         //Access these routes by route('portal.admin.ROUTENAME')
@@ -91,9 +93,17 @@ Route::prefix('portal')->as('portal.')->group(function () {
             // Route::get('/create', function () {
             //     return view('pages.user.user_create');
             // });
-            Route::post('/create/new',[UserController::class, 'create_temp']);
-            Route::get('/setup/{uuid}',[UserController::class, 'setup']);
-            Route::post('/setup/add_user',[UserController::class, 'create_user']);
+            Route::post('/create/new', [UserController::class, 'create_temp']);
+            Route::get('/setup/{uuid}', [UserController::class, 'setup']);
+            Route::post('/setup/add_user', [UserController::class, 'create_user']);
+
+            // CERTIFICATE MODULE
+            Route::prefix('certificate')->as('certificate.')->group(function () {
+                Route::get('/generate', [CertificateGenerator::class, 'generatePDF'])->name('certificate.generate');
+                //commented until Rishi finishes task 2726
+                // Route::get('/{business_uuid}/generate',[CertificateGenerator::class,'generatePDF'])->name('certificate.download');
+                Route::get('/{business_uuid}/view', [CertificateGenerator::class, 'viewPDF'])->name('certificate.view');
+            });
         });
     });
 });
@@ -135,10 +145,8 @@ Route::post('/tree/{id}/add-maintenance', [TreeMaintenanceController::class, 'st
     return view('welcome');
 }); */
 
-Route::get("activity",[ActivityController::class,'disp']);
+Route::get("activity", [ActivityController::class, 'disp']);
 
 
 
 Route::get('/mail-send', [UserController::class, 'mailSend']);
-
-
