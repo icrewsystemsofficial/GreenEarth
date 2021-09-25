@@ -81,10 +81,10 @@
         <div class="col-auto my-auto">
           <div class="h-100">
             <h5 class="mb-1">
-              Alec Thompson
+            {{ $user->name }}
             </h5>
             <p class="mb-0 font-weight-bold text-sm">
-              CEO / Co-Founder
+              {{ $user->organization }}
             </p>
           </div>
         </div>
@@ -98,34 +98,39 @@
           <div class="card-header">
             <h5>Profile Information</h5>
           </div>
-          @while (user()->id)
-          <form action="{{ route('portal.users.store') }}" method="post">
+          <form action="{{ route('portal.users.update', $id = Auth::id()) }}" method="post">
             @csrf
-            @method('post')
+            @method('PATCH')
             <div class="card-body pt-2">
               <div class="row">
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="form-label">Name</label>
-                    <input type="name" name="user_name" class="form-control" id="exampleFormControlInput1" value="{{ $users->name }}">
+                    <input type="name" name="name" class="form-control" id="exampleFormControlInput1" value="{{ $user->name }}">
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label class="form-label">Employee Email</label>
-                    <input type="email" name="employee_email" class="form-control" id="exampleFormControlInput1" value="{{ $users->email }}">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control" id="exampleFormControlInput1" value="{{ $user->email }}">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control" id="exampleFormControlInput1" value="{{ $user->password }}">
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="form-label">Organization</label>
-                    <input type="text" name="organization" class="form-control" id="exampleFormControlInput1" value="{{ $users->organization }}">
+                    <input type="text" name="organization" class="form-control" id="exampleFormControlInput1" placeholder="Enter organization " value="{{ $user->organization }}">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <label class="form-label">Phone</label>
-                    <input type="text" name="phone" class="form-control" id="exampleFormControlInput1" placeholder="Enter phone number " value="{{ $users->phone }}">
+                    <input type="text" name="phone" class="form-control" id="exampleFormControlInput1" placeholder="Enter phone number " value="{{ $user->phone }}">
                   </div>
                 </div>
               </div>
@@ -135,10 +140,8 @@
               <button type="submit" class="btn btn-primary">Save</button>
             </div>
           </form>
-          @endwhile
         </div>
       </div>
-
     </div>
   </div>
 </div>

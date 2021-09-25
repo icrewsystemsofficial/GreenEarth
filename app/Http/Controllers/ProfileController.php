@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
@@ -15,10 +16,9 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $users = User::latest()->paginate(5);
+        $user = Auth::user(); //this will return the auth user data 
 
-        return view('pages.profile.index', compact('users'))
-        ->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('pages.profile.index', compact('user'));
     }
 
     /**
