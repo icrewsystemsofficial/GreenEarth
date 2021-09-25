@@ -52,7 +52,7 @@ Auth::routes();
 
 Route::prefix('home')->as('home.')->group(function () {
     Route::get('/', [FrontendController::class, 'index'])->name('index');
-    Route::get('/calculate', [FrontendController::class, 'comingsoon']);
+    Route::get('/calculate', [FrontendController::class, 'calculate']);
     Route::get('/certificate/{uuid}', [FrontendController::class, 'index']);
 
     Route::get('/directory', [FrontendController::class, 'index']);
