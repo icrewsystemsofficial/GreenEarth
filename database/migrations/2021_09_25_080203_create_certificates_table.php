@@ -16,7 +16,7 @@ class CreateCertificatesTable extends Migration
         Schema::create('certificates', function (Blueprint $table) {
             $table->increments('id');
             $table->longText('certificate_uuid')->uuid('certificate_uuid');
-            $table->integer('business_id');
+            $table->integer('business_id')->belongsTo(Directory::class);
             $table->longText('storage_path');
             $table->dateTime('valid_till');
             $table->timestamps();

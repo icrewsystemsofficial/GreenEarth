@@ -54,6 +54,7 @@ Route::prefix('home')->as('home.')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('index');
 
     Route::get('/verify/{uuid}', [UserController::class, 'verify'])->name('users.verify');
+    Route::get('/certificate/{business_id}', [CertificateGenerator::class, 'displayPDF'])->name('certificate.display');
 });
 
 
@@ -71,7 +72,7 @@ Route::prefix('portal')->as('portal.')->group(function () {
     Route::get('/my-profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::resource('users', ProfileController::class);
 
-    Route::get('/home/certificate/{business_id}', [CertificateGenerator::class, 'displayPDF'])->name('certificate.display');
+    
 
     /************************
         -- ADMIN ROUTES --
