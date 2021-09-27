@@ -44,7 +44,7 @@
 </head>
 
 <body class="index-page">
-    <!-- Navbar -->
+ <!-- Navbar -->
     <div class="container position-sticky z-index-sticky top-0">
       <div class="row">
         <div class="col-12">
@@ -216,8 +216,10 @@
         </div>
       </div>
     </div>
-
     @yield('content')
+{{-- <div style="">--}}
+{{--     <iframe src="{{ route('test') }}"></iframe>--}}
+{{-- </div>--}}
     <!-- -------   END PRE-FOOTER 2 - simple social line w/ title & 3 buttons    -------- -->
     <footer class="footer pt-5 mt-5">
       <hr class="horizontal dark mb-5">
@@ -352,7 +354,6 @@
             </div>
           </div>
         </div>
-      </div>
     </footer>
     <!--   Core JS Files   -->
     <script src="{{ asset('softui-design-system/assets/js/core/popper.min.js') }}" type="text/javascript"></script>
