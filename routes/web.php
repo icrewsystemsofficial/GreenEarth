@@ -25,6 +25,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TreeController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\Portal\Admin\AnnouncementController;
+use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\TreeMaintenanceController;
 use App\Http\Controllers\Portal\Admin\UserController;
 
@@ -40,28 +41,43 @@ use App\Http\Controllers\Portal\Admin\UserController;
 */
 
 Route::get('/', function () {
-    return "This should redirect to the index method of the home route group -Leonard";
+    return redirect(route('home.index'));
 });
 
 Auth::routes();
 
-    /************************
+/************************
         -- FRONTEND ROUTES --
-    ************************/
+ ************************/
 
-    Route::prefix('home')->as('home.')->group(function () {
-        Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::prefix('home')->as('home.')->group(function () {
+    Route::get('/', [FrontendController::class, 'index'])->name('index');
+    Route::get('/calculate', [FrontendController::class, 'calculate']);
+    Route::get('/certificate/{uuid}', [FrontendController::class, 'index']);
 
-        Route::get('/verify/{uuid}', [UserController::class, 'verify'])->name('users.verify');
+    Route::get('/directory', [FrontendController::class, 'index']);
+    Route::get('/track-my-tree/{uuid}', [FrontendController::class, 'index']);
+    Route::get('/statistics', [FrontendController::class, 'index']);
 
-    });
+    Route::get('/about', [FrontendController::class, 'index']);
+    Route::get('/contributors', [FrontendController::class, 'index']);
+    Route::get('/investors', [FrontendController::class, 'index']);
+    Route::get('/partners', [FrontendController::class, 'index']);
+    Route::get('/announcements', [FrontendController::class, 'index']);
+    Route::get('/blog', [FrontendController::class, 'index']);
+
+    Route::get('/coming-soon', [FrontendController::class, 'comingsoon'])->name('coming-soon');
 
 
-    /************************
+    Route::get('/verify/{uuid}', [UserController::class, 'verify'])->name('users.verify');
+});
+
+
+/************************
         -- PORTAL ROUTES --
-    ************************/
+ ************************/
 
-    //Route group for the dashboard
+//Route group for the dashboard
 Route::prefix('portal')->as('portal.')->group(function () {
 
     /* DASHBOARD PAGES */
@@ -77,7 +93,7 @@ Route::prefix('portal')->as('portal.')->group(function () {
 
     /************************
         -- ADMIN ROUTES --
-    ************************/
+     ************************/
 
     Route::prefix('admin')->as('admin.')->group(function () {
         //Access these routes by route('portal.admin.ROUTENAME')
@@ -95,9 +111,9 @@ Route::prefix('portal')->as('portal.')->group(function () {
             // Route::get('/create', function () {
             //     return view('pages.user.user_create');
             // });
-            Route::post('/create/new',[UserController::class, 'create_temp']);
-            Route::get('/setup/{uuid}',[UserController::class, 'setup']);
-            Route::post('/setup/add_user',[UserController::class, 'create_user']);
+            Route::post('/create/new', [UserController::class, 'create_temp']);
+            Route::get('/setup/{uuid}', [UserController::class, 'setup']);
+            Route::post('/setup/add_user', [UserController::class, 'create_user']);
         });
 
         /* ANNOUNCEMENT MODULE */
@@ -137,10 +153,8 @@ Route::post('/tree/{id}/add-maintenance', [TreeMaintenanceController::class, 'st
     return view('welcome');
 }); */
 
-Route::get("activity",[ActivityController::class,'disp']);
+Route::get("activity", [ActivityController::class, 'disp']);
 
 
 
 Route::get('/mail-send', [UserController::class, 'mailSend']);
-
-
