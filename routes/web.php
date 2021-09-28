@@ -25,9 +25,12 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TreeController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\CertificateGenerator;
 use App\Http\Controllers\TreeMaintenanceController;
 use App\Http\Controllers\Portal\Admin\UserController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Certificate;
+use Illuminate\Mail\Markdown;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,7 +103,7 @@ Route::prefix('portal')->as('portal.')->group(function () {
 
             // CERTIFICATE MODULE
             Route::prefix('certificate')->as('certificate.')->group(function () {
-                Route::get('/generate', [CertificateGenerator::class, 'generatePDF'])->name('certificate.generate');
+                Route::get('/generate/{id}', [CertificateGenerator::class, 'generatePDF'])->name('certificate.generate');
                 //commented until Rishi finishes task 2726
                 // Route::get('/{business_uuid}/generate',[CertificateGenerator::class,'generatePDF'])->name('certificate.download');
                 Route::get('/{business_uuid}/view', [CertificateGenerator::class, 'viewPDF'])->name('certificate.view');
@@ -151,3 +154,10 @@ Route::get("activity", [ActivityController::class, 'disp']);
 
 
 Route::get('/mail-send', [UserController::class, 'mailSend']);
+
+
+Route::get('/test-blade', function () {
+    $markdown = new Markdown(view(), config('mail.markdown'));
+
+   return ($html = $markdown->render('certificate.certificate'));
+});

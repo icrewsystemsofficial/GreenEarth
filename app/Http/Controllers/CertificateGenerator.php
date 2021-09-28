@@ -31,7 +31,7 @@ class CertificateGenerator extends Controller
             $certificates = File::files(public_path('storage' . DIRECTORY_SEPARATOR . 'certificates'));
         }
 
-        // return view('', compact('users', 'certificates'));
+        //return view('', compact('users', 'certificates'));
     }
 
     /**
@@ -94,7 +94,7 @@ class CertificateGenerator extends Controller
 
         // Load the content and save the pdf in laravel local storage for downloading all the pdf generated for the month as a zip file
         return PDF::loadFile(public_path('storage' . DIRECTORY_SEPARATOR . $file_name . '.html'))
-            ->save(public_path('storage' . '/' . 'receipts' . DIRECTORY_SEPARATOR . date('Y') . DIRECTORY_SEPARATOR . date('M') . DIRECTORY_SEPARATOR . $file_name . '.pdf'))
+            ->save(public_path('storage' . '/' . 'certificates' . DIRECTORY_SEPARATOR . date('Y') . DIRECTORY_SEPARATOR . date('M') . DIRECTORY_SEPARATOR . $file_name . '.pdf'))
             ->setPaper('a4', 'portrait')
             ->stream($file_name . '.pdf');
     }
