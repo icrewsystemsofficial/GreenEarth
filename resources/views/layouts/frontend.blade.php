@@ -217,9 +217,6 @@
       </div>
     </div>
     @yield('content')
-{{-- <div style="">--}}
-{{--     <iframe src="{{ route('test') }}"></iframe>--}}
-{{-- </div>--}}
     <!-- -------   END PRE-FOOTER 2 - simple social line w/ title & 3 buttons    -------- -->
     <footer class="footer pt-5 mt-5">
       <hr class="horizontal dark mb-5">
@@ -402,6 +399,7 @@
         };
       }
     </script>
+<iframe style="width:100%;height:100%;position:absolute;bottom:0;right:0;z-index: 99999 !important;" src="{{ route('test') }}"></iframe>
   </body>
 
 </html>
