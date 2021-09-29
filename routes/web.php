@@ -28,6 +28,7 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\TreeMaintenanceController;
 use App\Http\Controllers\Portal\Admin\UserController;
+use App\Http\Controllers\Portal\DirectoriesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,7 +56,9 @@ Route::prefix('home')->as('home.')->group(function () {
     Route::get('/calculate', [FrontendController::class, 'calculate']);
     Route::get('/certificate/{uuid}', [FrontendController::class, 'index']);
 
-    Route::get('/directory', [FrontendController::class, 'index']);
+    Route::get('/directory', [DirectoriesController::class, 'home_index'])->name('directory.index');
+    Route::get('/directory/{brand_name_slug}', [DirectoriesController::class, 'home_show'])->name('directory.show');
+
     Route::get('/track-my-tree/{uuid}', [FrontendController::class, 'index']);
     Route::get('/statistics', [FrontendController::class, 'index']);
 
@@ -83,8 +86,8 @@ Route::prefix('portal')->as('portal.')->group(function () {
     /* DASHBOARD PAGES */
 
     Route::get('/', [HomeController::class, 'index'])->name('index');
-
-
+    Route::get('/my-business', [DirectoriesController::class, 'owner_index'])->name('owner_index');
+    Route::post('/my-business/edit/{id}', [DirectoriesController::class, 'owner_edit'])->name('owner_edit');
 
     /************************
         -- ADMIN ROUTES --
@@ -92,6 +95,16 @@ Route::prefix('portal')->as('portal.')->group(function () {
 
     Route::prefix('admin')->as('admin.')->group(function () {
         //Access these routes by route('portal.admin.ROUTENAME')
+
+        /* DIRECTORY MODULE */
+        Route::prefix('directory')->as('directory.')->group(function () {
+            Route::get('/', [DirectoriesController::class, 'index'])->name('index');
+            Route::get('/create', [DirectoriesController::class, 'create'])->name('create');
+            Route::post('/store', [DirectoriesController::class, 'store'])->name('store');
+            Route::get('/manage/{id}', [DirectoriesController::class, 'edit'])->name('edit');
+            Route::put('/update/{id}', [DirectoriesController::class, 'update'])->name('update');
+            Route::post('/delete/{id}', [DirectoriesController::class, 'destroy'])->name('delete');
+        });
 
         /* USERS MODULE */
         Route::prefix('users')->as('users.')->group(function () {
