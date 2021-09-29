@@ -18,16 +18,21 @@ structure and standards.
 @repo https://github.com/icrewsystmsofficial/GreenEarth W
 */
 
+use App\Models\Certificate;
+use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Spatie\Activitylog\Models\Activity;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TreeController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ActivityController;
-use App\Http\Controllers\Portal\Admin\AnnouncementController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\CertificateGenerator;
 use App\Http\Controllers\TreeMaintenanceController;
 use App\Http\Controllers\Portal\Admin\UserController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\Portal\Admin\AnnouncementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,9 +51,18 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/home');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
 /************************
-        -- FRONTEND ROUTES --
- ************************/
+    -- FRONTEND ROUTES --
+************************/
 
 Route::prefix('home')->as('home.')->group(function () {
     Route::get('/', [FrontendController::class, 'index'])->name('index');
@@ -65,30 +79,31 @@ Route::prefix('home')->as('home.')->group(function () {
     Route::get('/partners', [FrontendController::class, 'index']);
     Route::get('/announcements', [FrontendController::class, 'index']);
     Route::get('/blog', [FrontendController::class, 'index']);
-
     Route::get('/coming-soon', [FrontendController::class, 'comingsoon'])->name('coming-soon');
-
-
     Route::get('/verify/{uuid}', [UserController::class, 'verify'])->name('users.verify');
 });
-
 
 /************************
         -- PORTAL ROUTES --
  ************************/
 
 //Route group for the dashboard
-Route::prefix('portal')->as('portal.')->group(function () {
-
+Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () {
     /* DASHBOARD PAGES */
-
     Route::get('/', [HomeController::class, 'index'])->name('index');
+    Route::get('/my-profile', [ProfileController::class, 'index'])->name('myprofile');
+    Route::post('/my-profile/save/{id}', [ProfileController::class, 'save'])->name('myprofile.save');
 
+
+    Route::post('/my-profile/verify-email', [ProfileController::class, 'resend_email_verification'])->middleware(['throttle:6,1'])->name('myprofile.verify');
+
+    Route::resource('users', ProfileController::class);
      /* ANNOUNCEMENT MODULE - View Announcements */
      Route::prefix('announcements')->as('announcements.')->group(function () {
         Route::get('/', [AnnouncementController::class, 'index'])->name('index');
         Route::get('/view/{id}', [AnnouncementController::class, 'view'])->name('view');
     });
+
 
 
     /************************
@@ -114,6 +129,13 @@ Route::prefix('portal')->as('portal.')->group(function () {
             Route::post('/create/new', [UserController::class, 'create_temp']);
             Route::get('/setup/{uuid}', [UserController::class, 'setup']);
             Route::post('/setup/add_user', [UserController::class, 'create_user']);
+            // CERTIFICATE MODULE
+            Route::prefix('certificate')->as('certificate.')->group(function () {
+                Route::get('/generate/{id}', [CertificateGenerator::class, 'generatePDF'])->name('certificate.generate');
+                //commented until Rishi finishes task 2726
+                // Route::get('/{business_uuid}/generate',[CertificateGenerator::class,'generatePDF'])->name('certificate.download');
+                Route::get('/{business_uuid}/view', [CertificateGenerator::class, 'viewPDF'])->name('certificate.view');
+            });
         });
 
         /* ANNOUNCEMENT MODULE */
@@ -124,7 +146,7 @@ Route::prefix('portal')->as('portal.')->group(function () {
             Route::get('/edit/{id}', [AnnouncementController::class, 'edit'])->name('edit');
             Route::put('/edit/{id}', [AnnouncementController::class, 'update'])->name('update');
         });
-        
+
     });
 
 });
@@ -158,3 +180,7 @@ Route::get("activity", [ActivityController::class, 'disp']);
 
 
 Route::get('/mail-send', [UserController::class, 'mailSend']);
+Route::get('/test-blade', function () {
+    $markdown = new Markdown(view(), config('mail.markdown'));
+   return ($html = $markdown->render('certificate.certificate'));
+});
