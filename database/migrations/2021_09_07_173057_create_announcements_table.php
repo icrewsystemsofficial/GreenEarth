@@ -17,7 +17,8 @@ class CreateAnnouncementsTable extends Migration
             $table->id();
             $table->text('title');
             $table->text('body');
-            $table->string('role')->default('Role');;
+            $table->string('role')->nullable();
+            $table->string('author');
             $table->timestamps();
         });
     }

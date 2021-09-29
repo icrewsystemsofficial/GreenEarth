@@ -26,6 +26,8 @@ use App\Http\Controllers\TreeController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CertificateGenerator;
+use App\Http\Controllers\Portal\Admin\AnnouncementController;
+use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\TreeMaintenanceController;
 use App\Http\Controllers\Portal\Admin\UserController;
 use App\Http\Controllers\ProfileController;
@@ -44,7 +46,7 @@ use Illuminate\Mail\Markdown;
 */
 
 Route::get('/', function () {
-    return "This should redirect to the index method of the home route group -Leonard";
+    return redirect(route('home.index'));
 });
 
 Auth::routes();
@@ -54,12 +56,23 @@ Auth::routes();
  ************************/
 
 Route::prefix('home')->as('home.')->group(function () {
-    Route::get('/', [HomeController::class, 'index'])->name('index');
+    Route::get('/', [FrontendController::class, 'index'])->name('index');
+    Route::get('/calculate', [FrontendController::class, 'calculate']);
+    Route::get('/certificate/{uuid}', [FrontendController::class, 'index']);
 
+    Route::get('/directory', [FrontendController::class, 'index']);
+    Route::get('/track-my-tree/{uuid}', [FrontendController::class, 'index']);
+    Route::get('/statistics', [FrontendController::class, 'index']);
+
+    Route::get('/about', [FrontendController::class, 'index']);
+    Route::get('/contributors', [FrontendController::class, 'index']);
+    Route::get('/investors', [FrontendController::class, 'index']);
+    Route::get('/partners', [FrontendController::class, 'index']);
+    Route::get('/announcements', [FrontendController::class, 'index']);
+    Route::get('/blog', [FrontendController::class, 'index']);
+    Route::get('/coming-soon', [FrontendController::class, 'comingsoon'])->name('coming-soon');
     Route::get('/verify/{uuid}', [UserController::class, 'verify'])->name('users.verify');
-    Route::get('/certificate/{business_id}', [CertificateGenerator::class, 'displayPDF'])->name('certificate.display');
 });
-
 
 /************************
         -- PORTAL ROUTES --
@@ -67,13 +80,15 @@ Route::prefix('home')->as('home.')->group(function () {
 
 //Route group for the dashboard
 Route::prefix('portal')->as('portal.')->group(function () {
-
     /* DASHBOARD PAGES */
-
     Route::get('/', [HomeController::class, 'index'])->name('index');
-
     Route::get('/my-profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::resource('users', ProfileController::class);
+     /* ANNOUNCEMENT MODULE - View Announcements */
+     Route::prefix('announcements')->as('announcements.')->group(function () {
+        Route::get('/', [AnnouncementController::class, 'index'])->name('index');
+        Route::get('/view/{id}', [AnnouncementController::class, 'view'])->name('view');
+    });
 
     
 
@@ -100,7 +115,6 @@ Route::prefix('portal')->as('portal.')->group(function () {
             Route::post('/create/new', [UserController::class, 'create_temp']);
             Route::get('/setup/{uuid}', [UserController::class, 'setup']);
             Route::post('/setup/add_user', [UserController::class, 'create_user']);
-
             // CERTIFICATE MODULE
             Route::prefix('certificate')->as('certificate.')->group(function () {
                 Route::get('/generate/{id}', [CertificateGenerator::class, 'generatePDF'])->name('certificate.generate');
@@ -109,21 +123,19 @@ Route::prefix('portal')->as('portal.')->group(function () {
                 Route::get('/{business_uuid}/view', [CertificateGenerator::class, 'viewPDF'])->name('certificate.view');
             });
         });
+
+        /* ANNOUNCEMENT MODULE */
+        Route::prefix('announcements')->as('announcements.')->group(function () {
+            Route::get('/', [AnnouncementController::class, 'index'])->name('index');
+            Route::get('/create', [AnnouncementController::class, 'create'])->name('create');
+            Route::post('/create', [AnnouncementController::class, 'store'])->name('store');
+            Route::get('/edit/{id}', [AnnouncementController::class, 'edit'])->name('edit');
+            Route::put('/edit/{id}', [AnnouncementController::class, 'update'])->name('update');
+        });
+        
     });
+
 });
-
-
-
-
-
-
-
-//TODO Wrap this inside a route group. - Leonard
-Route::get('/announcement', [AnnouncementController::class, 'index'])->name('announcement.index');
-Route::get('/announcement/create', [AnnouncementController::class, 'create'])->name('announcement.create');
-Route::post('/announcement/create', [AnnouncementController::class, 'store'])->name('announcement.store');
-Route::get('/announcement/{id}/edit', [AnnouncementController::class, 'edit'])->name('announcement.edit');
-Route::put('/announcement/{id}/edit', [AnnouncementController::class, 'update'])->name('announcement.update');
 
 
 Route::get('/tree', [TreeController::class, 'index'])->name('tree.index');
@@ -154,10 +166,7 @@ Route::get("activity", [ActivityController::class, 'disp']);
 
 
 Route::get('/mail-send', [UserController::class, 'mailSend']);
-
-
 Route::get('/test-blade', function () {
     $markdown = new Markdown(view(), config('mail.markdown'));
-
    return ($html = $markdown->render('certificate.certificate'));
 });
