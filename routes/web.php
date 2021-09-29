@@ -18,21 +18,21 @@ structure and standards.
 @repo https://github.com/icrewsystmsofficial/GreenEarth W
 */
 
+use App\Models\Certificate;
+use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Spatie\Activitylog\Models\Activity;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TreeController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ActivityController;
-use App\Http\Controllers\AnnouncementController;
-use App\Http\Controllers\CertificateGenerator;
-use App\Http\Controllers\Portal\Admin\AnnouncementController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\CertificateGenerator;
 use App\Http\Controllers\TreeMaintenanceController;
 use App\Http\Controllers\Portal\Admin\UserController;
-use App\Http\Controllers\ProfileController;
-use App\Models\Certificate;
-use Illuminate\Mail\Markdown;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\Portal\Admin\AnnouncementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,9 +51,18 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/home');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
 /************************
-        -- FRONTEND ROUTES --
- ************************/
+    -- FRONTEND ROUTES --
+************************/
 
 Route::prefix('home')->as('home.')->group(function () {
     Route::get('/', [FrontendController::class, 'index'])->name('index');
@@ -79,10 +88,15 @@ Route::prefix('home')->as('home.')->group(function () {
  ************************/
 
 //Route group for the dashboard
-Route::prefix('portal')->as('portal.')->group(function () {
+Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () {
     /* DASHBOARD PAGES */
     Route::get('/', [HomeController::class, 'index'])->name('index');
-    Route::get('/my-profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/my-profile', [ProfileController::class, 'index'])->name('myprofile');
+    Route::post('/my-profile/save/{id}', [ProfileController::class, 'save'])->name('myprofile.save');
+
+
+    Route::post('/my-profile/verify-email', [ProfileController::class, 'resend_email_verification'])->middleware(['throttle:6,1'])->name('myprofile.verify');
+
     Route::resource('users', ProfileController::class);
      /* ANNOUNCEMENT MODULE - View Announcements */
      Route::prefix('announcements')->as('announcements.')->group(function () {
@@ -90,7 +104,7 @@ Route::prefix('portal')->as('portal.')->group(function () {
         Route::get('/view/{id}', [AnnouncementController::class, 'view'])->name('view');
     });
 
-    
+
 
     /************************
         -- ADMIN ROUTES --
@@ -132,7 +146,7 @@ Route::prefix('portal')->as('portal.')->group(function () {
             Route::get('/edit/{id}', [AnnouncementController::class, 'edit'])->name('edit');
             Route::put('/edit/{id}', [AnnouncementController::class, 'update'])->name('update');
         });
-        
+
     });
 
 });

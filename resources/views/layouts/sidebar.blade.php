@@ -106,7 +106,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="{{ route('portal.profile.index') }}">
+                <a class="nav-link " href="{{ route('portal.myprofile') }}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-users text-dark"></i>
                     </div>
