@@ -18,6 +18,7 @@ structure and standards.
 @repo https://github.com/icrewsystmsofficial/GreenEarth W
 */
 
+use App\Helpers\CO2Helper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Spatie\Activitylog\Models\Activity;
@@ -43,6 +44,7 @@ use App\Http\Controllers\Portal\Admin\UserController;
 Route::get('/', function () {
     return redirect(route('home.index'));
 });
+
 
 Auth::routes();
 
