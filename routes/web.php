@@ -25,7 +25,7 @@ use Spatie\Activitylog\Models\Activity;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TreeController;
 use App\Http\Controllers\ActivityController;
-use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\Portal\Admin\AnnouncementController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\TreeMaintenanceController;
 use App\Http\Controllers\Portal\Admin\UserController;
@@ -86,6 +86,11 @@ Route::prefix('portal')->as('portal.')->group(function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('index');
 
+     /* ANNOUNCEMENT MODULE - View Announcements */
+     Route::prefix('announcements')->as('announcements.')->group(function () {
+        Route::get('/', [AnnouncementController::class, 'index'])->name('index');
+        Route::get('/view/{id}', [AnnouncementController::class, 'view'])->name('view');
+    });
 
 
     /************************
@@ -112,21 +117,19 @@ Route::prefix('portal')->as('portal.')->group(function () {
             Route::get('/setup/{uuid}', [UserController::class, 'setup']);
             Route::post('/setup/add_user', [UserController::class, 'create_user']);
         });
+
+        /* ANNOUNCEMENT MODULE */
+        Route::prefix('announcements')->as('announcements.')->group(function () {
+            Route::get('/', [AnnouncementController::class, 'index'])->name('index');
+            Route::get('/create', [AnnouncementController::class, 'create'])->name('create');
+            Route::post('/create', [AnnouncementController::class, 'store'])->name('store');
+            Route::get('/edit/{id}', [AnnouncementController::class, 'edit'])->name('edit');
+            Route::put('/edit/{id}', [AnnouncementController::class, 'update'])->name('update');
+        });
+        
     });
+
 });
-
-
-
-
-
-
-
-//TODO Wrap this inside a route group. - Leonard
-Route::get('/announcement', [AnnouncementController::class, 'index'])->name('announcement.index');
-Route::get('/announcement/create', [AnnouncementController::class, 'create'])->name('announcement.create');
-Route::post('/announcement/create', [AnnouncementController::class, 'store'])->name('announcement.store');
-Route::get('/announcement/{id}/edit', [AnnouncementController::class, 'edit'])->name('announcement.edit');
-Route::put('/announcement/{id}/edit', [AnnouncementController::class, 'update'])->name('announcement.update');
 
 
 Route::get('/tree', [TreeController::class, 'index'])->name('tree.index');
