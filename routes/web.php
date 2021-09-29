@@ -30,6 +30,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\CertificateGenerator;
 use App\Http\Controllers\TreeMaintenanceController;
+use App\Http\Controllers\Portal\ChangelogController;
 use App\Http\Controllers\Portal\Admin\UserController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Portal\Admin\AnnouncementController;
@@ -93,11 +94,12 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('/my-profile', [ProfileController::class, 'index'])->name('myprofile');
     Route::post('/my-profile/save/{id}', [ProfileController::class, 'save'])->name('myprofile.save');
-
-
     Route::post('/my-profile/verify-email', [ProfileController::class, 'resend_email_verification'])->middleware(['throttle:6,1'])->name('myprofile.verify');
 
-    Route::resource('users', ProfileController::class);
+    // Route::resource('users', ProfileController::class); //TODO deprecate this, it was mistakenly added by Aren.
+
+    Route::get('/changelog', [ChangelogController::class, 'show_changelog'])->name('changelog');
+
      /* ANNOUNCEMENT MODULE - View Announcements */
      Route::prefix('announcements')->as('announcements.')->group(function () {
         Route::get('/', [AnnouncementController::class, 'index'])->name('index');

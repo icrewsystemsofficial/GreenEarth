@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "594ec6bcf3b72bda4a7410834fec3f35",
+    "content-hash": "f71d3f28fabc14bba9ea6418623e9b25",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2059,6 +2059,139 @@
                 }
             ],
             "time": "2021-09-25T08:23:19+00:00"
+        },
+        {
+            "name": "markwalet/laravel-changelog",
+            "version": "v1.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/markwalet/laravel-changelog.git",
+                "reference": "977172bd4455bc01dcaecc1bd489b97b2a1ca0d6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/markwalet/laravel-changelog/zipball/977172bd4455bc01dcaecc1bd489b97b2a1ca0d6",
+                "reference": "977172bd4455bc01dcaecc1bd489b97b2a1ca0d6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-simplexml": "*",
+                "illuminate/console": "6.*|7.*|8.*",
+                "illuminate/contracts": "6.*|7.*|8.*",
+                "illuminate/filesystem": "6.*|7.*|8.*",
+                "illuminate/support": "6.*|7.*|8.*",
+                "markwalet/laravel-git-state": "~1.0",
+                "php": ">=7.1.3"
+            },
+            "require-dev": {
+                "orchestra/testbench": "4.*|5.*|6.*",
+                "phpunit/phpunit": "~7.0|~8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MarkWalet\\Changelog\\ChangelogServiceProvider"
+                    ],
+                    "aliases": {
+                        "Changelog": "MarkWalet\\Changelog\\Facades\\Changelog"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MarkWalet\\Changelog\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Walet",
+                    "email": "mark.walet@gmail.com"
+                }
+            ],
+            "description": "A Laravel package that prevents merge conflicts on your changelog file.",
+            "support": {
+                "issues": "https://github.com/markwalet/laravel-changelog/issues",
+                "source": "https://github.com/markwalet/laravel-changelog/tree/v1.4.1"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.me/markwalet",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/markwalet",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/markwalet/laravel-changelog",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-04-19T14:17:09+00:00"
+        },
+        {
+            "name": "markwalet/laravel-git-state",
+            "version": "v1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/markwalet/laravel-git-state.git",
+                "reference": "d97161e4fe291ddda5da9f884be847e423ba113d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/markwalet/laravel-git-state/zipball/d97161e4fe291ddda5da9f884be847e423ba113d",
+                "reference": "d97161e4fe291ddda5da9f884be847e423ba113d",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "6.*|7.*|8.*",
+                "illuminate/support": "6.*|7.*|8.*",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "4.*|5.*|6.*",
+                "phpunit/phpunit": "~7.0|~8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MarkWalet\\GitState\\GitStateServiceProvider"
+                    ],
+                    "aliases": {
+                        "GitState": "MarkWalet\\GitState\\Facades\\GitState"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MarkWalet\\GitState\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Walet",
+                    "email": "mark.walet@gmail.com",
+                    "homepage": "https://markwalet.me",
+                    "role": "Owner"
+                }
+            ],
+            "description": "A Laravel package that gives you information about the current git state.",
+            "support": {
+                "issues": "https://github.com/markwalet/laravel-git-state/issues",
+                "source": "https://github.com/markwalet/laravel-git-state/tree/v1.4.0"
+            },
+            "time": "2020-09-23T15:21:18+00:00"
         },
         {
             "name": "mckenziearts/laravel-notify",
