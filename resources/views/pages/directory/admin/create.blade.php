@@ -4,17 +4,27 @@
 @endsection
 
 @section('css')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.css" integrity="sha512-jU/7UFiaW5UBGODEopEqnbIAHOI8fO6T99m7Tsmqs2gkdujByJfkCbbfPSN4Wlqlb9TGnsuC0YgUgWkRBK7B9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
 @endsection
 
 @section('js')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js" integrity="sha512-VQQXLthlZQO00P+uEu4mJ4G4OAgqTtKG1hri56kQY1DtdLeIqhKUp9W/lllDDu3uN3SnUNawpW7lBda8+dSi7w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 <script>
     function loadingButton() {
         var create_button = document.getElementById('create_button');
         create_button.innerHTML = '<i class=\'fa fa-spinner fa-spin\'></i> Please wait';
     }
+    const inputElement = document.querySelector('input[id="logo"]');
+    const pond = FilePond.create(inputElement);
+    FilePond.setOptions({
+        server: {
+            url: '/portal/upload-logo',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        }
+    });
 </script>
 @endsection
 
@@ -86,12 +96,8 @@
 
                         <div class="form-group">
                             <label>Business Logo (This does not work)</label>
-                            <div id="dropzoneDragArea" class="dz-default dz-message dropzoneDragArea ms-6 me-6 mt-2 me-2 ">
-                                <span>
-                                    Drop files here to upload
-                                </span>
-                            </div>
-                            <div class="dropzone-previews">
+                            <div>
+                                <input type="file" id="logo" name="logo" />
                             </div>
                         </div>
 

@@ -80,7 +80,9 @@ class DirectoriesController extends Controller
 
             #Directory::create($request->all());
 
-            Directory::create([
+            dd($request->all());
+
+            $business = Directory::create([
                 'business_name_slug' => Str::slug($request->business_name, '-'),
                 'business_name' =>  $request->business_name,
                 'business_owner' =>  $request->business_owner,
@@ -94,6 +96,15 @@ class DirectoriesController extends Controller
                 'employee_count' =>  $request->employee_count,
                 'business_founding_date' =>  $request->business_founding_date,
             ]);
+
+            #$business->addMedia(storage_path('/logos/' . $request->logo))
+            #    ->toMediaCollection('logos');
+
+            #if (!is_dir(public_path() . '/logos/')) {
+            #    mkdir(public_path() . '/logos/', 0777, true);
+            #}
+
+            #$image->move(public_path() . '/logos/', $request->logo);
 
             #$name = $request->business_name;
             #$business_name_slug = Str::slug($name, '-');
@@ -254,5 +265,26 @@ class DirectoriesController extends Controller
             'pages.directory.owner.edit',
             compact('business')
         );
+    }
+
+    public function upload_logo(Request $request)
+    {
+        if ($request->hasFile('logo')) {
+            $image = $request->file('logo');
+            #$filename = $image->getClientOriginalName();
+            #$folder = uniqid() . '-' . now()->timestamp;
+            #$image->storeAs('public/logos/', $filename);
+
+            $imageName = strtotime(now()) . rand(11111, 99999) . '.' . $image->getClientOriginalExtension();
+
+            if (!is_dir(public_path() . '/uploads/logos/')) {
+                mkdir(public_path() . '/uploads/logos/', 0777, true);
+            }
+
+            $image->move(public_path() . '/uploads/logos/', $imageName);
+
+            return $imageName;
+        }
+        return "";
     }
 }
