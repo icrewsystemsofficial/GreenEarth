@@ -73,31 +73,20 @@ class CertificateGenerator extends Controller
         //return redirect()->route('receipts.index');
     }
 
-    public function generatePDF($id)
+    public function generatePDF()
     {
-        $certificate = Certificate::where('id', $id)->first();
-
-        $file_name = $certificate->pdf_file_name;
-
         $markdown = new Markdown(view(), config('mail.markdown'));
 
-        $html = $markdown->render('emails.certificate_pdf', ['certificate' => $certificate]);
+        $html = $markdown->render('certificate.certificate');
 
-        $file_path = public_path($file_name . '.html');
+        $file_path = public_path('certificate-template.html');
 
         if (!file_exists($file_path)) {
-            Storage::disk('public')->put($file_name . '.html', $html);
+            Storage::disk('public')->put(  'certificate-template.html', $html);
         }
 
-        // Create the directory
-        Storage::disk('public')->makeDirectory('certificates' . DIRECTORY_SEPARATOR . date('Y') . DIRECTORY_SEPARATOR . date('M'));
-
-        // Load the content and save the pdf in laravel local storage for downloading all the pdf generated for the month as a zip file
-        return PDF::loadFile(public_path('storage' . DIRECTORY_SEPARATOR . $file_name . '.html'))
-            ->save(public_path('storage' . '/' . 'certificates' . DIRECTORY_SEPARATOR . date('Y') . DIRECTORY_SEPARATOR . date('M') . DIRECTORY_SEPARATOR . $file_name . '.pdf'))
-            ->setPaper('a4', 'portrait')
-            ->stream($file_name . '.pdf');
-    }
+        return $html;
+}
 
     /**
      * Display the specified resource.

@@ -103,7 +103,7 @@ Route::prefix('portal')->as('portal.')->group(function () {
 
             // CERTIFICATE MODULE
             Route::prefix('certificate')->as('certificate.')->group(function () {
-                Route::get('/generate/{id}', [CertificateGenerator::class, 'generatePDF'])->name('certificate.generate');
+                Route::get('/generate', [CertificateGenerator::class, 'generatePDF'])->name('certificate.generate');
                 //commented until Rishi finishes task 2726
                 // Route::get('/{business_uuid}/generate',[CertificateGenerator::class,'generatePDF'])->name('certificate.download');
                 Route::get('/{business_uuid}/view', [CertificateGenerator::class, 'viewPDF'])->name('certificate.view');

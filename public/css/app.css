@@ -1,4 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);
+@import url(https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap);
 @charset "UTF-8";
 /*!
  * Bootstrap v4.6.0 (https://getbootstrap.com/)
@@ -10001,4 +10002,8 @@ h3 {
     color: inherit;
     border-color: #dee2e6;
   }
+}
+
+.custom-font{
+  font-family: 'Dancing Script', cursive;
 }
