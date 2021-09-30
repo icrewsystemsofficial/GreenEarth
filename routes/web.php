@@ -27,6 +27,8 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\TreeMaintenanceController;
 use App\Http\Controllers\Portal\Admin\UserController;
+use App\Http\Controllers\FAQController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +56,11 @@ Auth::routes();
 
         Route::get('/verify/{uuid}', [UserController::class, 'verify'])->name('users.verify');
 
+        Route::prefix('faq')->as('faq.')->group(function () {
+            Route::get('/', [FAQController::class, 'index_home'])->name('index');
+            Route::get('/detail/{id}', [FAQController::class, 'show'])->name('show');
+            Route::get('/{slug}', [FAQController::class, 'detail'])->name('detail');
+        });
     });
 
 
@@ -68,7 +75,19 @@ Route::prefix('portal')->as('portal.')->group(function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('index');
 
+    //FAQs
+    Route::prefix('faq')->as('faq.')->group(function () {
+        Route::get('/', [FAQController::class, 'index_portal'])->name('index');
+        Route::get('/create', [FAQController::class, 'create'])->name('create');
+        Route::get('/update', [FAQController::class, 'update_disp'])->name('update');
+        Route::get('/edit/{id}', [FAQController::class, 'edit'])->name('edit');
+        Route::get('/delete', [FAQController::class, 'delete_disp'])->name('delete');
+        Route::get('/delete/{id}', [FAQController::class, 'destroy'])->name('destroy');
+        Route::post('/store', [FAQController::class, 'store'])->name('store');
+        Route::post('/update', [FAQController::class, 'update'])->name('updateval');
 
+
+    });
 
     /************************
         -- ADMIN ROUTES --
@@ -155,9 +174,11 @@ Route::post('/tree/{id}/add-maintenance', [TreeMaintenanceController::class, 'st
 }); */
 
 Route::get("activity",[ActivityController::class,'disp']);
-
-
-
 Route::get('/mail-send', [UserController::class, 'mailSend']);
 
 
+//FAQS - temp
+/*
+Route::get('/home/faq', [FAQController::class, 'index_home'])->name('indexhome');
+Route::get('/portal/faq', [FAQController::class, 'index_portal'])->name('indexportal');
+ */
