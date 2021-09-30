@@ -26,8 +26,14 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('pages.user.index', compact('users'));
-    }  
+        $adminnum = User::role('admin')->where('temporary', '0')->count();
+        $superadminnum = User::role('superadmin')->where('temporary', '0')->count();
+        $totaladminnum = $adminnum + $superadminnum;
+        $usernum = User::role('user')->where('temporary', '0')->count();
+        $volunteernum = User::role('volunteer')->where('temporary', '0')->count();
+        $pending = User::where('temporary', '1')->count();
+        return view('pages.user.index', compact('users', 'totaladminnum', 'volunteernum', 'usernum', 'pending'));
+    }
 
     /**
      * Show the form for creating a new resource.

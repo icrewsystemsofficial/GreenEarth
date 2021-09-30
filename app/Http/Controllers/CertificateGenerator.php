@@ -28,7 +28,6 @@ class CertificateGenerator extends Controller
         $certificates = Certificate::all();
 
         if (file_exists(public_path('storage' . DIRECTORY_SEPARATOR . 'certificates'))) {
-
             $certificates = File::files(public_path('storage' . DIRECTORY_SEPARATOR . 'certificates'));
         }
 

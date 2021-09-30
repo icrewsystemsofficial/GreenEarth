@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Profile;
 use Illuminate\Http\Request;
-use App\Models\User;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
@@ -16,8 +17,9 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $user = Auth::user(); //this will return the auth user data 
-
+        $user = Auth::user(); //this will return the auth user data
+        //TODO The logged in user can be accessed directly via auth()->user() helper on the blade. No need
+        //to pass it as a variable.
         return view('pages.profile.index', compact('user'));
     }
 
@@ -29,6 +31,12 @@ class ProfileController extends Controller
     public function create()
     {
         return view ('pages.profile.create');
+    }
+
+    public function resend_email_verification(Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        smilify('success', 'A verification link was sent to your e-mail', 'Update');
+        return back();
     }
 
     /**
@@ -80,18 +88,24 @@ class ProfileController extends Controller
      * @param  \App\Models\Profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function save(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-        ]);
+        if($id == '') {
+            throw new \Exception('ID must be provided to update user records');
+        }
 
-        $user->update($request->all());
+        $user = User::find($id);
 
-        return redirect()->route('portal.profile.index')
-            ->with('success','Profile updated successfully');
+        $user->name = request('name');
+        $user->email = request('email');
+        $user->organization = request('organization');
+        $user->phone = request('phone');
+        $user->save();
+
+        //Logging the activity.
+        activity()->log('User: ' .$request->input('name') . '\'s account was updated');
+        smilify('success', $request->input('name') .'\'s profile was updated', 'Yay!');
+        return redirect(route('portal.myprofile'));
     }
 
     /**
