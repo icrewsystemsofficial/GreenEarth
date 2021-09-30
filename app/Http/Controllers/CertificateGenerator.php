@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Markdown;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\HtmlString;
 
 class CertificateGenerator extends Controller
 {
@@ -82,10 +83,12 @@ class CertificateGenerator extends Controller
         $file_path = public_path('certificate-template.html');
 
         if (!file_exists($file_path)) {
-            Storage::disk('public')->put(  'certificate-template.html', $html);
+            Storage::disk('public')->put( 'certificate-template.html', $html );
         }
 
-        return $html;
+        $html = PDF::loadView('certificate.certificate');
+
+        return $html->download('pdf_file.pdf');
 }
 
     /**

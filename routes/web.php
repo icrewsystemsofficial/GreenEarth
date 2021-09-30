@@ -75,7 +75,7 @@ Route::prefix('portal')->as('portal.')->group(function () {
     Route::get('/my-profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::resource('users', ProfileController::class);
 
-    
+
 
     /************************
         -- ADMIN ROUTES --
@@ -84,29 +84,29 @@ Route::prefix('portal')->as('portal.')->group(function () {
     Route::prefix('admin')->as('admin.')->group(function () {
         //Access these routes by route('portal.admin.ROUTENAME')
 
-        /* USERS MODULE */
-        Route::prefix('users')->as('users.')->group(function () {
-            Route::get('/', [UserController::class, 'index'])->name('index');
-            Route::get('/create', [UserController::class, 'create'])->name('create');
-            Route::post('/store', [UserController::class, 'store'])->name('store');
-            Route::post('/process-account/{id}', [UserController::class, 'process'])->name('process');
-            Route::get('/manage/{id}', [UserController::class, 'show'])->name('manage');
-            Route::post('/update/{id}', [UserController::class, 'update'])->name('update');
-            Route::post('/delete/{id}', [UserController::class, 'destroy'])->name('delete');
+        // CERTIFICATE MODULE
+        Route::prefix('certificate')->as('certificate.')->group(function () {
+            Route::get('/generate', [CertificateGenerator::class, 'generatePDF'])->name('certificate.generate');
+            //commented until Rishi finishes task 2726
+            // Route::get('/{business_uuid}/generate',[CertificateGenerator::class,'generatePDF'])->name('certificate.download');
+            Route::get('/{business_uuid}/view', [CertificateGenerator::class, 'viewPDF'])->name('certificate.view');
 
-            // Route::get('/create', function () {
-            //     return view('pages.user.user_create');
-            // });
-            Route::post('/create/new', [UserController::class, 'create_temp']);
-            Route::get('/setup/{uuid}', [UserController::class, 'setup']);
-            Route::post('/setup/add_user', [UserController::class, 'create_user']);
+            /* USERS MODULE */
+            Route::prefix('users')->as('users.')->group(function () {
+                Route::get('/', [UserController::class, 'index'])->name('index');
+                Route::get('/create', [UserController::class, 'create'])->name('create');
+                Route::post('/store', [UserController::class, 'store'])->name('store');
+                Route::post('/process-account/{id}', [UserController::class, 'process'])->name('process');
+                Route::get('/manage/{id}', [UserController::class, 'show'])->name('manage');
+                Route::post('/update/{id}', [UserController::class, 'update'])->name('update');
+                Route::post('/delete/{id}', [UserController::class, 'destroy'])->name('delete');
 
-            // CERTIFICATE MODULE
-            Route::prefix('certificate')->as('certificate.')->group(function () {
-                Route::get('/generate', [CertificateGenerator::class, 'generatePDF'])->name('certificate.generate');
-                //commented until Rishi finishes task 2726
-                // Route::get('/{business_uuid}/generate',[CertificateGenerator::class,'generatePDF'])->name('certificate.download');
-                Route::get('/{business_uuid}/view', [CertificateGenerator::class, 'viewPDF'])->name('certificate.view');
+                // Route::get('/create', function () {
+                //     return view('pages.user.user_create');
+                // });
+                Route::post('/create/new', [UserController::class, 'create_temp']);
+                Route::get('/setup/{uuid}', [UserController::class, 'setup']);
+                Route::post('/setup/add_user', [UserController::class, 'create_user']);
             });
         });
     });
@@ -159,5 +159,5 @@ Route::get('/mail-send', [UserController::class, 'mailSend']);
 Route::get('/test-blade', function () {
     $markdown = new Markdown(view(), config('mail.markdown'));
 
-   return ($html = $markdown->render('certificate.certificate'));
+    return ($html = $markdown->render('certificate.certificate'));
 });
