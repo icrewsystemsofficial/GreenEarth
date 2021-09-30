@@ -53,14 +53,14 @@
                 </a>
             </li>
 
-            {{-- <div class="mx-3 mt-3 mb-3">
-                <div class="card card-background shadow-none card-background-mask-secondary" id="sidenavCard">
+            <div class="mx-3 mt-3 mb-3">
+                <div class="card card-background shadow-none card-background-mask-success" id="sidenavCard">
                     <div class="full-background" style="background-image: url('{{ asset('img/curved-images/white-curved.jpeg') }}')"></div>
                     <div class="card-body text-start p-3 w-100">
                         <div class="docs-info">
                             <h6 class="text-white up mb-0">Need help?</h6>
                             <p class="text-xs font-weight-bold mb-2">Please check our docs</p>
-                            <a href="https://www.creative-tim.com/learning-lab/bootstrap/license/soft-ui-dashboard" target="_blank" class="btn btn-white btn-sm w-100 mb-0">Documentation</a>
+                            <a href="{{ url('portal/docs') }}" target="_blank" class="btn btn-white btn-sm w-100 mb-0">Documentation</a>
                         </div>
                     </div>
                 </div>
@@ -106,7 +106,15 @@
                     </div>
                     <span class="nav-link-text ms-1">Badges</span>
                 </a>
-            </li> --}}
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="{{ route('portal.myprofile') }}">
+                    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fas fa-users text-dark"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Profile</span>
+                </a>
+            </li>
         </ul>
     </div>
     <div class="sidenav-footer mx-3 ">
