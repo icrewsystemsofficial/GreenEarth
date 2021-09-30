@@ -47,7 +47,7 @@
                                 </form>
                             </div>
                             <div class="text-center">
-                                <a href="{{ route('login.google') }}" type="button" class="btn btn-outline-danger btn-icon">
+                                <a href="{{ route('login.google') }}" type="button" class="btn btn-danger btn-icon">
                                     <span class="btn-inner--icon"><i class="fab fa-google"></i></span>
                                     <span class="btn-inner--text">+ Sign in with google</span>
                                 </a>
