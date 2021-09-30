@@ -49,11 +49,11 @@ class FrontendController extends Controller
 
 
 
-        if(Storage::disk('local')->exists($whois_storage_path)) {            
+        if(Storage::disk('local')->exists($whois_storage_path)) {
             $carbondata = json_decode(Storage::disk('local')->get($whois_storage_path), true);
 
             //TODO Write a job worker to clear files older than 48 hours.
-        } else {            
+        } else {
             $whois= new Whois;
             $site = $whois->cleanUrl($host);
             $whois_data = $whois->whoislookup($site);
@@ -90,7 +90,7 @@ class FrontendController extends Controller
         // OS NAME = $os->getCurrentOsName()
         dd($os->getCurrentMemoryUsage());
         // Get some metrics like free disk space
-        $freeSpace = $os->getCurrentMemoryUsage();   
+        $freeSpace = $os->getCurrentMemoryUsage();
 
         dd($this->calculateCarbon($url));
 
@@ -102,15 +102,15 @@ class FrontendController extends Controller
         // dd($res->body());
 
         // $apikey = 'a4880f98a92ce578i094a6b828e05791f';
-        
-        // $client = new Client();        
-        // $crawler = $client->request('GET', 'https://check-host.net/ip-info?host=https://icrewsystems.com');        
-        // // $link = $crawler->selectLink('Retrive whois data')->link();                
+
+        // $client = new Client();
+        // $crawler = $client->request('GET', 'https://check-host.net/ip-info?host=https://icrewsystems.com');
+        // // $link = $crawler->selectLink('Retrive whois data')->link();
         // $link = $crawler->filter('#whois_retrieve')->link();
         // $crawler = $client->click($link);
         // dd($crawler->filter('#whois_result'));
         // // $crawler = $crawler->filter('#whois_result');
-        
+
         // // Get the latest post in this category and display the titles
         // $crawler->filter('#whois_result')->each(function ($node) {
         // print $node->text()."\n";
@@ -120,20 +120,23 @@ class FrontendController extends Controller
         // dd('test');
     }
 
-    
+
 
     public function calculate() {
-        $url = request('site');
-        
-        $color = 'bg-danger'; //danger
-
-        $domain = $this->getDomainInformation($url);
-
-        return view('frontend.calculate', [
-            'url' => $url,
-            'color' => $color,
-            'domain' => $domain,
-        ]);
+        $url = request('website');
+        $url = filter_var($url, FILTER_VALIDATE_URL);
+        if($url) {
+            $color = 'bg-danger'; //danger
+            $domain = $this->getDomainInformation($url);
+            return view('frontend.calculate', [
+                'url' => $url,
+                'color' => $color,
+                'domain' => $domain,
+            ]);
+        } else {
+            smilify('error', 'Please enter a valid URL with scheme (http / https)', 'Whooops');
+            return back()->with('errors', 'Please enter a valid URL');
+        }
     }
 
     public function comingsoon() {

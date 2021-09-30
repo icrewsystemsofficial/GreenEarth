@@ -67,7 +67,7 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 
 Route::prefix('home')->as('home.')->group(function () {
     Route::get('/', [FrontendController::class, 'index'])->name('index');
-    Route::get('/calculate', [FrontendController::class, 'calculate']);
+    Route::get('/calculate', [FrontendController::class, 'calculate'])->name('calculate');
     Route::get('/certificate/{uuid}', [FrontendController::class, 'index']);
 
     Route::get('/directory', [FrontendController::class, 'index']);
