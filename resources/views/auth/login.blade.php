@@ -46,6 +46,12 @@
                                     </div>
                                 </form>
                             </div>
+                            <div class="text-center">
+                                <a href="{{ route('login.google') }}" type="button" class="btn btn-outline-danger btn-icon">
+                                    <span class="btn-inner--icon"><i class="fab fa-google"></i></span>
+                                    <span class="btn-inner--text">+ Sign in with google</span>
+                                </a>
+                            </div>
                             <div class="card-footer text-center pt-0 px-lg-2 px-1">
                                 @if (Route::has('register'))
                                     <p class="mb-4 text-sm mx-auto">

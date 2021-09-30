@@ -34,6 +34,7 @@ use App\Http\Controllers\Portal\ChangelogController;
 use App\Http\Controllers\Portal\Admin\UserController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Portal\Admin\AnnouncementController;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -185,4 +186,14 @@ Route::get('/mail-send', [UserController::class, 'mailSend']);
 Route::get('/test-blade', function () {
     $markdown = new Markdown(view(), config('mail.markdown'));
    return ($html = $markdown->render('certificate.certificate'));
+});
+
+
+//SOCIALITE
+Route::get('/auth/redirect', function () {
+    return Socialite::driver('google')->redirect();
+})->name('login.google');
+
+Route::get('/auth/callback', function () {
+    $user = Socialite::driver('google')->user();
 });
