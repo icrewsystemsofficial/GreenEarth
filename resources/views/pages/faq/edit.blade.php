@@ -7,7 +7,7 @@
 @endsection
 
 @section('js')
-    
+
 @endsection
 
 @section('content')
@@ -21,8 +21,8 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                       
-                        <form action="{{ route('portal.faq.updateval',$faq->id )}}" method="POST">
+
+                        <form action="{{ route('portal.admin.faq.updateval',$faq->id )}}" method="POST">
                             @csrf
 
                             <div class="form-group">
@@ -56,7 +56,7 @@
                             <button onclick="return confirm('Are you sure?')" class="btn btn-success" type="submit" id="create_button" >
                             UPDATE
                             </button>
-                        <a href="{{ route('portal.faq.update') }}" class="btn btn-warning">
+                        <a href="{{ route('portal.admin.faq.update') }}" class="btn btn-warning">
                             <i class="fa fa-arrow-left"></i> Back
                         </a>
                     </div>

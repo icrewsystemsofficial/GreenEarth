@@ -54,21 +54,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-    /************************
-        -- FRONTEND ROUTES --
-    ************************/
-
-    Route::prefix('home')->as('home.')->group(function () {
-        Route::get('/', [HomeController::class, 'index'])->name('index');
-
-        Route::get('/verify/{uuid}', [UserController::class, 'verify'])->name('users.verify');
-
-        Route::prefix('faq')->as('faq.')->group(function () {
-            Route::get('/', [FAQController::class, 'index_home'])->name('index');
-            Route::get('/detail/{id}', [FAQController::class, 'show'])->name('show');
-            Route::get('/{slug}', [FAQController::class, 'detail'])->name('detail');
-        });
-    });
 
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
@@ -100,6 +85,13 @@ Route::prefix('home')->as('home.')->group(function () {
     Route::get('/blog', [FrontendController::class, 'index']);
     Route::get('/coming-soon', [FrontendController::class, 'comingsoon'])->name('coming-soon');
     Route::get('/verify/{uuid}', [UserController::class, 'verify'])->name('users.verify');
+
+    Route::prefix('faq')->as('faq.')->group(function () {
+        Route::get('/', [FAQController::class, 'index_home'])->name('index');
+        Route::get('/detail/{id}', [FAQController::class, 'show'])->name('show');
+        Route::get('/{slug}', [FAQController::class, 'detail'])->name('detail');
+    });
+    
 });
 
 /************************
@@ -125,7 +117,7 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
     });
 
     //FAQs
-    Route::prefix('faq')->as('faq.')->group(function () {
+    /* Route::prefix('faq')->as('faq.')->group(function () {
         Route::get('/', [FAQController::class, 'index_portal'])->name('index');
         Route::get('/create', [FAQController::class, 'create'])->name('create');
         Route::get('/update', [FAQController::class, 'update_disp'])->name('update');
@@ -136,7 +128,7 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
         Route::post('/update', [FAQController::class, 'update'])->name('updateval');
 
 
-    });
+    }); */
 
     /************************
         -- ADMIN ROUTES --
@@ -186,13 +178,6 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
 
         });
 
-
-
-
-
-
-
-
         /* ANNOUNCEMENT MODULE */
         Route::prefix('announcements')->as('announcements.')->group(function () {
             Route::get('/', [AnnouncementController::class, 'index'])->name('index');
@@ -200,6 +185,20 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::post('/create', [AnnouncementController::class, 'store'])->name('store');
             Route::get('/edit/{id}', [AnnouncementController::class, 'edit'])->name('edit');
             Route::put('/edit/{id}', [AnnouncementController::class, 'update'])->name('update');
+        });
+
+        /* FAQ MODULE */
+        Route::prefix('faq')->as('faq.')->group(function () {
+            Route::get('/', [FAQController::class, 'index_portal'])->name('index');
+            Route::get('/create', [FAQController::class, 'create'])->name('create');
+            Route::get('/update', [FAQController::class, 'update_disp'])->name('update');
+            Route::get('/edit/{id}', [FAQController::class, 'edit'])->name('edit');
+            Route::get('/delete', [FAQController::class, 'delete_disp'])->name('delete');
+            Route::get('/delete/{id}', [FAQController::class, 'destroy'])->name('destroy');
+            Route::post('/store', [FAQController::class, 'store'])->name('store');
+            Route::post('/update', [FAQController::class, 'update'])->name('updateval');
+
+
         });
 
     });

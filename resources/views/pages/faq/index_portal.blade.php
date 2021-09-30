@@ -21,21 +21,21 @@ FAQs
     <div class="container-fluid py-4">
         <h3>Frequently asked Questions</h3><br>
         <div class="position-relative ">
-                    <a type="button" class="btn btn-success" href="{{ route('portal.faq.create') }}">
-                        Create 
+                    <a type="button" class="btn btn-success" href="{{ route('portal.admin.faq.create') }}">
+                        Create
                     </a>
-                    <a type="button" class="btn btn-warning" href="{{ route('portal.faq.update') }}">
-                        Update 
+                    <a type="button" class="btn btn-warning" href="{{ route('portal.admin.faq.update') }}">
+                        Update
                     </a>
-                    <a type="button" class="btn btn-danger" href="{{ route('portal.faq.delete') }}">
-                        Delete 
+                    <a type="button" class="btn btn-danger" href="{{ route('portal.admin.faq.delete') }}">
+                        Delete
                     </a>
         </div>
         <br>
-    
 
-            @php ($i = 1)
-            
+
+            {{-- @php ($i = 1)
+
             <div class="accordion accordion-flush" id="accordionFlushExample">
                 @foreach ($faqs as $faq)<div class="accordion-item">
                     @if($i%2==1)
@@ -47,7 +47,7 @@ FAQs
                         <div id="flush-collapseOne_{{$i}}" class="accordion-collapse collapse" style="background-color:#E6FFE6;" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                             <div class="accordion-body " S>{{$faq->body}}</div>
                         </div>
-                                            
+
                     @else
                         <h2 class="accordion-header" id="flush-headingOne_{{$i}}">
                         <button class="accordion-button collapsed rounded" style=" background-color:#FFFFCC; border:2px solid #EEFF99" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne_{{$i}}" aria-expanded="false" aria-controls="flush-collapseOne">
@@ -57,15 +57,51 @@ FAQs
                         <div id="flush-collapseOne_{{$i}}" class="accordion-collapse collapse" style="background-color:#FFFFE6" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                             <div class="accordion-body rounded" S>{{$faq->body}}</div>
                         </div>
-                    @endif 
-                @php ($i+=1) 
-                
+                    @endif
+                @php ($i+=1)
+
                 @endforeach
+            </div> --}}
+
+             @php ($i = 1)
+
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                @foreach ($faqs as $faq)<div class="accordion-item">
+                    @if($i%2==1)
+                        <h2 class="accordion-header" id="flush-headingOne_{{$i}}">
+                        <button class="accordion-button collapsed rounded border-bottom"  type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne_{{$i}}" aria-expanded="false" aria-controls="flush-collapseOne">
+                            <h5 style="font-weight: 500;">{{$faq->title}}</h5>
+                        </button>
+                        </h2>
+                        <div id="flush-collapseOne_{{$i}}" class="accordion-collapse collapse border-bottom"  aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                            <div style="color:gray" class="accordion-body " S>{{$faq->body}}</div>
+                            <a  href="{{ route('home.faq.show', $faq->id) }}" class="btn btn-sm btn-info position: relative start-2">
+                                View in Detail
+                            </a>
+                        </div>
+
+                    @else
+                        <h2 class="accordion-header" id="flush-headingOne_{{$i}}">
+                        <button class="accordion-button collapsed rounded border-bottom"  type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne_{{$i}}" aria-expanded="false" aria-controls="flush-collapseOne">
+                            <h5 style="font-weight: 500">{{$faq->title}}</h5>
+                        </button>
+                        </h2>
+                        <div id="flush-collapseOne_{{$i}}" class="accordion-collapse collapse border-bottom"  aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                            <div style="color:gray" class="accordion-body rounded" S>{{$faq->body}}</div>
+                            <a  href="{{ route('home.faq.show', $faq->id) }}" class="btn btn-sm btn-info position: relative start-2">
+                                View in Detail
+                            </a>
+                        </div>
+                    @endif
+                @php ($i+=1)
+{{--                 <hr style="height: 10%; visibility:hidden">
+ --}}                @endforeach
             </div>
-            
-        
-  
 
 
-    
+
+
+
+
+
 @endsection

@@ -53,7 +53,7 @@
                 </a>
             </li>
 
-            <div class="mx-3 mt-3 mb-3">
+            {{-- <div class="mx-3 mt-3 mb-3">
                 <div class="card card-background shadow-none card-background-mask-success" id="sidenavCard">
                     <div class="full-background" style="background-image: url('{{ asset('img/curved-images/white-curved.jpeg') }}')"></div>
                     <div class="card-body text-start p-3 w-100">
@@ -89,7 +89,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " href="{{ route('portal.faq.index') }}">
+                <a class="nav-link " href="{{ route('portal.admin.faq.index') }}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-users text-dark"></i>
                     </div>

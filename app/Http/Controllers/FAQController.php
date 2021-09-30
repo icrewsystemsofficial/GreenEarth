@@ -61,7 +61,7 @@ class FAQController extends Controller
         $faq -> save();
         smilify('success', 'FAQ Created successfully');
 
-        return redirect()->route('portal.faq.index');
+        return redirect()->route('portal.admin.faq.index');
     }
 
     /**
@@ -128,7 +128,7 @@ class FAQController extends Controller
         $faq -> save();
 
 
-        return redirect()->route('portal.faq.update');
+        return redirect()->route('portal.admin.faq.update');
 
     }
 
@@ -153,6 +153,6 @@ class FAQController extends Controller
         $faq = FAQ::find($id);
         $faq->delete();
         smilify('success', 'FAQ deleted successfully');
-        return redirect(route('portal.faq.index'));
+        return redirect(route('portal.admin.faq.index'));
     }
 }

@@ -7,7 +7,7 @@
 @endsection
 
 @section('js')
-    
+
 @endsection
 
 @section('content')
@@ -21,8 +21,8 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                       
-                        <form action="{{ route('portal.faq.store') }}" method="POST">
+
+                        <form action="{{ route('portal.admin.faq.store') }}" method="POST">
                             @csrf
 
 
@@ -50,7 +50,7 @@
                             <button class="btn btn-success" type="submit" id="create_button" >
                             CREATE
                             </button>
-                        <a href="{{ route('portal.faq.index') }}" class="btn btn-warning">
+                        <a href="{{ route('portal.admin.faq.index') }}" class="btn btn-warning">
                             <i class="fa fa-arrow-left"></i> Back
                         </a>
                     </div>

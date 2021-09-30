@@ -35,7 +35,7 @@
     <br>
     <div class="row">
 
-        
+
 
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
           <div class="card">
@@ -105,9 +105,9 @@
                             <th>Body</th>
                             <th>Created By</th>
                             <th>Status</th>
-                            
+
                         </tr>
-                    </thead> 
+                    </thead>
                     <tbody>
                         @foreach ($faqs as $faq)
                         <tr>
@@ -117,14 +117,14 @@
                             <td>{{$faq->created_by}}</td>
                             @if(($faq->status=='1'))
                                 <td>Enabled</td>
-                            
+
                             @else
                                 <td>Disabled</td>
-                            
+
                             @endif
                             <td>
                                 <div>
-                                    <a href="{{ route('portal.faq.edit', $faq->id) }}" class="btn btn-sm btn-info">
+                                    <a href="{{ route('portal.admin.faq.edit', $faq->id) }}" class="btn btn-sm btn-info">
                                         Update
                                     </a>
                                 </div>
