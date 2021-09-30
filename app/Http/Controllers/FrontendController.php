@@ -139,4 +139,25 @@ class FrontendController extends Controller
     public function comingsoon() {
         return view('frontend.comingsoon');
     }
+
+    public function aboutus(){
+        return view('frontend.about');
+    }
+
+    public function partners(){
+        return view('frontend.partners');
+    }
+
+    public function investors(){
+        return view('frontend.comingsoon');
+    }
+
+    public function contributors(){
+       
+    }
+
+    public function glossary(){
+         return view('frontend.glossary');
+     }
+
 }

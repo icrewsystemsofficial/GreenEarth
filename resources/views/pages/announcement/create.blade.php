@@ -23,33 +23,30 @@
                 @csrf
                 @method('POST')
                 <div class="card-body text-sm">
-                <div class="form-group">
-                    <label for="role" class="ps-2 pe-4">Role </label>
-                    <select name="role" id="role">
-                        <option value="superadmin"> Super Admin </option>
-                        <option value="admin"> Admin </option>
-                        <option value="volunteer"> Volunteer </option>
-                        <option value="user"> User </option>
-                    </select>
-                </div>
-                <div class="form-group ps-2">
-                    <label> Title </label>
-                    <input type="text" name="title" placeholder="Announcement Title" class="form-control"/>
-                </div>  
-                <div class="form-group pb-5 ps-2">
-                    <label> Body </label>
-                    <textarea class="ckeditor form-control" name="body"> </textarea>
-                </div>
+                    <div class="form-group">
+                        <label for="role" class="ps-2 pe-4"> Role </label>
+                        <select name="role" id="role">
+                            @foreach($roles as $role)
+                                <option value="{{$role}}"> {{$role}} </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group ps-2">
+                        <label> Title </label>
+                        <input type="text" name="title" placeholder="Announcement Title" class="form-control"/>
+                    </div>  
+                    <div class="form-group pb-5 ps-2">
+                        <label> Body </label>
+                        <textarea class="ckeditor form-control" name="body"> </textarea>
+                    </div>
                 </div>
                 <div class="card-footer ms-2">
-                    <button type="submit" class="btn btn-success">Save Announcement</button>
+                    <button type="submit" class="btn btn-success" >Save Announcement </button>
                     <a href="{{ url()->previous() }}" class="btn btn-danger"> 
                         Back
                     </a> 
-                </div>
-                        
-            </form>
-            
+                </div>                        
+            </form>            
         </div>
     </div>
 </div>
