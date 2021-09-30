@@ -51,7 +51,7 @@
               <div class="col-md-12">
                 <div class="p-3 text-center">
                     <h1 class="mt-3 h4">
-                        Don't worry, you can get carbon-neutral certified in just <br> <span class="h1 text-success text-gradient font-weight-bolder">3 steps</span>
+                        Don't worry, you can go carbon-neutral in just <br> <span class="h1 text-success text-gradient font-weight-bolder">3 steps</span>
                     </h1>
                     <p class="text-sm">
                         We analyze your carbon footprint, calculate the required
