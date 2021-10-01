@@ -72,6 +72,7 @@ Route::prefix('home')->as('home.')->group(function () {
     Route::get('/verify/{uuid}', [UserController::class, 'verify'])->name('users.verify');
 
     Route::get('/glossary', [FrontendController::class, 'glossary'])->name('glossary');
+    Route::get('/volunteer/@{username}', [FrontendController::class, 'volunteer'])->name('volunteer');
 });
 
 

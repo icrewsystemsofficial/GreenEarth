@@ -157,7 +157,11 @@ class FrontendController extends Controller
     }
 
     public function glossary(){
-         return view('frontend.glossary');
-     }
+        return view('frontend.glossary');
+    }
+
+    public function volunteer($username){
+        return view('frontend.volunteer');
+    }
 
 }
