@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,10 +21,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('v1')->group(function () {
 
-    Route::prefix('analy')->group(function () {
-
+    Route::get('badge/{business_id}',function () {
+//      Todo: return a badge image according to business id
     });
 });
 Route::get('test', function () {
-    return view('   layouts.badge');
+    return view('layouts.badge');
 })->name('test');
