@@ -27,6 +27,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TreeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\CertificateGenerator;
 use App\Http\Controllers\TreeMaintenanceController;
@@ -34,6 +35,7 @@ use App\Http\Controllers\Portal\ChangelogController;
 use App\Http\Controllers\Portal\Admin\UserController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Portal\Admin\AnnouncementController;
+use App\Models\User;
 use Laravel\Socialite\Facades\Socialite;
 
 /*
@@ -194,6 +196,4 @@ Route::get('/auth/redirect', function () {
     return Socialite::driver('google')->redirect();
 })->name('login.google');
 
-Route::get('/auth/callback', function () {
-    $user = Socialite::driver('google')->user();
-});
+Route::get('/login/google/callback', [LoginController::class, 'registerOrLoginUser'])->name('login.redirect');
