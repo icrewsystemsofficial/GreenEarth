@@ -57,6 +57,7 @@ class DirectoriesController extends Controller
      */
     public function store(Request $request)
     {
+        #dd($request->all());
         try {
             $request->validate([
                 'business_name' => 'required',
@@ -74,13 +75,14 @@ class DirectoriesController extends Controller
                 'employee_count' => 'integer',
                 'business_founding_date' => 'nullable|date',
                 'business_name_slug' => 'nullable',
+                'logo' => 'nullable',
             ]);
 
             #$request->business_name_slug = 'TEST'; # Doesn't work :(
 
             #Directory::create($request->all());
 
-            dd($request->all());
+            #dd($request->all());
 
             $business = Directory::create([
                 'business_name_slug' => Str::slug($request->business_name, '-'),
@@ -95,6 +97,7 @@ class DirectoriesController extends Controller
                 'website_link' =>  $request->website_link,
                 'employee_count' =>  $request->employee_count,
                 'business_founding_date' =>  $request->business_founding_date,
+                'logo' => $request->logo,
             ]);
 
             #$business->addMedia(storage_path('/logos/' . $request->logo))
@@ -167,6 +170,8 @@ class DirectoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        #dd($request->all());
+
         try {
             $request->validate([
                 'business_name' => 'required',
@@ -184,10 +189,21 @@ class DirectoriesController extends Controller
                 'employee_count' => 'integer',
                 'business_founding_date' => 'nullable|date',
                 'business_name_slug' => 'nullable',
+                'logo' => 'nullable',
             ]);
 
+            $business = Directory::where('id', $id)->first();
+            $current_logo = $business->logo;
             $name = $request->business_name;
             $name_slug = Str::slug($name, '-');
+
+            if ($request->logo != null) {
+                $old_logo = 'uploads/logos/' . $current_logo;
+                if (file_exists($old_logo)) {
+                    @unlink($old_logo);
+                }
+                $current_logo = $request->logo;
+            }
 
             Directory::where('id', $id)->update([
                 'business_name_slug' => $name_slug,
@@ -202,6 +218,7 @@ class DirectoriesController extends Controller
                 'website_link' =>  $request->website_link,
                 'employee_count' =>  $request->employee_count,
                 'business_founding_date' =>  $request->business_founding_date,
+                'logo' => $current_logo,
             ]);
         } catch (\Exception $e) {
             return response()->json(['status' => 'exception', 'msg' => $e->getMessage()]);
@@ -210,7 +227,6 @@ class DirectoriesController extends Controller
         activity()->log('Business: ' . $request->input('business_name') . '\'s record was updated.');
         smilify('success', $request->input('business_name') . '\'s account updated', 'Yay!');
         return redirect()->back();
-        #return redirect(route('portal.admin.directory.index'));
     }
 
     /**
@@ -221,7 +237,16 @@ class DirectoriesController extends Controller
      */
     public function destroy($id)
     {
-        $business_to_delete = Directory::find($id);
+        $business_to_delete = Directory::find($id)->first();
+        $current_logo = $business_to_delete->logo;
+
+        if ($business_to_delete->logo != null) {
+            $old_logo = 'uploads/logos/' . $current_logo;
+            if (file_exists($old_logo)) {
+                @unlink($old_logo);
+            }
+        }
+
         activity()->log('Deleting business ' . $business_to_delete->business_name);
         smilify('success', $business_to_delete->business_name . '\'s account deleted', 'Yay!');
 
@@ -285,6 +310,5 @@ class DirectoriesController extends Controller
 
             return $imageName;
         }
-        return "";
     }
 }

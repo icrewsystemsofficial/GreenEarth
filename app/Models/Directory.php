@@ -30,6 +30,7 @@ class Directory extends Model
         'employee_count',
         'business_founding_date',
         'business_name_slug',
+        'logo'
     ];
 
     /**

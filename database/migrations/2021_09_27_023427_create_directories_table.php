@@ -33,6 +33,7 @@ class CreateDirectoriesTable extends Migration
             $table->string('linkedin_link')->nullable();
             $table->string('website_link')->nullable();
             $table->string('business_name_slug')->nullable();
+            $table->string('logo')->nullable();
             $table->timestamps();
         });
     }

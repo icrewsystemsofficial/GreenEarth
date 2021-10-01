@@ -95,13 +95,11 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Business Logo (This does not work)</label>
+                            <label>Business Logo</label>
                             <div>
                                 <input type="file" id="logo" name="logo" />
                             </div>
                         </div>
-
-                        <input type="hidden" name="business_name_slug">
 
                         <button class="btn btn-success" type="submit" id="create_button" onclick="loadingButton();">
                             <i class="fa fa-save"></i> ADD

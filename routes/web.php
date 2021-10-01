@@ -87,7 +87,7 @@ Route::prefix('portal')->as('portal.')->group(function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('/my-business', [DirectoriesController::class, 'owner_index'])->name('owner_index');
-    Route::post('/my-business/edit/{id}', [DirectoriesController::class, 'owner_edit'])->name('owner_edit');
+    Route::POST('/my-business/edit/{id}', [DirectoriesController::class, 'owner_edit'])->name('owner_edit');
     Route::post('/upload-logo', [DirectoriesController::class, 'upload_logo']);
 
 

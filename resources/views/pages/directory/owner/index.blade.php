@@ -114,6 +114,11 @@
 
                     {{$business->business_name}}
 
+                    <br>
+
+                    <img src=<?php echo $logo = '/uploads/logos/' . $business->logo; ?> alt="poto">
+
+
                     <form action="{{ route('portal.owner_edit', $business->id) }}" method="POST">
 
                         @csrf
