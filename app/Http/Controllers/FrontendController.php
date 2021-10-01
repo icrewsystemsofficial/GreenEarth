@@ -142,4 +142,12 @@ class FrontendController extends Controller
     public function comingsoon() {
         return view('frontend.comingsoon');
     }
+
+    public function privacy_policy() {
+        return view('frontend.legal.privacypolicy');
+    }
+
+    public function terms_of_service() {
+        return view('frontend.legal.termsofservice');
+    }
 }
