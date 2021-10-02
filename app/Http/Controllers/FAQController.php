@@ -19,7 +19,7 @@ class FAQController extends Controller
     {
 
         $faqs = FAQ::where('status', '1')->orderBy('updated_at')->get();
-        return view('pages.faq.index_home',compact('faqs'));
+        return view('pages.faq.faq_frontend',compact('faqs'));
     }
 
     public function index_portal()
@@ -27,6 +27,13 @@ class FAQController extends Controller
 
         $faqs = FAQ::where('status', '1')->orderBy('updated_at')->get();
         return view('pages.faq.index_portal',compact('faqs'));
+    }
+
+    public function index_portal_admin()
+    {
+
+        $faqs = FAQ::where('status', '1')->orderBy('updated_at')->get();
+        return view('pages.faq.index_admin',compact('faqs'));
     }
 
 
@@ -74,7 +81,7 @@ class FAQController extends Controller
     {
         $faq = FAQ::find($id);
         $slug = Str::slug($faq->title, '-');
-        return redirect()->route('home.faq.detail',$slug);
+        return redirect()->route('portal.faq.detail',$slug);
     }
 
     public function detail($id)

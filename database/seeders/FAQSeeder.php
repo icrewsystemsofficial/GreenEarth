@@ -12,9 +12,9 @@ class FAQSeeder extends Seeder
      * @return void
      */
     public function run()
-    {   
+    {
         $this->command->line('Seeding FAQs from FAQSeeder file...');
-        
+
         $faq = new FAQ;
         $faq->title = 'How do I become climate neutral?';
         $faq->body = 'We all have an impact on the climate through our lifestyle; what we eat, how we travel, our housing etc, which cause greenhouse gas emissions. You can take responsibility for these emissions by offsetting so that the corresponding amount of greenhouse gases is not emitted elsewhere (or even get removed from the atmosphere), thus achieving a net zero effect for the climate.';
@@ -27,7 +27,7 @@ class FAQSeeder extends Seeder
         $faq->title = 'Does carbon offsetting work?';
         $faq->body = 'Yes! Since we all share the same atmosphere, a ton of carbon dioxide has the same impact no matter where it is emitted. When you choose to pay to offset your emissions, your money benefits the climate by contributing to a project that avoids greenhouse gas emissions in another part of the world. There are reliable ways to calculate the emissions so you can feel confident that the amount is correct, and the projects are controlled by external reviewers so that they really deliver the benefit they promised. In addition, you are contributing to the transition towards a sustainable society for those who cannot afford to make that kind of investment for themselves.';
         $faq->created_by = "John";
-        $faq->status = '0';
+        $faq->status = '1';
         $faq->save();
         $this->command->info("Faq 2 created.");
 
@@ -43,7 +43,7 @@ class FAQSeeder extends Seeder
         $faq->title = 'Who makes sure that the projects are serious and well executed?';
         $faq->body = 'Climate projects are certified by various organizations. They register projects that make climate benefit and measure how much benefit they actually do, so that they can sell exactly the right amount of credits. GoClimate purchases climate credits that are certified by Gold Standard, an organization founded by WWF and other environmental organizations, to ensure the highest possible quality of the climate projects. This also means that the projects are verified by a third-party, all documentation is public and we can track the project while it is being implemented and during its carbon credit period. Fundamental requirements for the projects, such as additionality, verifiability, traceability, permanence and contribution to sustainable development are guaranteed by the Gold Standard.';
         $faq->created_by = "Kevin";
-        $faq->status = '0';
+        $faq->status = '1';
         $faq->save();
         $this->command->info("Faq 4 created.");
 
@@ -56,8 +56,8 @@ class FAQSeeder extends Seeder
         $this->command->info("Faq 5 created.");
 
 
-        
-        
-    
+
+
+
     }
 }
