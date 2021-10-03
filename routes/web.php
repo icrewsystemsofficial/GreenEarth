@@ -86,9 +86,13 @@ Route::prefix('portal')->as('portal.')->group(function () {
     /* DASHBOARD PAGES */
 
     Route::get('/', [HomeController::class, 'index'])->name('index');
-    Route::get('/my-business', [DirectoriesController::class, 'owner_index'])->name('owner_index');
-    Route::POST('/my-business/edit/{id}', [DirectoriesController::class, 'owner_edit'])->name('owner_edit');
     Route::post('/upload-logo', [DirectoriesController::class, 'upload_logo']);
+
+    Route::prefix('my-business')->as('owner.')->group(function () {
+        Route::get('/', [DirectoriesController::class, 'owner_index'])->name('index');
+        Route::get('/edit/{id}', [DirectoriesController::class, 'owner_edit'])->name('edit');
+        Route::put('/update/{id}', [DirectoriesController::class, 'owner_update'])->name('update');
+    });
 
 
     /************************

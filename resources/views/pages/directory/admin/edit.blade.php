@@ -5,18 +5,37 @@
 
 @section('css')
 <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
 @endsection
 
 @section('js')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
 <script>
-    function loadingButton() {
-        var create_button = document.getElementById('create_button');
-        create_button.innerHTML = '<i class=\'fa fa-spinner fa-spin\'></i> Please wait';
-    }
+    FilePond.registerPlugin(
+        FilePondPluginImagePreview,
+        FilePondPluginFileValidateType,
+        FilePondPluginFileValidateSize,
+    );
     const inputElement = document.querySelector('input[id="logo"]');
-    const pond = FilePond.create(inputElement);
+    const pond = FilePond.create(inputElement, {
+        labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span>`,
+        imagePreviewHeight: 200,
+        imageCropAspectRatio: '3:2',
+        imageResizeTargetWidth: 300,
+        imageResizeTargetHeight: 200,
+        stylePanelLayout: 'compact',
+        styleLoadIndicatorPosition: 'center bottom',
+        styleProgressIndicatorPosition: 'right bottom',
+        styleButtonRemoveItemPosition: 'left bottom',
+        styleButtonProcessItemPosition: 'right bottom',
+        acceptedFileTypes: ['image/png', 'image/jpeg'],
+        labelFileTypeNotAllowed: '.JPG or .PNG files only',
+        maxFileSize: '5MB',
+    });
     FilePond.setOptions({
         server: {
             url: '/portal/upload-logo',
@@ -50,7 +69,7 @@
                         <div class="form-group">
                             <label class="control-label col-sm2" for="business_name">Business Name</label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control" name="business_name" value="{{ $business->business_name }}">
+                                <input type="text" class="form-control" name="business_name" value="{{ $business->business_name }}" required />
                             </div>
                         </div>
 
@@ -112,7 +131,7 @@
                             <i class="fa fa-arrow-left"></i> Back
                         </a>
 
-                    </form>
+
 
                 </div>
             </div>
@@ -193,7 +212,7 @@
                             <input type="url" class="form-control" name="website_link" value="{{ $business->website_link }}" />
                         </div>
                     </div>
-
+                    </form>
                 </div>
             </div>
 
@@ -233,7 +252,7 @@
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                     <form action="{{ route('portal.admin.directory.delete', $business->id) }}" method="POST">
                                         @csrf
-                                        <button type="submit" class="btn btn-success">Yes, delete</button>
+                                        <button type="submit" class="btn btn-danger">Yes, delete</button>
                                     </form>
                                 </div>
                             </div>

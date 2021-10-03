@@ -34,8 +34,6 @@ class DirectoriesController extends Controller
             $business_name_slugs[$name] = Str::slug($name, '-');
         }
 
-        #print_r($brand_name_slugs);
-
         return view('frontend.directory.index', compact('directory', 'business_name_slugs'));
     }
 
@@ -57,7 +55,6 @@ class DirectoriesController extends Controller
      */
     public function store(Request $request)
     {
-        #dd($request->all());
         try {
             $request->validate([
                 'business_name' => 'required',
@@ -68,22 +65,15 @@ class DirectoriesController extends Controller
                 'total_carbon_emission' => 'nullable',
                 'total_trees_in_grove' => 'nullable',
                 'total_carbon_offset' => 'nullable',
-                'facebook_link' => 'nullable|URL',
-                'instagram_link' => 'nullable|URL',
-                'linkedin_link' => 'nullable|URL',
-                'website_link' => 'nullable|URL',
+                'facebook_link' => 'nullable',
+                'instagram_link' => 'nullable',
+                'linkedin_link' => 'nullable',
+                'website_link' => 'nullable',
                 'employee_count' => 'integer',
                 'business_founding_date' => 'nullable|date',
                 'business_name_slug' => 'nullable',
                 'logo' => 'nullable',
             ]);
-
-            #$request->business_name_slug = 'TEST'; # Doesn't work :(
-
-            #Directory::create($request->all());
-
-            #dd($request->all());
-
             $business = Directory::create([
                 'business_name_slug' => Str::slug($request->business_name, '-'),
                 'business_name' =>  $request->business_name,
@@ -99,21 +89,6 @@ class DirectoriesController extends Controller
                 'business_founding_date' =>  $request->business_founding_date,
                 'logo' => $request->logo,
             ]);
-
-            #$business->addMedia(storage_path('/logos/' . $request->logo))
-            #    ->toMediaCollection('logos');
-
-            #if (!is_dir(public_path() . '/logos/')) {
-            #    mkdir(public_path() . '/logos/', 0777, true);
-            #}
-
-            #$image->move(public_path() . '/logos/', $request->logo);
-
-            #$name = $request->business_name;
-            #$business_name_slug = Str::slug($name, '-');
-            #$name_slug = Str::slug($name, '-');
-            #print_r($request->id);
-            #Directory::where('id', $request->id)->update(['business_name_slug' => $name]);
         } catch (\Exception $e) {
             return response()->json(['status' => 'exception', 'msg' => $e->getMessage()]);
         }
@@ -170,8 +145,6 @@ class DirectoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        #dd($request->all());
-
         try {
             $request->validate([
                 'business_name' => 'required',
@@ -182,10 +155,10 @@ class DirectoriesController extends Controller
                 'total_carbon_emission' => 'nullable',
                 'total_trees_in_grove' => 'nullable',
                 'total_carbon_offset' => 'nullable',
-                'facebook_link' => 'nullable|URL',
-                'instagram_link' => 'nullable|URL',
-                'linkedin_link' => 'nullable|URL',
-                'website_link' => 'nullable|URL',
+                'facebook_link' => 'nullable',
+                'instagram_link' => 'nullable',
+                'linkedin_link' => 'nullable',
+                'website_link' => 'nullable',
                 'employee_count' => 'integer',
                 'business_founding_date' => 'nullable|date',
                 'business_name_slug' => 'nullable',
@@ -226,7 +199,66 @@ class DirectoriesController extends Controller
 
         activity()->log('Business: ' . $request->input('business_name') . '\'s record was updated.');
         smilify('success', $request->input('business_name') . '\'s account updated', 'Yay!');
-        return redirect()->back();
+        return redirect(route('portal.admin.directory.index'));
+    }
+
+    public function owner_update(Request $request, $id)
+    {
+        try {
+            $request->validate([
+                'business_name' => 'required',
+                'location' => 'required',
+                'business_owner' => 'required',
+                'brand_name' => 'nullable',
+                'business_about' => 'nullable',
+                'total_carbon_emission' => 'nullable',
+                'total_trees_in_grove' => 'nullable',
+                'total_carbon_offset' => 'nullable',
+                'facebook_link' => 'nullable',
+                'instagram_link' => 'nullable',
+                'linkedin_link' => 'nullable',
+                'website_link' => 'nullable',
+                'employee_count' => 'integer',
+                'business_founding_date' => 'nullable|date',
+                'business_name_slug' => 'nullable',
+                'logo' => 'nullable',
+            ]);
+
+            $business = Directory::where('id', $id)->first();
+            $current_logo = $business->logo;
+            $name = $request->business_name;
+            $name_slug = Str::slug($name, '-');
+
+            if ($request->logo != null) {
+                $old_logo = 'uploads/logos/' . $current_logo;
+                if (file_exists($old_logo)) {
+                    @unlink($old_logo);
+                }
+                $current_logo = $request->logo;
+            }
+
+            Directory::where('id', $id)->update([
+                'business_name_slug' => $name_slug,
+                'business_name' =>  $request->business_name,
+                'business_owner' =>  $request->business_owner,
+                'brand_name' =>  $request->brand_name,
+                'business_about' =>  $request->business_about,
+                'location' =>  $request->location,
+                'facebook_link' =>  $request->facebook_link,
+                'instagram_link' =>  $request->instagram_link,
+                'linkedin_link' =>  $request->linkedin_link,
+                'website_link' =>  $request->website_link,
+                'employee_count' =>  $request->employee_count,
+                'business_founding_date' =>  $request->business_founding_date,
+                'logo' => $current_logo,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'exception', 'msg' => $e->getMessage()]);
+        }
+
+        activity()->log('Business: ' . $request->input('business_name') . '\'s record was updated by the owner.');
+        smilify('success', $request->input('business_name') . '\'s account updated', 'Yay!');
+        return redirect(route('portal.owner.index'));
     }
 
     /**
@@ -257,11 +289,8 @@ class DirectoriesController extends Controller
 
     public function owner_index()
     {
-        #$business = Directory::find(1);
-        #$business = DB::table('directories')->where('business_owner', auth()->user()->name)->get();
         $business = Directory::where('business_owner', auth()->user()->name)->get();
         $business = $business[0];
-        #print_r($business[0]->business_name);
 
         if (!$business) {
             smilify('error', 'You do not own a partnered business.');
@@ -276,11 +305,11 @@ class DirectoriesController extends Controller
 
     public function owner_edit($id)
     {
-        #if (is_null($id)) {
-        #    smilify('error', 'Business does not exist.');
-        #    return redirect()->back();
-        #}
-        $business = Directory::find($id); # Work on this query later.
+        if (is_null($id)) {
+            smilify('error', 'Business does not exist.');
+            return redirect()->back();
+        }
+        $business = Directory::find($id);
 
         if (!$business) {
             return redirect()->back();
@@ -296,9 +325,6 @@ class DirectoriesController extends Controller
     {
         if ($request->hasFile('logo')) {
             $image = $request->file('logo');
-            #$filename = $image->getClientOriginalName();
-            #$folder = uniqid() . '-' . now()->timestamp;
-            #$image->storeAs('public/logos/', $filename);
 
             $imageName = strtotime(now()) . rand(11111, 99999) . '.' . $image->getClientOriginalExtension();
 

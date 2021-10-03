@@ -5,18 +5,39 @@
 
 @section('css')
 <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
 @endsection
 
 @section('js')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
+
+
 <script>
-    function loadingButton() {
-        var create_button = document.getElementById('create_button');
-        create_button.innerHTML = '<i class=\'fa fa-spinner fa-spin\'></i> Please wait';
-    }
+    FilePond.registerPlugin(
+        FilePondPluginImagePreview,
+        FilePondPluginFileValidateType,
+        FilePondPluginFileValidateSize,
+    );
     const inputElement = document.querySelector('input[id="logo"]');
-    const pond = FilePond.create(inputElement);
+    const pond = FilePond.create(inputElement, {
+        labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span>`,
+        imagePreviewHeight: 200,
+        imageCropAspectRatio: '3:2',
+        imageResizeTargetWidth: 300,
+        imageResizeTargetHeight: 200,
+        stylePanelLayout: 'compact',
+        styleLoadIndicatorPosition: 'center bottom',
+        styleProgressIndicatorPosition: 'right bottom',
+        styleButtonRemoveItemPosition: 'left bottom',
+        styleButtonProcessItemPosition: 'right bottom',
+        acceptedFileTypes: ['image/png', 'image/jpeg'],
+        labelFileTypeNotAllowed: '.JPG or .PNG files only',
+        maxFileSize: '5MB',
+    });
     FilePond.setOptions({
         server: {
             url: '/portal/upload-logo',
@@ -83,7 +104,7 @@
                         <div class="form-group">
                             <label class="control-label col-sm2" for="business_founding_date">Employee Count</label>
                             <div class="col-sm-12">
-                                <input type="number" name="employee_count" placeholder=0 class="p-2">
+                                <input type="number" name="employee_count" value=0 class="p-2">
                             </div>
                         </div>
 
@@ -101,7 +122,7 @@
                             </div>
                         </div>
 
-                        <button class="btn btn-success" type="submit" id="create_button" onclick="loadingButton();">
+                        <button class="btn btn-success" type="submit" id="create_button">
                             <i class="fa fa-save"></i> ADD
                         </button>
                         <a href="{{ route('portal.admin.directory.index') }}" class="btn btn-warning">
@@ -118,28 +139,28 @@
                     <div class="form-group">
                         <label class="control-label col-sm2" for="facebook_link">Facebook Link</label>
                         <div class="col-sm-12">
-                            <input type="url" class="form-control" name="facebook_link" placeholder="https://www.facebook.com/icrewsystems/" />
+                            <input type="url" class="form-control" name="facebook_link" placeholder="https://facebook.com/icrewsystems/" />
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label col-sm2" for="instagram_link">Instagran Link</label>
                         <div class="col-sm-12">
-                            <input type="url" class="form-control" name="instagram_link" placeholder="https://www.instagram.com/icrewsystemsofficial/" />
+                            <input type="url" class="form-control" name="instagram_link" placeholder="https://instagram.com/icrewsystemsofficial/" />
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label col-sm2" for="linkedin_link">LinkedIn Link</label>
                         <div class="col-sm-12">
-                            <input type="url" class="form-control" name="linkedin_link" placeholder="https://www.linkedin.com/company/icrewsystems/" />
+                            <input type="url" class="form-control" name="linkedin_link" placeholder="https://linkedin.com/company/icrewsystems/" />
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label col-sm2" for="website_link">Website Link</label>
                         <div class="col-sm-12">
-                            <input type="url" class="form-control" name="website_link" placeholder="https://www.icrewsystems.com/en/" />
+                            <input type="url" class="form-control" name="website_link" placeholder="https://icrewsystems.com/en/" />
                         </div>
                     </div>
 
