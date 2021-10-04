@@ -60,7 +60,7 @@ Route::prefix('home')->as('home.')->group(function () {
     Route::get('/statistics', [FrontendController::class, 'index']);
 
     Route::get('/about', [FrontendController::class, 'aboutus'])->name('about');
-    Route::get('/contributors', [FrontendController::class, 'index'])->name('contributors');
+    Route::get('/contributors', [FrontendController::class, 'contributors'])->name('contributors');
     Route::get('/investors', [FrontendController::class, 'comingsoon'])->name('investors');
     Route::get('/partners', [FrontendController::class, 'partners'])->name('partners');
     Route::get('/announcements', [FrontendController::class, 'index']);

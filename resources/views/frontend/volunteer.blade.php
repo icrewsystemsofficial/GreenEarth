@@ -67,7 +67,7 @@
       <div class="col">
         <div class="row justify-content-start">
           <div class="col-md-2">
-            <div class="card-profile overflow-hidden move-on-hover w-90 h-90">
+            <div class="card card-profile shadow-lg overflow-hidden move-on-hover w-90 h-90">
               <a data-toggle="modal" data-target="#Modal">
                 <img src="{{ asset('img/seedling.png') }}" alt="image">
               </a>
@@ -92,48 +92,6 @@
                  </p>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-          <div class="col-md-2">
-            <div class="card-profile overflow-hidden move-on-hover w-90 h-90">
-              <img src="{{ asset('img/seedlings.png') }}" alt="image">
-            </div>
-          </div>
-          <div class="col-md-2">
-            <div class="card-profile overflow-hidden move-on-hover w-90 h-90">
-              <img src="{{ asset('img/plant.png') }}" alt="image">
-            </div>
-          </div>
-          <div class="col-md-2">
-            <div class="card-profile overflow-hidden move-on-hover w-90 h-90">
-              <img src="{{ asset('img/plants.png') }}" alt="image">
-            </div>
-          </div>
-          <div class="col-md-2">
-            <div class="card-profile overflow-hidden move-on-hover w-90 h-90">
-              <img src="{{ asset('img/tree.png') }}" alt="image">
-            </div>
-          </div>
-          <div class="col-md-2">
-            <div class="card-profile overflow-hidden move-on-hover w-90 h-90">
-              <img src="{{ asset('img/trees.png') }}" alt="image">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row align-items-center">
-      <div class="col">
-        <div class="row justify-content-start mt-4">
-          <div class="col-md-2">
-            <div class="card-profile overflow-hidden move-on-hover w-90 h-90">
-              <img src="{{ asset('img/tree.png') }}" alt="image">
-            </div>
-          </div>
-          <div class="col-md-2">
-            <div class="card-profile overflow-hidden move-on-hover w-90 h-90">
-              <img src="{{ asset('img/trees.png') }}" alt="image">
             </div>
           </div>
         </div>
