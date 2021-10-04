@@ -22,9 +22,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('v1')->group(function () {
 
     Route::get('badge/{business_id}',function () {
-//      Todo: return a badge image according to business id
+//      Todo: return a badge png according to business id
     });
+
+    Route::get('verify/{business_id}', function () {
+//        TODO: get the all the details with given business id and pass it to the page
+        return view('test');
+    })->name('test');
 });
-Route::get('test', function () {
-    return view('layouts.badge');
-})->name('test');
+

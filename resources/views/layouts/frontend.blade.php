@@ -413,18 +413,19 @@
 </script>
 
 <span data-api-id="12786">
-        <a href="#modal" id="geBtn" class="ge-btn" style="text-decoration: none;">
+        <a href="#modal" id="ge_btn" class="ge_btn" style="text-decoration: none;">
         <img src="http://greenearth.test/api/v1/badge/12786"/>
            Carbon neutral website
         </a>
-    <div id="geModal" class="modal">
+    <div id="ge_modal" class="modal">
       <!-- Modal content -->
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <iframe src="https://wip.icrewsystems.com/" class="geIframe" id="iframe"></iframe>
+      <div class="modal-content" id="ge_modal_content">
+        <span class="ge_modal_close">&times;</span>
+          <div class="ge_iframe" id="iframe_wrapper">
+              <div class="iframe_loader" id="ge_iframe_loader"></div>
+          </div>
       </div>
     </div>
-
  </span>
 
 <script src="{{ asset('js/badge.js') }}"></script>
