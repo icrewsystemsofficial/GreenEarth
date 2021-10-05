@@ -13,9 +13,8 @@
 @section('content')
     <div class="container-fluid py-4">
 
-        <h5 class="text-muted mb-3">
-            Edit FAQ
-        </h5>
+        <h3 class="h5 text-muted">Create a new FAQ</h3>
+        <br>
 
         <div class="row">
             <div class="col-md-6">
@@ -33,9 +32,10 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-sm2" for="name">Your Name</label>
+                                <label class="control-label col-sm2" for="name">Author</label>
                                     <div class="col-sm-12">
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="John Doe" value="{{$faq->created_by}}" required>
+                                        <input type="text" class="form-control" placeholder="{{ $faq->created_by }}" disabled>
+                                        <input type="hidden" class="form-control" id="name" name="name" placeholder="John Doe" value="{{$faq->created_by}}" required>
                                     </div>
                             </div>
 

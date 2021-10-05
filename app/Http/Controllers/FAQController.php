@@ -17,23 +17,26 @@ class FAQController extends Controller
      */
     public function index_home()
     {
-
         $faqs = FAQ::where('status', '1')->orderBy('updated_at')->get();
-        return view('pages.faq.faq_frontend',compact('faqs'));
+        return view('pages.faq.faq_frontend', compact('faqs'));
     }
 
     public function index_portal()
     {
 
         $faqs = FAQ::where('status', '1')->orderBy('updated_at')->get();
-        return view('pages.faq.index_portal',compact('faqs'));
+        return view('pages.faq.index_portal', compact('faqs'));
     }
 
+    /**
+     * index_portal_admin - Show the admin FAQ dashboard.
+     *
+     * @return void
+     */
     public function index_portal_admin()
     {
-
         $faqs = FAQ::where('status', '1')->orderBy('updated_at')->get();
-        return view('pages.faq.index_admin',compact('faqs'));
+        return view('pages.faq.index_admin', compact('faqs'));
     }
 
 
@@ -55,17 +58,16 @@ class FAQController extends Controller
      */
     public function store(Request $request)
     {
-        $faq= new Faq;
+        $faq = new Faq;
         $faq->title = $request->title;
         $faq->body = $request->body;
         $faq->created_by = $request->name;
-        if (!empty($request->status)){
+        if (!empty($request->status)) {
             $faq->status = 1;
-        }
-        else{
+        } else {
             $faq->status = 0;
         }
-        $faq -> save();
+        $faq->save();
         smilify('success', 'FAQ Created successfully');
 
         return redirect()->route('portal.admin.faq.index');
@@ -81,23 +83,23 @@ class FAQController extends Controller
     {
         $faq = FAQ::find($id);
         $slug = Str::slug($faq->title, '-');
-        return redirect()->route('portal.faq.detail',$slug);
+        return redirect()->route('portal.faq.detail', $slug);
     }
 
     public function detail($id)
     {
-        $title = ucwords(str_replace('-',' ',$id));
-        $faq = FAQ::where('title', 'like', '%'.$title.'%')->get();
+        $title = ucwords(str_replace('-', ' ', $id));
+        $faq = FAQ::where('title', 'like', '%' . $title . '%')->get();
         $faq = $faq[0];
-        return view('pages.faq.detail',compact('faq'));
+        return view('pages.faq.detail', compact('faq'));
     }
 
     public function update_disp()
     {
-        $faqs = FAQ::all() ;
+        $faqs = FAQ::all();
         $enabled_faqs = FAQ::where('status', '1')->get();
         $disabled_faqs = FAQ::where('status', '0')->get();
-        return view('pages.faq.updatelist',compact('faqs','enabled_faqs','disabled_faqs'));
+        return view('pages.faq.updatelist', compact('faqs', 'enabled_faqs', 'disabled_faqs'));
     }
 
     /**
@@ -106,10 +108,10 @@ class FAQController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request,$id)
+    public function edit(Request $request, $id)
     {
         $faq = FAQ::find($id);
-        return view('pages.faq.edit',compact('faq'));
+        return view('pages.faq.edit', compact('faq'));
     }
 
     /**
@@ -125,18 +127,15 @@ class FAQController extends Controller
         $faq = FAQ::find($request->id);
         $faq->title = $request->title;
         $faq->body = $request->body;
-        $faq->created_by = $request->name;
-        if (!empty($request->status)){
+        if (!empty($request->status)) {
             $faq->status = 1;
-        }
-        else{
+        } else {
             $faq->status = 0;
         }
-        $faq -> save();
+        $faq->save();
 
-
-        return redirect()->route('portal.admin.faq.update');
-
+        smilify('success', 'FAQ updated successfully');
+        return redirect(route('portal.admin.faq'));
     }
 
 
@@ -149,10 +148,10 @@ class FAQController extends Controller
      */
     public function delete_disp()
     {
-        $faqs = FAQ::all() ;
+        $faqs = FAQ::all();
         $enabled_faqs = FAQ::where('status', '1')->get();
         $disabled_faqs = FAQ::where('status', '0')->get();
-        return view('pages.faq.deletelist',compact('faqs','enabled_faqs','disabled_faqs'));
+        return view('pages.faq.deletelist', compact('faqs', 'enabled_faqs', 'disabled_faqs'));
     }
 
     public function destroy($id)

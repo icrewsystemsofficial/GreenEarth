@@ -85,6 +85,7 @@ Route::prefix('home')->as('home.')->group(function () {
     Route::get('/blog', [FrontendController::class, 'index']);
     Route::get('/coming-soon', [FrontendController::class, 'comingsoon'])->name('coming-soon');
     Route::get('/verify/{uuid}', [UserController::class, 'verify'])->name('users.verify');
+    Route::get('/contact', [FrontendController::class, 'comingsoon'])->name('contact');
 
     //FAQ -- Non-portal
     Route::prefix('faq')->as('faq.')->group(function () {
@@ -193,8 +194,6 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::get('/delete/{id}', [FAQController::class, 'destroy'])->name('destroy');
             Route::post('/store', [FAQController::class, 'store'])->name('store');
             Route::post('/update', [FAQController::class, 'update'])->name('updateval');
-
-
         });
 
     });

@@ -19,8 +19,7 @@ FAQs
 @section('content')
    <div class="container-fluid py-4">
    <h2 >Frequently asked Questions</h2><br>
-    @php ($i = 1)
-
+            @php $i = 1 @endphp
             <div class="accordion accordion-flush" id="accordionFlushExample">
                 @foreach ($faqs as $faq)<div class="accordion-item">
 
@@ -32,12 +31,8 @@ FAQs
                         <div id="flush-collapseOne_{{$i}}" class="accordion-collapse collapse border-bottom"  aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                             <div style="color:gray" class="accordion-body " S>{{$faq->body}}</div>
                             <a href="{{ route('portal.faq.show', $faq->id) }}" type="button" class="btn bg-gradient-secondary btn-sm position: relative start-2">View detail</a>
-
                         </div>
-
-
-
-                @php ($i+=1)
+                @php $i+=1 @endphp
                 @endforeach
         </div>
     </div>

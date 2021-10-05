@@ -13,26 +13,24 @@
 @section('content')
     <div class="container-fluid py-4">
 
-        <h5 class="text-muted mb-3">
-            Create FAQ
-        </h5>
+        <h3 class="h5 text-muted">Create a new FAQ</h3>
+        <br>
 
         <div class="row">
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
 
+                        <div class="alert alert-info text-white" role="alert">
+                            <i class="fa fa-lightbulb-o"></i> &nbsp;<strong>ProTip</strong>
+                            <p class="text-white text-sm">
+                                Answer FAQs in a polite manner. Make sure
+                                you address the question, and state the reason (if required)
+                            </p>
+                        </div>
+
                         <form action="{{ route('portal.admin.faq.store') }}" method="POST">
                             @csrf
-
-
-                            <div class="form-group">
-                                <label class="control-label col-sm2" for="name">Your Name</label>
-                                    <div class="col-sm-12">
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="John Doe" required>
-                                    </div>
-                            </div>
-
                             <div class="form-group">
                                 <label class="control-label col-sm2" for="title">Question</label>
                                     <div class="col-sm-12">
@@ -45,6 +43,14 @@
                                     <div class="col-sm-12">
                                         <textarea rows="4" cols="20" class="form-control" id="body" name="body" placeholder="Answer here..." required></textarea>
                                     </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm2" for="name">Author's name</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" placeholder="{{ auth()->user()->name }}" disabled>
+                                    <input type="hidden" name="name" value="{{ auth()->user()->name }}">
+                                </div>
                             </div>
 
                             <button class="btn btn-success" type="submit" id="create_button" >
