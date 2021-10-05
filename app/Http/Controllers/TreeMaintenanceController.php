@@ -50,20 +50,20 @@ class TreeMaintenanceController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([ 
-            'title' => 'required', 
-            'description' => 'required', 
-        ]); 
-    
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+        ]);
+
         TreeM::create($request->all());
-        
+
         $health = $request->health;
         $last_maintained = Carbon::now();
         $tree_id = $request->tree_id;
-            
+
         Tree::where('id', $tree_id)->update(['health'=> $health, 'last_maintained'=>$last_maintained]);
-        
-        return redirect(route('tree.index'));
+
+        return redirect(route('portal.admin.tree.index'));
 
         //TreeM::create([
           //  'id' => $request->id,
