@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class SendWelcomeEmail extends Mailable
+class SendWelcomeMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $data;
@@ -28,7 +28,6 @@ class SendWelcomeEmail extends Mailable
      */
     public function build()
     {
-        return $this->subject('['.config('app.name').'] The first step towards #sustainable internet')
-                ->markdown('emails.welcomeEmail', $this->data);
+        return $this->subject('['.config('app.name').'] [IMPORTANT] Your first step for a greener tomorrow')->markdown('emails.welcomeEmail', $this->data);
     }
 }

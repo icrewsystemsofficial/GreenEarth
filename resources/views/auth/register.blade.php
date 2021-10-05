@@ -13,8 +13,19 @@
                                     Register
                                 </h3>
                                 <p class="mb-0">
-                                    Create a FREE account at GreenEarth to access the portal
+                                    Create a FREE account at {{ config('app.name') }} to access the portal
                                 </p>
+                            </div>
+
+                            <div class="text-center">
+                                <a href="{{ route('login.google') }}" type="button" class="btn btn-info btn-icon w-100">
+                                    <span class="btn-inner--icon"><i class="fab fa-google"></i></span>
+                                    <span class="btn-inner--text">Register with Google</span>
+                                </a>
+                            </div>
+
+                            <div class="text-center mb-4">
+                                <hr>
                             </div>
                             <div class="card-body">
                                 <form method="POST" action="{{ route('register') }}">
