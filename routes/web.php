@@ -86,6 +86,8 @@ Route::prefix('home')->as('home.')->group(function () {
     Route::get('/partners', [FrontendController::class, 'index']);
     Route::get('/announcements', [FrontendController::class, 'index']);
     Route::get('/blog', [FrontendController::class, 'index']);
+    Route::get('/legal/privacy-policy', [FrontendController::class, 'privacy_policy'])->name('privacy-policy');
+    Route::get('/legal/terms-of-service', [FrontendController::class, 'terms_of_service'])->name('terms-of-service');
     Route::get('/coming-soon', [FrontendController::class, 'comingsoon'])->name('coming-soon');
     Route::get('/verify/{uuid}', [UserController::class, 'verify'])->name('users.verify');
     Route::get('/contact', [FrontendController::class, 'comingsoon'])->name('contact');
