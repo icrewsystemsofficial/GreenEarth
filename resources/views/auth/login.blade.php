@@ -11,11 +11,22 @@
                             <div class="card-header pb-0 text-left bg-transparent">
                                 <h3 class="font-weight-bolder text-success text-gradient">Login</h3>
                                 <p class="mb-0">
-                                    login to your GreenEarth account to access the portal
+                                    Login to your {{ config('app.name') }} account to access the dashboard.
                                 </p>
                             </div>
                             <div class="card-body">
-                            <form method="POST" action="{{ route('login') }}">
+                                <div class="text-center">
+                                    <a href="{{ route('login.google') }}" type="button" class="btn btn-info btn-icon w-100">
+                                        <span class="btn-inner--icon"><i class="fab fa-google"></i></span>
+                                        <span class="btn-inner--text">Login with Google</span>
+                                    </a>
+                                </div>
+
+                                <div class="text-center mb-4">
+                                    <hr>
+                                </div>
+
+                                <form method="POST" action="{{ route('login') }}">
                                     @csrf
                                     <label>Email</label>
                                     <div class="mb-3">
@@ -45,15 +56,6 @@
                                         <button type="submit" class="btn bg-gradient-success w-100 mt-4 mb-0">Login</button>
                                     </div>
                                 </form>
-                            </div>
-                            <div class="text-center mb-4">
-                                <strong>OR</strong>
-                            </div>
-                            <div class="text-center">
-                                <a href="{{ route('login.google') }}" type="button" class="btn btn-danger btn-icon w-85 ">
-                                    <span class="btn-inner--icon"><i class="fab fa-google"></i></span>
-                                    <span class="btn-inner--text">+ Sign in with google</span>
-                                </a>
                             </div>
                             <div class="card-footer text-center pt-0 px-lg-2 px-1">
                                 @if (Route::has('register'))
