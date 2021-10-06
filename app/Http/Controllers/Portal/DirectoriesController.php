@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Portal;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Directory;
 use App\Models\User;
+use App\Models\Directory;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 
 
@@ -273,7 +274,7 @@ class DirectoriesController extends Controller
         $current_logo = $business_to_delete->logo;
 
         if ($business_to_delete->logo != null) {
-            $old_logo = 'uploads/logos/' . $current_logo;
+            $old_logo = storage_path(). '/public/uploads/logos/' . $current_logo;
             if (file_exists($old_logo)) {
                 @unlink($old_logo);
             }
@@ -290,7 +291,7 @@ class DirectoriesController extends Controller
     public function owner_index()
     {
         $business = Directory::where('business_owner', auth()->user()->name)->get();
-        $business = $business[0];
+        // $business = $business[0];
 
         if (!$business) {
             smilify('error', 'You do not own a partnered business.');
@@ -328,11 +329,12 @@ class DirectoriesController extends Controller
 
             $imageName = strtotime(now()) . rand(11111, 99999) . '.' . $image->getClientOriginalExtension();
 
-            if (!is_dir(public_path() . '/uploads/logos/')) {
-                mkdir(public_path() . '/uploads/logos/', 0777, true);
+            if (!is_dir(storage_path('app/public/uploads/logos/'))) {
+                Storage::makeDirectory(storage_path('app/public/uploads/logos/'));
+                // mkdir(public_path() . '/uploads/logos/', 0777, true);
             }
 
-            $image->move(public_path() . '/uploads/logos/', $imageName);
+            $image->move(storage_path('/app/public/uploads/logos/'), $imageName);
 
             return $imageName;
         }

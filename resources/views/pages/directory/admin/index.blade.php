@@ -110,6 +110,8 @@ Carbon-neutral Businesses
         </div>
     </div>
 </div>
+
+
 <div class="container-fluid py-4">
     <div class="card">
         <div class="card-body">
@@ -118,36 +120,44 @@ Carbon-neutral Businesses
                     Add a Carbon-neutral Business
                 </a>
             </div>
-            <table id="table_id" class="table">
-                <thead>
-                    <tr>
-                        <th>NAME</th>
-                        <th>OWNER</th>
-                        <th>TREES</th>
-                        <th>CO<sub>2</sub> OFFSET</th>
-                        <th>CARBON-NEUTRAL</th>
-                        <th>ACTIONS</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($directory as $business)
-                    <tr>
-                        <td>{{$business->business_name}}</td>
-                        <td>{{$business->business_owner}}</td>
-                        <td>{{$business->total_trees_in_grove}}</td>
-                        <td>{{$business->total_carbon_offset}}</td>
-                        <td>{{$business->carbon_neutral_since->diffForHumans()}}</td>
-                        <td>
-                            <div>
-                                <a href="{{ route('portal.admin.directory.edit', $business->id) }}" class="btn btn-sm btn-info">
-                                    Manage
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table id="table_id" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>NAME</th>
+                            <th>TREES</th>
+                            <th>CO<sub>2</sub> OFFSET</th>
+                            <th>CARBON-NEUTRAL</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($directory as $business)
+                        <tr>
+                            <td>
+                                <span class="text-sm">
+                                    {{ Str::limit($business->business_name, 25, '...') }}
+                                </span>
+                                <br>
+                                <span class="text-sm">
+                                    {{ $business->business_owner }}
+                                </span>
+                            </td>
+                            <td>{{$business->total_trees_in_grove}}</td>
+                            <td>{{$business->total_carbon_offset}}</td>
+                            <td>{{$business->carbon_neutral_since->diffForHumans()}}</td>
+                            <td>
+                                <div>
+                                    <a href="{{ route('portal.admin.directory.edit', $business->id) }}" class="btn btn-sm btn-info">
+                                        Manage
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div class="card-footer">

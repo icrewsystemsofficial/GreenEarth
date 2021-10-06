@@ -20,7 +20,7 @@
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Trees</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    {{$business->total_trees_in_grove}}
+                                    {{ $business->total_trees_in_grove}}
                                     <span class="text-success text-sm font-weight-bolder">+55%</span>
                                 </h5>
                             </div>

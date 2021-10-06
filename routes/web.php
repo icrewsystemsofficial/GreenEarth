@@ -112,16 +112,15 @@ Route::prefix('home')->as('home.')->group(function () {
 Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () {
     /* DASHBOARD PAGES */
     Route::get('/', [HomeController::class, 'index'])->name('index');
-  
-    Route::post('/upload-logo', [DirectoriesController::class, 'upload_logo']);
     Route::prefix('my-business')->as('owner.')->group(function () {
         Route::get('/', [DirectoriesController::class, 'owner_index'])->name('index');
         Route::get('/edit/{id}', [DirectoriesController::class, 'owner_edit'])->name('edit');
         Route::put('/update/{id}', [DirectoriesController::class, 'owner_update'])->name('update');
-        Route::get('/my-profile', [ProfileController::class, 'index'])->name('myprofile');
-        Route::post('/my-profile/save/{id}', [ProfileController::class, 'save'])->name('myprofile.save');
-        Route::post('/my-profile/verify-email', [ProfileController::class, 'resend_email_verification'])->middleware(['throttle:6,1'])->name('myprofile.verify');
+    });
 
+    Route::get('/my-profile', [ProfileController::class, 'index'])->name('myprofile');
+    Route::post('/my-profile/save/{id}', [ProfileController::class, 'save'])->name('myprofile.save');
+    Route::post('/my-profile/verify-email', [ProfileController::class, 'resend_email_verification'])->middleware(['throttle:6,1'])->name('myprofile.verify');
     // Route::resource('users', ProfileController::class); //TODO deprecate this, it was mistakenly added by Aren.
 
     Route::get('/changelog', [ChangelogController::class, 'show_changelog'])->name('changelog');
