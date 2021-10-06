@@ -1,14 +1,129 @@
 @extends('layouts.frontend')
 
+@section('css')
+<link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
+
+  <style>
+      .swiper {
+        width: 100%;
+        height: 100%;
+        background: #000;
+        border-radius: 10px;
+      }
+
+      .swiper-slide {
+        font-size: 18px;
+        color: #fff;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 40px 60px;
+      }
+
+      .parallax-bg {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 130%;
+        height: 100%;
+        -webkit-background-size: cover;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .swiper-slide .title {
+        font-size: 41px;
+        font-weight: 300;
+      }
+
+      .swiper-slide .subtitle {
+        font-size: 21px;
+      }
+
+      .swiper-slide .text {
+        font-size: 14px;
+        max-width: 400px;
+        line-height: 1.3;
+      }
+  </style>
+@endsection
+
+@section('js')
+
+<!-- Swiper JS -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+<!-- Initialize Swiper -->
+<script>
+  var swiper = new Swiper(".mySwiper", {
+    // slidesPerView: 1,
+    // spaceBetween: 30,
+    // loop: true,
+    speed: 700,
+    parallax: true,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+  });
+</script>
+
+
+<script>
+  // Set the date we're counting down to
+  var countDownDate = new Date("Jan 1, 2050 00:00:00").getTime();
+
+  // Update the count down every 1 second
+  var x = setInterval(function() {
+
+    // Get today's date and time
+    var now = new Date().getTime();
+
+    // Find the distance between now and the count down date
+    var distance = countDownDate - now;
+
+    // Time calculations for days, hours, minutes and seconds
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    // Display the result in the element with id="demo"
+    document.getElementById("2050_counter").innerHTML = days + "d " + hours + "h "
+    + minutes + "m " + seconds + "s ";
+
+    // If the count down is finished, write some text
+    if (distance < 0) {
+      clearInterval(x);
+      document.getElementById("2050_counter").innerHTML = "EXPIRED";
+    }
+  }, 1000);
+</script>
+@endsection
+
 @section('content')
-<header class="bg-gradient-dark">
+<header class="bg-gradient-success">
   <div class="page-header min-vh-75">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-8 text-center mx-auto my-auto">
-          <p class="lead mb-4 text-white opacity-8"> With the <span class="text-success text-gradient font-weight-bold"> GreenEarth </span> 
+          <h1 class="h2 mt--3">
+            <span class="text-white">GreenEarth</span>
+          </h1>
+            <p class="mb-4 text-white opacity-8">
+                our mission, as mere strands in the web of life, is to use the web of computing to weave the earth into a greener place for posterity
+            </p>
+
+
+          {{-- With the <span class="text-success text-gradient font-weight-bold"> GreenEarth </span>
             initiative, our mission, as mere strands in the web of life, is to use the web of computing to weave the earth into a greener place for posterity. </p>
-          <a href="{{ route('register') }}" type="submit" class="btn bg-white text-dark"> Sign Up </a>
+          <a href="{{ route('register') }}" type="submit" class="btn bg-white text-dark"> Sign Up </a> --}}
         </div>
       </div>
     </div>
@@ -33,8 +148,8 @@
 <section class="py-7">
   <div class="container">
     <div class="row align-items-center">
-      <div class="col-lg-6">
-        <div class="row justify-content-start">
+      <div class="col-lg-12">
+        {{-- <div class="row justify-content-start">
           <div class="col-md-6">
             <div class="info">
               <div class="icon icon-shape text-center">
@@ -73,138 +188,223 @@
               <p> Trees prevent flooding, erosion, and landslides.  </p>
             </div>
           </div>
-        </div>
+        </div> --}}
+
+        <h3 class="h1">
+            <strong>The Internet</strong> is a <span class="text-muted fst-italic">
+                <u>silent contirbutor</u></span> in the <span class="text-gradient text-danger">climate crisis</span>.
+        </h3>
+
+        <p>
+            About 6% of the global CO<sub>2</sub> emissions come from
+            the Internet. As of 2021, the global CO<sub>2</sub> emission
+            is 31.5 Giga-Tonnes. <a href="http://www.indiaenvironmentportal.org.in/files/file/global%20energy%20review%202021.pdf" class="" download>Read Report <i class="fa fa-external-link"></i></a>
+
+            <span class="h4">
+                <br><br>
+                That's <span class="text-danger"><strong>{{ number_format(1890000000, '0', '.', ',')}} kgCO2</strong></span>, per year.
+            </span>
+        </p>
+
       </div>
-      <div class="col-lg-4 ms-auto mt-lg-0 mt-4">
-        <div class="card shadow-lg">
-          <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
-            <div class="d-block blur-shadow-image">
-              <img src="https://curlytales.com/wp-content/uploads/2019/06/shutterstock_604290230-min-1280x720.jpg" alt="img-blur-shadow" class="img-fluid shadow rounded-3">
+
+      {{-- <div class="row mt-4">
+        <div class="col-lg-6 col-12">
+          <div class="card card-profile overflow-hidden">
+            <div class="row">
+              <div class="col-lg-4 col-md-6 col-12 pe-lg-0">
+                  <div class="p-3 pe-md-0">
+                    <img class="w-100 border-radius-md" src="https://images.pexels.com/photos/1029757/pexels-photo-1029757.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="image">
+                  </div>
+              </div>
+              <div class="col-lg-8 col-md-6 col-12 ps-lg-0 my-auto">
+                <div class="card-body">
+                  <p class="mb-0"> The average website produces 1.76 grams of CO<sub>2</sub> per page view.</p>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="card-body">
-            <h5 class="mt-2 text-success font-weight-bold">
-              GreenEarth
-            </h5>
-            <p>
-              You’ve helped us make an incredible difference!
-            </p>
+        </div>
+        <div class="col-lg-6 col-12">
+          <div class="card card-profile mt-lg-0 mt-5 overflow-hidden">
+            <div class="row">
+              <div class="col-lg-4 col-md-6 col-12 pe-lg-0">
+                  <div class="p-3 pe-md-0">
+                    <img class="w-100 border-radius-md" src="https://images.pexels.com/photos/1714341/pexels-photo-1714341.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="image">
+                  </div>
+              </div>
+              <div class="col-lg-8 col-md-6 col-12 ps-lg-0 my-auto">
+                <div class="card-body">
+                  <p> Extending the time you use a single computer and monitors from four to six years could avoid the equivalent of 190kg of carbon emissions. </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      <div class="row mt-4">
+        <div class="col-lg-6 col-12">
+          <div class="card card-profile overflow-hidden z-index-2">
+            <div class="row">
+              <div class="col-lg-4 col-md-6 col-12 pe-lg-0">
+                  <div class="p-3 pe-md-0">
+                    <img class="w-100 border-radius-md" src="https://images.pexels.com/photos/67112/pexels-photo-67112.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="image">
+                  </div>
+              </div>
+              <div class="col-lg-8 col-md-6 col-12 ps-lg-0 my-auto">
+                <div class="card-body">
+                  <p> Every time we use a search engine, there is an output of CHG gases because every search engine requires multiple servers. </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-12">
+          <div class="card card-profile mt-lg-0 mt-5 overflow-hidden z-index-2">
+            <div class="row">
+              <div class="col-lg-4 col-md-6 col-12 pe-lg-0">
+                  <div class="p-3 pe-md-0">
+                    <img class="w-100 border-radius-md" src="https://images.pexels.com/photos/5605061/pexels-photo-5605061.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="image">
+                  </div>
+              </div>
+              <div class="col-lg-8 col-md-6 col-12 ps-lg-0 my-auto">
+                <div class="card-body">
+                  <p> An e-mail has an estimated carbon footprint of 4 grams of CO<sub>2</sub>, and a large attachment could have a footprint of 50 grams. </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> --}}
+
+
+      <div class="col-lg-12 ms-auto mt-lg-0">
+        <div class="card shadow-lg mt-4">
+            <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
+              <h3 class="h4 text-center mt-5 text-gradient text-success">
+                "So, do we all just stop using the internet?"
+              </h3>
+            </div>
+            <div class="card-body">
+
+                <p>
+                    While we know that it's not possible for us to ask
+                    people to just stop using the internet.
+                    But, we can offset the carbon that's produced by the internet when people use it.
+                    How? It's very simple & natural. PLANT TREES! {{ config('app.name') }} is a one stop
+                    solution, where you can calculate, offset and certify yourself as a carbon-neutral
+                    individual / business.
+
+                    <br><br>
+
+                    In a nutshell, that's exactly what {{ config('app.name') }} is about.
+                </p>
+
+                {{-- <h1 id="2050_counter" class="h1 text-muted text-center mt-2"></h1> --}}
+
+
+            </div>
+          </div>
+      </div>
+
+
+      <div class="col-md-8 mx-auto mt-4">
+        <div class="swiper mySwiper shadow-lg">
+          <div class="swiper-wrapper">
+
+            <div
+            style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff"
+            class="swiper mySwiper"
+          >
+            <div
+              class="parallax-bg"
+              style="
+                background-image: url('https://images.unsplash.com/photo-1586581277029-5769487f3881?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fGFsaXNoYW58ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80');
+              "
+              data-swiper-parallax="-23%"
+            ></div>
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <div class="title" data-swiper-parallax="-300">
+                  24T of O2 produced
+                </div>
+                <div class="subtitle" data-swiper-parallax="-200">Subtitle</div>
+                <div class="text" data-swiper-parallax="-100">
+                  <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+                    dictum mattis velit, sit amet faucibus felis iaculis nec. Nulla
+                    laoreet justo vitae porttitor porttitor. Suspendisse in sem justo.
+                    Integer laoreet magna nec elit suscipit, ac laoreet nibh euismod.
+                    Aliquam hendrerit lorem at elit facilisis rutrum. Ut at
+                    ullamcorper velit. Nulla ligula nisi, imperdiet ut lacinia nec,
+                    tincidunt ut libero. Aenean feugiat non eros quis feugiat.
+                  </p>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="title" data-swiper-parallax="-300">Slide 2</div>
+                <div class="subtitle" data-swiper-parallax="-200">Subtitle</div>
+                <div class="text" data-swiper-parallax="-100">
+                  <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+                    dictum mattis velit, sit amet faucibus felis iaculis nec. Nulla
+                    laoreet justo vitae porttitor porttitor. Suspendisse in sem justo.
+                    Integer laoreet magna nec elit suscipit, ac laoreet nibh euismod.
+                    Aliquam hendrerit lorem at elit facilisis rutrum. Ut at
+                    ullamcorper velit. Nulla ligula nisi, imperdiet ut lacinia nec,
+                    tincidunt ut libero. Aenean feugiat non eros quis feugiat.
+                  </p>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="title" data-swiper-parallax="-300">Slide 3</div>
+                <div class="subtitle" data-swiper-parallax="-200">Subtitle</div>
+                <div class="text" data-swiper-parallax="-100">
+                  <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+                    dictum mattis velit, sit amet faucibus felis iaculis nec. Nulla
+                    laoreet justo vitae porttitor porttitor. Suspendisse in sem justo.
+                    Integer laoreet magna nec elit suscipit, ac laoreet nibh euismod.
+                    Aliquam hendrerit lorem at elit facilisis rutrum. Ut at
+                    ullamcorper velit. Nulla ligula nisi, imperdiet ut lacinia nec,
+                    tincidunt ut libero. Aenean feugiat non eros quis feugiat.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+
+
+            {{-- <div class="swiper-slide">
+              <img src="https://www.inbar.int/wp-content/uploads/2017/01/bamboo-grove-750x552.jpg" />
+            </div>
+            <div class="swiper-slide">Slide 2</div>
+            <div class="swiper-slide">Slide 3</div>
+            <div class="swiper-slide">Slide 4</div>
+            <div class="swiper-slide">Slide 5</div>
+            <div class="swiper-slide">Slide 6</div>
+            <div class="swiper-slide">Slide 7</div>
+            <div class="swiper-slide">Slide 8</div>
+            <div class="swiper-slide">Slide 9</div> --}}
+          </div>
+          <div class="swiper-button-next text-white"></div>
+          <div class="swiper-button-prev text-white"></div>
+          <div class="swiper-pagination text-white"></div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
-<section class="pt-sm-8 pb-5 position-relative bg-gradient-dark">
-  <div class="position-absolute w-100 z-inde-1 top-0 mt-n3">
-    <svg width="100%" viewBox="0 -2 1920 157" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-      <title>wave-down</title>
-      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g fill="#FFFFFF" fill-rule="nonzero">
-          <g id="wave-down">
-            <path d="M0,60.8320331 C299.333333,115.127115 618.333333,111.165365 959,47.8320321 C1299.66667,-15.5013009 1620.66667,-15.2062179 1920,47.8320331 L1920,156.389409 L0,156.389409 L0,60.8320331 Z" id="Path-Copy-2" transform="translate(960.000000, 78.416017) rotate(180.000000) translate(-960.000000, -78.416017) "></path>
-          </g>
-        </g>
-      </g>
-    </svg>
-  </div>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8 text-start mb-5 mt-4">
-        <h3 class="text-white z-index-1 position-relative text-lg font-weight-bold"> DID YOU KNOW? </h3>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-6 col-12">
-        <div class="card card-profile overflow-hidden">
-          <div class="row">
-            <div class="col-lg-4 col-md-6 col-12 pe-lg-0">
-                <div class="p-3 pe-md-0">
-                  <img class="w-100 border-radius-md" src="https://images.pexels.com/photos/1029757/pexels-photo-1029757.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="image">
-                </div>
-            </div>
-            <div class="col-lg-8 col-md-6 col-12 ps-lg-0 my-auto">
-              <div class="card-body">
-                <p class="mb-0"> The average website produces 1.76 grams of CO<sub>2</sub> per page view.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6 col-12">
-        <div class="card card-profile mt-lg-0 mt-5 overflow-hidden">
-          <div class="row">
-            <div class="col-lg-4 col-md-6 col-12 pe-lg-0">
-                <div class="p-3 pe-md-0">
-                  <img class="w-100 border-radius-md" src="https://images.pexels.com/photos/1714341/pexels-photo-1714341.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="image">
-                </div>
-            </div>
-            <div class="col-lg-8 col-md-6 col-12 ps-lg-0 my-auto">
-              <div class="card-body">
-                <p> Extending the time you use a single computer and monitors from four to six years could avoid the equivalent of 190kg of carbon emissions. </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row mt-4">
-      <div class="col-lg-6 col-12">
-        <div class="card card-profile overflow-hidden z-index-2">
-          <div class="row">
-            <div class="col-lg-4 col-md-6 col-12 pe-lg-0">
-                <div class="p-3 pe-md-0">
-                  <img class="w-100 border-radius-md" src="https://images.pexels.com/photos/67112/pexels-photo-67112.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="image">
-                </div>
-            </div>
-            <div class="col-lg-8 col-md-6 col-12 ps-lg-0 my-auto">
-              <div class="card-body">
-                <p> Every time we use a search engine, there is an output of CHG gases because every search engine requires multiple servers. </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6 col-12">
-        <div class="card card-profile mt-lg-0 mt-5 overflow-hidden z-index-2">
-          <div class="row">
-            <div class="col-lg-4 col-md-6 col-12 pe-lg-0">
-                <div class="p-3 pe-md-0">
-                  <img class="w-100 border-radius-md" src="https://images.pexels.com/photos/5605061/pexels-photo-5605061.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="image">
-                </div>
-            </div>
-            <div class="col-lg-8 col-md-6 col-12 ps-lg-0 my-auto">
-              <div class="card-body">
-                <p> An e-mail has an estimated carbon footprint of 4 grams of CO<sub>2</sub>, and a large attachment could have a footprint of 50 grams. </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="position-absolute w-100 bottom-0 mn-n1">
-    <svg width="100%" viewBox="0 -1 1920 166" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-      <title>wave-up</title>
-      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g transform="translate(0.000000, 5.000000)" fill="#FFFFFF" fill-rule="nonzero">
-          <g id="wave-up" transform="translate(0.000000, -5.000000)">
-            <path d="M0,70 C298.666667,105.333333 618.666667,95 960,39 C1301.33333,-17 1621.33333,-11.3333333 1920,56 L1920,165 L0,165 L0,70 Z" fill="#f8f9fa"></path>
-          </g>
-        </g>
-      </g>
-    </svg>
-  </div>
-</section>
 
 <section class="my-5 pt-5">
   <div class="container">
     <div class="row">
       <div class="col-md-6 m-auto">
         <h4 class="text-dark font-weight-bold text-lg">
-          <span class="text-success text-gradient">GreenEarth</span>, 
-          an initiative by icrewsystems 
+          <span class="text-success text-gradient">GreenEarth</span>,
+          an initiative by icrewsystems
         </h4>
         <p class="mb-4">
           A global web development company with the vision to make the world a better and a greener place.

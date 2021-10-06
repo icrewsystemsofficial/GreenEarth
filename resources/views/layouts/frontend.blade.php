@@ -63,7 +63,7 @@
               <div class="collapse navbar-collapse pt-3 pb-2 py-lg-0 w-100" id="navigation">
                 <ul class="navbar-nav navbar-nav-hover w-100">
                     <li class="nav-item mx-2">
-                        <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a href="{{ route('home.about') }}" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center">
                           About
                         </a>
                     </li>
@@ -346,7 +346,7 @@
                 <br><br>
                 <span class="text-lg">
                     Made with <i class="fas fa-heart text-danger text-gradient"></i> for <span class="text-success font-weight-bolder">Mother Earth</span>,
-                    by her <span class="font-weight-bolder">children</span>
+                    by her <a class="font-weight-bolder" href="{{ route('home.contributors') }}"><u>children</u></a>
                 </span>
               </p>
             </div>

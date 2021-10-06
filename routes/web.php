@@ -56,25 +56,21 @@ Route::prefix('home')->as('home.')->group(function () {
     Route::get('/', [FrontendController::class, 'index'])->name('index');
     Route::get('/calculate', [FrontendController::class, 'calculate']);
     Route::get('/certificate/{uuid}', [FrontendController::class, 'index']);
+    Route::get('/about', [FrontendController::class, 'aboutus'])->name('about');
+    Route::get('/contributors', [FrontendController::class, 'contributors'])->name('contributors');
+    Route::get('/partners', [FrontendController::class, 'partners'])->name('partners');
+    Route::get('/glossary', [FrontendController::class, 'glossary'])->name('glossary');
+    Route::get('/volunteer/@{username}', [FrontendController::class, 'volunteer'])->name('volunteer');
 
+    // PENDING PAGES
     Route::get('/directory', [FrontendController::class, 'index']);
     Route::get('/track-my-tree/{uuid}', [FrontendController::class, 'index']);
     Route::get('/statistics', [FrontendController::class, 'index']);
-
-    Route::get('/about', [FrontendController::class, 'aboutus'])->name('about');
-    Route::get('/contributors', [FrontendController::class, 'contributors'])->name('contributors');
     Route::get('/investors', [FrontendController::class, 'comingsoon'])->name('investors');
-    Route::get('/partners', [FrontendController::class, 'partners'])->name('partners');
     Route::get('/announcements', [FrontendController::class, 'index']);
     Route::get('/blog', [FrontendController::class, 'index']);
-
     Route::get('/coming-soon', [FrontendController::class, 'comingsoon'])->name('coming-soon');
-
-
     Route::get('/verify/{uuid}', [UserController::class, 'verify'])->name('users.verify');
-
-    Route::get('/glossary', [FrontendController::class, 'glossary'])->name('glossary');
-    Route::get('/volunteer/@{username}', [FrontendController::class, 'volunteer'])->name('volunteer');
 });
 
 
@@ -129,7 +125,7 @@ Route::prefix('portal')->as('portal.')->group(function () {
             Route::get('/edit/{id}', [AnnouncementController::class, 'edit'])->name('edit');
             Route::put('/edit/{id}', [AnnouncementController::class, 'update'])->name('update');
         });
-        
+
     });
 
 });
