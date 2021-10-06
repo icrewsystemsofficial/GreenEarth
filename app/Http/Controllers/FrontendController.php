@@ -139,4 +139,79 @@ class FrontendController extends Controller
     public function comingsoon() {
         return view('frontend.comingsoon');
     }
+
+    public function aboutus(){
+        return view('frontend.about');
+    }
+
+    public function partners(){
+        return view('frontend.partners');
+    }
+
+    public function investors(){
+        return view('frontend.comingsoon');
+    }
+
+    public function contributors(){
+        $github_api_url = 'https://api.github.com/repos/icrewsystemsofficial/GreenEarth';
+
+        // STARS
+
+        //Check if cache exists...
+        $greenearth_stars = cache('greenearth_stars');
+        //If cache does not exist, fetch from API.
+        if($greenearth_stars == null) {
+            $stars = Http::get($github_api_url.'/stargazers')->json();
+            $greenearth_stars = count($stars);
+            cache(['greenearth_stars' => $greenearth_stars], now()->addHours(2));
+            //Save the data as cache for the next 2 hours.
+        }
+
+        // COMMITS
+        $first_commit_hash_for_the_repo = '431d5d8be1603a9f361f4d42d694826669612dc8'; //This has to be hard-coded.
+
+        //Check if cache exists...
+        $latest_commit_hash = cache('latest_commit_hash');
+
+        //If cache does not exist, fetch from API.
+        if($latest_commit_hash == null) {
+            $latest_commit = Http::get($github_api_url.'/git/refs/heads/master')->json();
+            $latest_commit_hash = $latest_commit['object']['sha'];
+            cache(['latest_commit_hash' => $latest_commit_hash], now()->addHour(1));
+            //Save the data as cache for the next 2 hours.
+        }
+
+        $total_commits = cache('total_commits');
+        //If cache does not exist, fetch from API.
+        if($total_commits == null) {
+            $total_commits = Http::get($github_api_url.'/compare/'.$first_commit_hash_for_the_repo.'...'.$latest_commit_hash)->json();
+            $total_commits = $total_commits['total_commits'] + 1;
+            cache(['total_commits' => $total_commits], now()->addHour(1));
+            //Save the data as cache for the next 2 hours.
+        }
+
+        $commits = cache('commits');
+        if($commits == null) {
+            $commits = Http::get($github_api_url.'/compare/'.$first_commit_hash_for_the_repo.'...'.$latest_commit_hash)->json();
+            cache(['commits' => $commits], now()->addHour(1));
+        }
+
+        // PULL REQUESTS
+
+        return view('frontend.contributors', [
+            'stars' => $greenearth_stars,
+            'commits' => $total_commits,
+            'commits_all' => array_reverse($commits['commits']),
+        ]);
+        
+    }
+
+    public function glossary(){
+        return view('frontend.glossary');
+    }
+
+    public function volunteer($username){
+        return view('frontend.volunteer');
+    }
+
 }

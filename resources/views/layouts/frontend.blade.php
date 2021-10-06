@@ -268,22 +268,22 @@
               <h6 class="text-gradient text-success text-sm mb-2">Company</h6>
               <ul class="flex-column ms-n3 nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('portal.index') }}" target="_blank">
+                    <a class="nav-link" href="{{ route('home.about') }}">
                         About
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('portal.index') }}" target="_blank">
+                    <a class="nav-link" href="{{ route('home.partners') }}">
                       Partners
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('portal.index') }}" target="_blank">
+                    <a class="nav-link" href="{{ route('home.contributors') }}">
                       Contributors
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('portal.index') }}" target="_blank">
+                    <a class="nav-link" href="{{ route('home.investors') }}">
                       Investors
                     </a>
                 </li>
@@ -401,6 +401,7 @@
         };
       }
     </script>
+    @yield('js')
   </body>
 
 </html>

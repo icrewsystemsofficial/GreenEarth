@@ -61,10 +61,10 @@ Route::prefix('home')->as('home.')->group(function () {
     Route::get('/track-my-tree/{uuid}', [FrontendController::class, 'index']);
     Route::get('/statistics', [FrontendController::class, 'index']);
 
-    Route::get('/about', [FrontendController::class, 'index']);
-    Route::get('/contributors', [FrontendController::class, 'index']);
-    Route::get('/investors', [FrontendController::class, 'index']);
-    Route::get('/partners', [FrontendController::class, 'index']);
+    Route::get('/about', [FrontendController::class, 'aboutus'])->name('about');
+    Route::get('/contributors', [FrontendController::class, 'contributors'])->name('contributors');
+    Route::get('/investors', [FrontendController::class, 'comingsoon'])->name('investors');
+    Route::get('/partners', [FrontendController::class, 'partners'])->name('partners');
     Route::get('/announcements', [FrontendController::class, 'index']);
     Route::get('/blog', [FrontendController::class, 'index']);
 
@@ -72,6 +72,9 @@ Route::prefix('home')->as('home.')->group(function () {
 
 
     Route::get('/verify/{uuid}', [UserController::class, 'verify'])->name('users.verify');
+
+    Route::get('/glossary', [FrontendController::class, 'glossary'])->name('glossary');
+    Route::get('/volunteer/@{username}', [FrontendController::class, 'volunteer'])->name('volunteer');
 });
 
 
