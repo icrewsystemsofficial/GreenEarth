@@ -61,6 +61,7 @@
                   <span class="navbar-toggler-bar bar2"></span>
                   <span class="navbar-toggler-bar bar3"></span>
                 </span>
+<<<<<<< HEAD
                     </button>
                     <div class="collapse navbar-collapse pt-3 pb-2 py-lg-0 w-100" id="navigation">
                         <ul class="navbar-nav navbar-nav-hover w-100">
@@ -69,6 +70,16 @@
                                     About
                                 </a>
                             </li>
+=======
+              </button>
+              <div class="collapse navbar-collapse pt-3 pb-2 py-lg-0 w-100" id="navigation">
+                <ul class="navbar-nav navbar-nav-hover w-100">
+                    <li class="nav-item mx-2">
+                        <a href="{{ route('home.about') }}" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center">
+                          About
+                        </a>
+                    </li>
+>>>>>>> 0c3a880ef987b5f1b5fe9b093911fb2d5b4bb644
 
                             <li class="nav-item mx-2">
                                 <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages" data-bs-toggle="dropdown" aria-expanded="false">
@@ -230,6 +241,7 @@
     <hr class="horizontal dark mb-5">
     <div class="container">
         <div class=" row">
+<<<<<<< HEAD
             <div class="col-md-3 mb-4 ms-auto">
                 <div>
                     <h1 class="text-gradient text-success font-weight-bolder display-6">
@@ -296,6 +308,68 @@
                         </li>
                     </ul>
                 </div>
+=======
+          <div class="col-md-3 mb-4 ms-auto">
+            <div>
+              <h1 class="text-gradient text-success font-weight-bolder display-6">
+                  {{ config('app.name') }}
+              </h1>
+            </div>
+            <div>
+              <h6 class="mt-3 mb-2 opacity-8">
+                  Not able to contribute? We understand.
+                  Atleast help us spread the word.
+              </h6>
+              <ul class="d-flex flex-row ms-n3 nav">
+                <li class="nav-item">
+                  <a class="nav-link pe-1" href="https://www.facebook.com/icrewsystems/" target="_blank">
+                    <i class="fab fa-facebook text-lg opacity-8"></i>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pe-1" href="https://github.com/icrewsystemsofficial" target="_blank">
+                    <i class="fab fa-github text-lg opacity-8"></i>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pe-1" href="https://www.instagram.com/icrewsystemsofficial/" target="_blank">
+                    <i class="fab fa-instagram text-lg opacity-8"></i>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pe-1" href="https://www.linkedin.com/company/icrewsystems/" target="_blank">
+                    <i class="fab fa-linkedin text-lg opacity-8"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-2 col-sm-6 col-6 mb-4">
+            <div>
+              <h6 class="text-gradient text-success text-sm mb-2">Company</h6>
+              <ul class="flex-column ms-n3 nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('home.about') }}">
+                        About
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('home.partners') }}">
+                      Partners
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('home.contributors') }}">
+                      Contributors
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('home.investors') }}">
+                      Investors
+                    </a>
+                </li>
+              </ul>
+>>>>>>> 0c3a880ef987b5f1b5fe9b093911fb2d5b4bb644
             </div>
             <div class="col-md-2 col-sm-6 col-6 mb-4">
                 <div>
@@ -319,6 +393,7 @@
                     </ul>
                 </div>
             </div>
+<<<<<<< HEAD
             <div class="col-md-2 col-sm-6 col-6 mb-4 me-auto">
                 <div>
                     <h6 class="text-gradient text-success text-sm">Legal</h6>
@@ -340,6 +415,29 @@
                         </li>
                     </ul>
                 </div>
+=======
+          </div>
+          <div class="col-md-2 col-sm-6 col-6 mb-4 me-auto">
+            <div>
+              <h6 class="text-gradient text-success text-sm">Legal</h6>
+              <ul class="flex-column ms-n3 nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ route ('home.terms-of-service') }}" target="_blank">
+                    Terms Of Service
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ route ('home.privacy-policy') }}" target="_blank">
+                    Privacy Policy
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://www.creative-tim.com/license" target="_blank">
+                    Licenses (EULA)
+                  </a>
+                </li>
+              </ul>
+>>>>>>> 0c3a880ef987b5f1b5fe9b093911fb2d5b4bb644
             </div>
 
             <div class="col-md-2 col-sm-6 col-6 mb-4 me-auto">
@@ -354,7 +452,7 @@
                     <br><br>
                     <span class="text-lg">
                     Made with <i class="fas fa-heart text-danger text-gradient"></i> for <span class="text-success font-weight-bolder">Mother Earth</span>,
-                    by her <span class="font-weight-bolder">children</span>
+                    by her <a class="font-weight-bolder" href="{{ route('home.contributors') }}"><u>children</u></a>
                 </span>
                 </p>
             </div>
@@ -408,7 +506,6 @@
         } else {
             console.error(countUp2.error);
         }
-        ;
     }
 </script>
 
@@ -429,6 +526,9 @@
  </span>
 
 <script src="{{ asset('js/badge.js') }}"></script>
-</body>
+
+
+    @yield('js')
+  </body>
 
 </html>

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+ @extends('layouts.app')
 
 @section('pagetitle')
 @endsection
@@ -41,11 +41,11 @@
             language: {
                 paginate: {
                     next: '&#8594;', // or '→'
-                    previous: '&#8592;' // or '←' 
-                    
+                    previous: '&#8592;' // or '←'
+
                 }
             },
-             
+
         });
 
         var info = table.page.info();
@@ -57,7 +57,7 @@
             table.search($(this).val()).draw();
          });
 
-        
+
     });
 </script>
 @endsection
@@ -72,17 +72,17 @@
                         <div class="text-lg font-weight-bolder"> Manage all trees in your database </div>
                         <div class="text-secondary text-sm " id="subheading"> </div>
                     </div>
-                   
-                    
+
+
                     <div class="card-body mt-0 mb-4">
-                       
+
                         <div class="btn-group flex pb-2" >
-                            <a href="{{ route('tree.create') }}" class="btn bg-gradient-dark text-sm ps-3 pe-3 pt-2 pb-2" > Add Tree </a>
+                            <a href="{{ route('portal.admin.tree.create') }}" class="btn bg-gradient-dark text-sm ps-3 pe-3 pt-2 pb-2" > Add Tree </a>
                         </div>
                         <div class="text-sm" style="float:right; text-align: right">
                             Search : <input type="text" id="filterbox" style="border: 1px solid #808080">
                         </div>
-                       
+
                         <div class="table-responsive">
                             <table class=" align-items-center mb-1 mt-0 hover row-border" style="width:100%;" id="all-announcements">
                                 <thead>
@@ -105,17 +105,17 @@
                                     <td class="text-sm text-center"> {{ $tree->last_maintained }} </td>
                                     <td class="text-sm text-center"> {{ $tree->health }} </td>
 
-                                    <td class="text-sm text-center pb-0 pt-3"> 
-                                       <a href='/tree/{{ $tree->id }}/edit' class="btn btn-primary text-sm">
+                                    <td class="text-sm text-center pb-0 pt-3">
+                                       <a href="{{route('portal.admin.tree.edit',$tree->id)}}" class="btn btn-primary text-sm">
                                             Edit
                                        </a>
-                                       <a href='/tree/{{ $tree->id }}/add-maintenance' class="btn btn-secondary text-sm">
+                                       <a href="{{route('portal.admin.tree.add_maintenance', $tree->id )}}" class="btn btn-secondary text-sm">
                                             Add Maintenance
                                        </a>
-                                       <a href='/tree/{{ $tree->id }}/history' class="btn btn-info text-sm">
+                                       <a href="{{route('portal.admin.tree.history_maintenance', $tree->id )}}" class="btn btn-info text-sm">
                                             History
                                        </a>
-                                       <a onclick="return confirm('Are you sure?')" href='/tree/{{ $tree->id }}/delete' class="btn btn-danger text-sm">
+                                       <a onclick="return confirm('Are you sure?')" href="{{route('portal.admin.tree.delete', $tree->id )}}" class="btn btn-danger text-sm">
                                             Delete
                                        </a>
                                     </td>
@@ -131,7 +131,7 @@
         </div>
     </div>
 
-    
+
 
 @endsection
 

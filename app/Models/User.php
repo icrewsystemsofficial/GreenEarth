@@ -13,7 +13,7 @@ use Spatie\Activitylog\LogOptions;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles ;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -46,4 +46,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function profile_picture() {
+        // Add "if" logic here".
+        return "https://ui-avatars.com/api/?background=4dc242&color=ffffff&name=" . auth()->user()->name[0];
+    }
 }
