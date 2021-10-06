@@ -102,10 +102,10 @@ class TreeController extends Controller
                 $tree->save();
             }
 
-            return redirect()->route('tree.index');
+            return redirect()->route('portal.admin.tree.index');
         }
 
-        return redirect()->route('tree.index');
+        return redirect()->route('portal.admin.tree.index');
 
 	}
 
@@ -121,7 +121,7 @@ class TreeController extends Controller
         TreeImages::where('tree_id', $id)->delete();
         Tree::where('id', $id)->delete();
 
-        return redirect(route('tree.index'));
+        return redirect(route('portal.admin.tree.index'));
     }
 
 }

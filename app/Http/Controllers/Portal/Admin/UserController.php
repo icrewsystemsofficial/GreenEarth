@@ -8,8 +8,9 @@ use App\Models\temp_user;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Mail\SendWelcomeEmail;
+use App\Mail\SendWelcomeMail;
 
+use App\Mail\SendWelcomeEmail;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -174,6 +175,11 @@ class UserController extends Controller
     {
 
         //TODO Check if email already exists in DB, then proceed.
+        if(User::where('email', request('email'))->first()) {
+            // throw new \Exception('A user with that e-mail ('.request('email').') already exists in the database.');
+            smilify('error', 'A user with that email already exists in our database', 'Whooops');
+            return back();
+        }
 
 
         $user = new User;
@@ -196,7 +202,7 @@ class UserController extends Controller
                 'url' => route('home.users.verify', $user->password),
             );
 
-            Mail::to(request('email'))->send(new SendWelcomeEmail($data));
+            Mail::to(request('email'))->send(new SendWelcomeMail($data));
         }
 
         activity()->log('User: ' .$request->input('name') . '\'s temporary account was created');

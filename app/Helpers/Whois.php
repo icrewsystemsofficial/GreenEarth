@@ -414,7 +414,7 @@ class Whois
                         return fread($fh, $length);
                     }
                 }
-                                
+
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, "telnet://$serverIP:43");
                 curl_setopt($ch, CURLOPT_PORT, 43);
@@ -524,7 +524,7 @@ class Whois
         preg_match('~Country.*<~', $data, $country);
         preg_match('~IP:.*<~', $data, $ip);
 
-        if(!isset($country[0])) {
+        if(empty($country)) {
             $country = 'Not Available';
         } else {
             $country = explode(':', strip_tags($country[0]));
