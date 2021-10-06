@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature>
+  <change type="feature">Verify email from my-profile page</change>
+  <change type="feature">Shows if profile is unverified</change>
+  <change type="feature">Added changelog module to track changes</change>
+</feature>

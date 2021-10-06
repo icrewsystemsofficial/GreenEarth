@@ -38,7 +38,7 @@
     });
     FilePond.setOptions({
         server: {
-            url: '/portal/upload-logo',
+            url: "{{ route('api.v1.upload_business_logo') }}",
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
             }
@@ -58,6 +58,10 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
+
+                    <div class="text-center">
+                        <img src="{{ $business->business_logo() }}" class="mx-auto d-block img-fluid" alt="{{ $business->brandname }}_logo" srcset="" style="width: 150px; height: auto;">
+                    </div>
 
                     <form action="{{ route('portal.admin.directory.update', $business->id) }}" method="POST">
 
@@ -111,14 +115,35 @@
                         <div class="form-group">
                             <label class="control-label col-sm2" for="business_founding_date">Business Founding Date</label>
                             <div class="col-sm-12">
-                                <input type="date" class="form-control" name="business_founding_date" />
+                                <input type="date" class="form-control" name="business_founding_date" value="@php if($business->business_founding_date != null) echo $business->business_founding_date->format('Y/m/d'); @endphp"/>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label>Business Logo</label>
                             <div>
-                                <input type="file" id="logo" name="logo" />
+                                <div id="logo_block" style="display: none;">
+                                    <input type="file" id="logo" name="logo"/>
+                                </div>
+                                <a href="javascript::void(0);" id="logo_updater_button" class="btn btn-sm btn-info" onclick="showLogoUpdater();">
+                                    Update logo
+                                </a>
+
+                                <script>
+                                    function showLogoUpdater() {
+                                        var uploader = document.getElementById('logo_block');
+                                        var button = document.getElementById('logo_updater_button');
+
+                                        if(uploader.style.display === 'none') {
+                                            button.style.display = 'none';
+                                            uploader.style.display = 'block';
+                                        } else {
+                                            button.style.display = 'block';
+                                            uploader.style.display = 'none';
+                                        }
+
+                                    }
+                                </script>
                             </div>
                         </div>
 

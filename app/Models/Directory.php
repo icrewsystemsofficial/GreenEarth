@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Directory extends Model
 {
@@ -46,5 +47,25 @@ class Directory extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function business_logo() {
+        // if($business_id == null) {
+        //     throw new \Exception('Business ID must be provided to fetch logo');
+        // }
+
+        $business = self::find($this->id);
+        if(!is_null($business->logo)) {
+
+            if(Storage::exists('public/uploads/logos/'.$business->logo)) {
+                $image_link = asset(Storage::url('public/uploads/logos/'.$business->logo));
+            } else {
+                $image_link = asset('img/logo_placeholder.png');
+            }
+        } else {
+            $image_link = asset('img/logo_placeholder.png');
+        }
+
+        return $image_link;
     }
 }
