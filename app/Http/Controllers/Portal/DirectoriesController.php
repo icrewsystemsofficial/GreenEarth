@@ -89,14 +89,19 @@ class DirectoriesController extends Controller
                 'employee_count' =>  $request->employee_count,
                 'business_founding_date' =>  $request->business_founding_date,
                 'logo' => $request->logo,
+                'organization_name' => $request->business_name . ' ' . $request->brand_name,
             ]);
         } catch (\Exception $e) {
             return response()->json(['status' => 'exception', 'msg' => $e->getMessage()]);
         }
-
         activity()->log('Business: ' . $request->input('business_name') . '\'s record was created.');
         smilify('success', $request->input('business_name') . '\'s account created', 'Yay!');
-        return redirect(route('portal.admin.directory.index'));
+        if($request->has('users_page')){
+            return back();
+        }
+        else{
+            return redirect(route('portal.admin.directory.index'));
+        }
     }
 
     /**

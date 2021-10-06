@@ -49,7 +49,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Total users</p>
                     <h5 class="font-weight-bolder mb-0">
-                      {{ $usernum }}
+                      {{-- {{ $usernum }} --}}
                     </h5>
                   </div>
                 </div>
@@ -66,7 +66,7 @@
                     <div class="numbers">
                       <p class="text-sm mb-0 text-capitalize font-weight-bold">Administrators</p>
                       <h5 class="font-weight-bolder mb-0">
-                        {{ $totaladminnum }}
+                        {{-- {{ $totaladminnum }} --}}
                       </h5>
                     </div>
                   </div>
@@ -83,7 +83,7 @@
                     <div class="numbers">
                       <p class="text-sm mb-0 text-capitalize font-weight-bold">Volunteers</p>
                       <h5 class="font-weight-bolder mb-0">
-                        {{ $volunteernum }}
+                        {{-- {{ $volunteernum }} --}}
                       </h5>
                     </div>
                   </div>

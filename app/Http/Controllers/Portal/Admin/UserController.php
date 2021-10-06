@@ -13,6 +13,7 @@ use App\Mail\SendWelcomeMail;
 use App\Mail\SendWelcomeEmail;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use App\Models\Directory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,13 +28,13 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        $adminnum = User::role('admin')->where('temporary', '0')->count();
-        $superadminnum = User::role('superadmin')->where('temporary', '0')->count();
-        $totaladminnum = $adminnum + $superadminnum;
-        $usernum = User::role('user')->where('temporary', '0')->count();
-        $volunteernum = User::role('volunteer')->where('temporary', '0')->count();
+        // $adminnum = User::role('admin')->where('temporary', '0')->count();
+        // $superadminnum = User::role('superadmin')->where('temporary', '0')->count();
+        // $totaladminnum = $adminnum + $superadminnum;
+        // $usernum = User::role('user')->where('temporary', '0')->count();
+        // $volunteernum = User::role('volunteer')->where('temporary', '0')->count();
         $pending = User::where('temporary', '1')->count();
-        return view('pages.user.index', compact('users', 'totaladminnum', 'volunteernum', 'usernum', 'pending'));
+        return view('pages.user.index', compact('users',  'pending'));
     }
 
     /**
@@ -45,7 +46,7 @@ class UserController extends Controller
 
      public function create() {
          return view('pages.user.create', [
-             'roles' => Role::all(),
+             'roles' => Role::all(), 'organisations' => Directory::all(), 'count_org' => count(Directory::all())
          ]);
      }
 
@@ -181,7 +182,6 @@ class UserController extends Controller
             return back();
         }
 
-
         $user = new User;
         $user->name = request('name');
         $user->email = request('email');
@@ -193,8 +193,8 @@ class UserController extends Controller
         $user->save();
 
         $user->roles()->detach();
-        $newrole = Role::findByName($request->input('role'));
-        $user->assignRole($newrole->name);
+        // $newrole = Role::findByName($request->input('role'));
+        // $user->assignRole($newrole->name);
 
         if(request('send_welcome_email') == null) {
             $data = array(
