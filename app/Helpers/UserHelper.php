@@ -11,6 +11,8 @@
 
 namespace App\Helpers;
 
+use Spatie\Permission\Models\Role;
+
 
 class UserHelper {
     // public static function userTypes() : object {
@@ -23,4 +25,9 @@ class UserHelper {
 
     //     return (object) $userTypes;
     // }
+
+    public static function roles() : object {
+        $all_roles_in_the_database = Role::all()->pluck('name');
+        return (object) $all_roles_in_the_database;
+    }
 }

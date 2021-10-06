@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Announcement;
 use App\Http\Controllers\Controller;
+use App\Helpers\UserHelper;
 use DB;
 use DataTables;
 
@@ -20,13 +21,15 @@ class AnnouncementController extends Controller
 
     public function create()
     {
-        return view('pages.announcement.create');
+        $roles = UserHelper::roles();
+        return view('pages.announcement.create', compact('roles'));
     }
 
     public function edit($id)
     {
+        $roles = UserHelper::roles();
         $announcements = Announcement::where('id', $id)->first();
-        return view('pages.announcement.edit', compact('announcements'));
+        return view('pages.announcement.edit', compact('announcements', 'roles'));
     }
 
     public function update(Request $request, $id)
@@ -57,7 +60,6 @@ class AnnouncementController extends Controller
             $announcement->author = $user->name;
             $announcement->save();
     
-       // Announcement::create($request->all());
         return redirect(route('portal.admin.announcements.index'));
     }
 
