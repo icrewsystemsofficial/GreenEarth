@@ -18,6 +18,7 @@ structure and standards.
 @repo https://github.com/icrewsystmsofficial/GreenEarth W
 */
 
+use App\Helpers\CO2Helper;
 use App\Models\Certificate;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Auth;
@@ -55,6 +56,7 @@ Route::get('/', function () {
     return redirect(route('home.index'));
 });
 
+
 Auth::routes();
 
 
@@ -75,19 +77,22 @@ Route::prefix('home')->as('home.')->group(function () {
     Route::get('/', [FrontendController::class, 'index'])->name('index');
     Route::get('/calculate', [FrontendController::class, 'calculate'])->name('calculate');
     Route::get('/certificate/{uuid}', [FrontendController::class, 'index']);
+    Route::get('/about', [FrontendController::class, 'aboutus'])->name('about');
+    Route::get('/contributors', [FrontendController::class, 'contributors'])->name('contributors');
+    Route::get('/partners', [FrontendController::class, 'partners'])->name('partners');
+    Route::get('/glossary', [FrontendController::class, 'glossary'])->name('glossary');
+    Route::get('/volunteer/@{username}', [FrontendController::class, 'volunteer'])->name('volunteer');
 
+    // PENDING PAGES
     Route::get('/directory', [DirectoriesController::class, 'home_index'])->name('directory.index');
     Route::get('/directory/{brand_name_slug}', [DirectoriesController::class, 'home_show'])->name('directory.show');
-
     Route::get('/track-my-tree/{uuid}', [FrontendController::class, 'index']);
     Route::get('/statistics', [FrontendController::class, 'index']);
-
-    Route::get('/about', [FrontendController::class, 'index']);
-    Route::get('/contributors', [FrontendController::class, 'index']);
-    Route::get('/investors', [FrontendController::class, 'index']);
-    Route::get('/partners', [FrontendController::class, 'index']);
+    Route::get('/investors', [FrontendController::class, 'comingsoon'])->name('investors');
     Route::get('/announcements', [FrontendController::class, 'index']);
     Route::get('/blog', [FrontendController::class, 'index']);
+    Route::get('/coming-soon', [FrontendController::class, 'comingsoon'])->name('coming-soon');
+    Route::get('/verify/{uuid}', [UserController::class, 'verify'])->name('users.verify');
     Route::get('/legal/privacy-policy', [FrontendController::class, 'privacy_policy'])->name('privacy-policy');
     Route::get('/legal/terms-of-service', [FrontendController::class, 'terms_of_service'])->name('terms-of-service');
     Route::get('/coming-soon', [FrontendController::class, 'comingsoon'])->name('coming-soon');
@@ -100,6 +105,7 @@ Route::prefix('home')->as('home.')->group(function () {
         Route::get('/detail/{id}', [FAQController::class, 'show'])->name('show');
         Route::get('/{slug}', [FAQController::class, 'detail'])->name('detail');
     });
+
 
 
 });
@@ -206,7 +212,7 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::put('/edit/{id}', [AnnouncementController::class, 'update'])->name('update');
         });
 
-        // FAQ -- Portal -- Admins
+      // FAQ -- Portal -- Admins
         Route::prefix('faq')->as('faq.')->group(function () {
             Route::get('/', [FAQController::class, 'index_portal_admin'])->name('index');
             Route::get('/create', [FAQController::class, 'create'])->name('create');
@@ -217,7 +223,6 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::post('/store', [FAQController::class, 'store'])->name('store');
             Route::post('/update', [FAQController::class, 'update'])->name('updateval');
         });
-
     });
 
 });
