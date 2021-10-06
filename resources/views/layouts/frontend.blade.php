@@ -41,6 +41,9 @@
     <link rel="stylesheet" href="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/css/soft-design-system-pro.min.css?v=1.0.8">
     <link rel="stylesheet" href="{{ asset('css/badge.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        axios.defaults.baseURL = "{{ config('app.url') }}/api/v1";
+    </script>
     @notifyCss
     @yield('css')
 </head>
@@ -61,7 +64,7 @@
                   <span class="navbar-toggler-bar bar2"></span>
                   <span class="navbar-toggler-bar bar3"></span>
                 </span>
-<<<<<<< HEAD
+
                     </button>
                     <div class="collapse navbar-collapse pt-3 pb-2 py-lg-0 w-100" id="navigation">
                         <ul class="navbar-nav navbar-nav-hover w-100">
@@ -70,7 +73,7 @@
                                     About
                                 </a>
                             </li>
-=======
+
               </button>
               <div class="collapse navbar-collapse pt-3 pb-2 py-lg-0 w-100" id="navigation">
                 <ul class="navbar-nav navbar-nav-hover w-100">
@@ -79,7 +82,7 @@
                           About
                         </a>
                     </li>
->>>>>>> 0c3a880ef987b5f1b5fe9b093911fb2d5b4bb644
+
 
                             <li class="nav-item mx-2">
                                 <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages" data-bs-toggle="dropdown" aria-expanded="false">
@@ -241,7 +244,6 @@
     <hr class="horizontal dark mb-5">
     <div class="container">
         <div class=" row">
-<<<<<<< HEAD
             <div class="col-md-3 mb-4 ms-auto">
                 <div>
                     <h1 class="text-gradient text-success font-weight-bolder display-6">
@@ -255,28 +257,23 @@
                     </h6>
                     <ul class="d-flex flex-row ms-n3 nav">
                         <li class="nav-item">
-                            <a class="nav-link pe-1" href="https://www.facebook.com/CreativeTim/" target="_blank">
+                            <a class="nav-link pe-1" href="https://www.facebook.com/icrewsystems/" target="_blank">
                                 <i class="fab fa-facebook text-lg opacity-8"></i>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link pe-1" href="https://twitter.com/creativetim" target="_blank">
-                                <i class="fab fa-twitter text-lg opacity-8"></i>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link pe-1" href="https://dribbble.com/creativetim" target="_blank">
-                                <i class="fab fa-dribbble text-lg opacity-8"></i>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link pe-1" href="https://github.com/creativetimofficial" target="_blank">
+                            <a class="nav-link pe-1" href="https://github.com/icrewsystemsofficial" target="_blank">
                                 <i class="fab fa-github text-lg opacity-8"></i>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link pe-1" href="https://www.youtube.com/channel/UCVyTG4sCw-rOvB9oHkzZD1w" target="_blank">
-                                <i class="fab fa-youtube text-lg opacity-8"></i>
+                            <a class="nav-link pe-1" href="https://www.instagram.com/icrewsystemsofficial/" target="_blank">
+                                <i class="fab fa-instagram text-lg opacity-8"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link pe-1" href="https://www.linkedin.com/company/icrewsystems/" target="_blank">
+                                <i class="fab fa-linkedin text-lg opacity-8"></i>
                             </a>
                         </li>
                     </ul>
@@ -287,89 +284,27 @@
                     <h6 class="text-gradient text-success text-sm mb-2">Company</h6>
                     <ul class="flex-column ms-n3 nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('portal.index') }}" target="_blank">
+                            <a class="nav-link" href="{{ route('home.about') }}">
                                 About
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('portal.index') }}" target="_blank">
+                            <a class="nav-link" href="{{ route('home.partners') }}">
                                 Partners
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('portal.index') }}" target="_blank">
+                            <a class="nav-link" href="{{ route('home.contributors') }}">
                                 Contributors
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('portal.index') }}" target="_blank">
+                            <a class="nav-link" href="{{ route('home.investors') }}">
                                 Investors
                             </a>
                         </li>
                     </ul>
                 </div>
-=======
-          <div class="col-md-3 mb-4 ms-auto">
-            <div>
-              <h1 class="text-gradient text-success font-weight-bolder display-6">
-                  {{ config('app.name') }}
-              </h1>
-            </div>
-            <div>
-              <h6 class="mt-3 mb-2 opacity-8">
-                  Not able to contribute? We understand.
-                  Atleast help us spread the word.
-              </h6>
-              <ul class="d-flex flex-row ms-n3 nav">
-                <li class="nav-item">
-                  <a class="nav-link pe-1" href="https://www.facebook.com/icrewsystems/" target="_blank">
-                    <i class="fab fa-facebook text-lg opacity-8"></i>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link pe-1" href="https://github.com/icrewsystemsofficial" target="_blank">
-                    <i class="fab fa-github text-lg opacity-8"></i>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link pe-1" href="https://www.instagram.com/icrewsystemsofficial/" target="_blank">
-                    <i class="fab fa-instagram text-lg opacity-8"></i>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link pe-1" href="https://www.linkedin.com/company/icrewsystems/" target="_blank">
-                    <i class="fab fa-linkedin text-lg opacity-8"></i>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-md-2 col-sm-6 col-6 mb-4">
-            <div>
-              <h6 class="text-gradient text-success text-sm mb-2">Company</h6>
-              <ul class="flex-column ms-n3 nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('home.about') }}">
-                        About
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('home.partners') }}">
-                      Partners
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('home.contributors') }}">
-                      Contributors
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('home.investors') }}">
-                      Investors
-                    </a>
-                </li>
-              </ul>
->>>>>>> 0c3a880ef987b5f1b5fe9b093911fb2d5b4bb644
             </div>
             <div class="col-md-2 col-sm-6 col-6 mb-4">
                 <div>
@@ -393,18 +328,17 @@
                     </ul>
                 </div>
             </div>
-<<<<<<< HEAD
             <div class="col-md-2 col-sm-6 col-6 mb-4 me-auto">
                 <div>
                     <h6 class="text-gradient text-success text-sm">Legal</h6>
                     <ul class="flex-column ms-n3 nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="https://www.creative-tim.com/terms" target="_blank">
-                                Terms & Conditions
+                            <a class="nav-link" href="{{ route ('home.terms-of-service') }}" target="_blank">
+                                Terms Of Service
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="https://www.creative-tim.com/privacy" target="_blank">
+                            <a class="nav-link" href="{{ route ('home.privacy-policy') }}" target="_blank">
                                 Privacy Policy
                             </a>
                         </li>
@@ -415,34 +349,10 @@
                         </li>
                     </ul>
                 </div>
-=======
-          </div>
-          <div class="col-md-2 col-sm-6 col-6 mb-4 me-auto">
-            <div>
-              <h6 class="text-gradient text-success text-sm">Legal</h6>
-              <ul class="flex-column ms-n3 nav">
-                <li class="nav-item">
-                  <a class="nav-link" href="{{ route ('home.terms-of-service') }}" target="_blank">
-                    Terms Of Service
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{{ route ('home.privacy-policy') }}" target="_blank">
-                    Privacy Policy
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="https://www.creative-tim.com/license" target="_blank">
-                    Licenses (EULA)
-                  </a>
-                </li>
-              </ul>
->>>>>>> 0c3a880ef987b5f1b5fe9b093911fb2d5b4bb644
             </div>
 
             <div class="col-md-2 col-sm-6 col-6 mb-4 me-auto">
-                <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5s3ohnrfo80&amp;m=0c&amp;c=000000&amp;cr1=ffffff&amp;f=ubuntu&amp;l=49&amp;v0=10&amp;hi=30&amp;he=7&amp;hc=baff00&amp;cw=ffffff&amp;cb=baff00" async="async"></script>
-            </div>
+                <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5s3ohnrfo80&amp;m=0c&amp;c=000000&amp;cr1=ffffff&amp;f=ubuntu&amp;l=49&amp;v0=10&amp;hi=30&amp;he=7&amp;hc=baff00&amp;cw=ffffff&amp;cb=baff00" async="async"></script>          </div>
         </div>
 
         <div class="col-12">
@@ -457,6 +367,7 @@
                 </p>
             </div>
         </div>
+    </div>
     </div>
 </footer>
 <!--   Core JS Files   -->
@@ -509,7 +420,7 @@
     }
 </script>
 
-<span data-api-id="12786">
+<span data-api-id="0ef8669e-8864-4746-a8f4-0920ee26f10b">
         <a href="#modal" id="ge_btn" class="ge_btn" style="text-decoration: none;">
         <img src="http://greenearth.test/api/v1/badge/12786"/>
            Carbon neutral website

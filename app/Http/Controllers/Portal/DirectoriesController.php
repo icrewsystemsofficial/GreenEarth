@@ -89,6 +89,7 @@ class DirectoriesController extends Controller
                 'employee_count' =>  $request->employee_count,
                 'business_founding_date' =>  $request->business_founding_date,
                 'logo' => $request->logo,
+                'business_id' => Str::uuid()
             ]);
         } catch (\Exception $e) {
             return response()->json(['status' => 'exception', 'msg' => $e->getMessage()]);
