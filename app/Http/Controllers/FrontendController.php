@@ -11,7 +11,8 @@ use Cronfig\Sysinfo\System;
 
 class FrontendController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         return view('frontend.index');
     }
 
@@ -39,14 +40,14 @@ class FrontendController extends Controller
      * @param  mixed $url
      * @return void
      */
-    private function getDomainInformation($url) {
+    private function getDomainInformation($url)
+    {
 
         $my_url = parse_url($url);
         $host = $my_url['host'];
         $myHost = ucfirst($host);
 
-        $whois_storage_path = 'public/whois/'.$host.'.json';
-
+        $whois_storage_path = 'public/whois/' . $host . '.json';
 
 
         if(Storage::disk('local')->exists($whois_storage_path)) {
@@ -54,7 +55,7 @@ class FrontendController extends Controller
 
             //TODO Write a job worker to clear files older than 48 hours.
         } else {
-            $whois= new Whois;
+            $whois = new Whois;
             $site = $whois->cleanUrl($host);
             $whois_data = $whois->whoislookup($site);
             $getHostIP = gethostbyname($host);
@@ -82,7 +83,8 @@ class FrontendController extends Controller
         return $carbondata;
     }
 
-    public function otherMethods() {
+    public function otherMethods()
+    {
         $system = new System;
 
         // System can get you the OS you are currently running
@@ -102,10 +104,9 @@ class FrontendController extends Controller
         // dd($res->body());
 
         // $apikey = 'a4880f98a92ce578i094a6b828e05791f';
-
-        // $client = new Client();
-        // $crawler = $client->request('GET', 'https://check-host.net/ip-info?host=https://icrewsystems.com');
-        // // $link = $crawler->selectLink('Retrive whois data')->link();
+        // $client = new Client();        
+        // $crawler = $client->request('GET', 'https://check-host.net/ip-info?host=https://icrewsystems.com');        
+        // // $link = $crawler->selectLink('Retrive whois data')->link();                
         // $link = $crawler->filter('#whois_retrieve')->link();
         // $crawler = $client->click($link);
         // dd($crawler->filter('#whois_result'));
@@ -119,8 +120,6 @@ class FrontendController extends Controller
 
         // dd('test');
     }
-
-
 
     public function calculate() {
         $url = request('website');
@@ -139,7 +138,8 @@ class FrontendController extends Controller
         }
     }
 
-    public function comingsoon() {
+    public function comingsoon()
+    {
         return view('frontend.comingsoon');
     }
 
