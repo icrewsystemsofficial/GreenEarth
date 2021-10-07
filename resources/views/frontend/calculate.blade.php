@@ -101,7 +101,7 @@
             </div>
             <div class="card-body p-5">
                 <p id="general-terms">
-                                                                               
+
                     <label for="website_age" class="form-label h4">How old is your website?</label>
                     <p class="ml-2 mb-2">
                         Your domain is <strong>{{ strtolower($domain['domain_age']) }} old</strong>
@@ -110,8 +110,8 @@
                         <option value="null" selected disabled>Choose your website age</option>
                         @for ($i = 1; $i <= 5; $i++)
                         <option value="{{ $i }}">{{ $i }} years old</option>
-                        @endfor                 
-                        <option value="6">5+ years old</option>       
+                        @endfor
+                        <option value="6">5+ years old</option>
                         <option value="7">I'm not sure</option>
                     </select>
 
@@ -128,13 +128,13 @@
                             As per WHOIS, your website is hosted in <strong>{{ $domain['domain_country'] }}</strong>.
                         </p>
                         <select name="website_host" id="website_host" class="form-control">
-                            <option value="null" selected disabled>WIP: Add list of all countries here</option>                            
+                            <option value="null" selected disabled>WIP: Add list of all countries here</option>
                             <option value="{{ $domain['domain_country'] }}">{{ $domain['domain_country'] }}</option>
                         </select>
 
                         <div class="form-text ml-2">
                             <small>
-                                Each country has a different CO2e rating. This will help us calculate 
+                                Each country has a different CO2e rating. This will help us calculate
                                 a more accurate footprint.
                             </small>
                         </div>
@@ -150,28 +150,28 @@
 
                         <div class="form-text ml-2">
                             <small>
-                                Your report will help us analyze your website traffic   
+                                Your report will help us analyze your website traffic
                             </small>
                         </div>
                     </div>
 
-                    
+
                     <div class="mt-5">
                         <label for="website_host" class="form-label h4">
                             How much traffic does your site have?
-                        </label>                        
+                        </label>
                     </div>
 
                     <div class="mt-5">
                         <label for="website_host" class="form-label h4">
                             Is your host whitelisted?
-                        </label>                        
+                        </label>
                     </div>
 
                     <div class="mt-5">
                         <label for="website_host" class="form-label h4">
                             Are you on Shared Hosting / VPS / Self Hosted Server?
-                        </label>                        
+                        </label>
                     </div>
 
                     <div class="mt-5">
@@ -179,16 +179,16 @@
                             <span class="text-danger text-gradient">924 Kg CO2e</span>/Year
                         </h1>
                         <p>
-                            Your CO2e is HIGH, in 5 years, you've produced 4.5 Tn CO2e, and in the 
+                            Your CO2e is HIGH, in 5 years, you've produced 4.5 Tn CO2e, and in the
                             coming years, you will be accelerating climate change by 2.3% globally :(
-                        </p>                        
+                        </p>
                     </div>
 
                     <div class="mt-4">
                         <a href="#" class="btn bg-dark text-white">
                             E-mail my report
                         </a>
-    
+
                         <a href="#" class="btn bg-gradient-success">
                             Offset your Carbon emissions and get certified
                         </a>
@@ -200,23 +200,23 @@
                             <span class="h4">It will take <span class="text-info text-gradient">45 trees</span> </span>
                             <br>
                             to produce <span class="text-gradient text-success">~ 924L O<sub>2</sub></span>
-                        </h1>                        
+                        </h1>
                         <p>
-                            to offset your CO<sub>2</sub>e. 
-                        </p>                        
+                            to offset your CO<sub>2</sub>e.
+                        </p>
                     </div>
 
-                    <div class="mt-4">                            
+                    <div class="mt-4">
                         <a href="#" class="btn bg-gradient-success">
                             Pay { X } INR via RazoryPay
                         </a>
                     </div>
 
-                    
-                    
 
 
-                </p>                                
+
+
+                </p>
             </div>
           </div>
         </div>

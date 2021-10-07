@@ -148,13 +148,16 @@
                 <div class="row align-items-center justify-content-lg-between">
                     <div class="col-lg-6 mb-lg-0 mb-4">
                         <div class="copyright text-center text-sm text-muted text-lg-start">
-                            {{ config('app.name') }} - An initiative by icrewsystems
+                            {{ config('app.name') }} {{ App\Helpers\VersionHelper::short() }} - An initiative by icrewsystems
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <ul class="nav nav-footer justify-content-center justify-content-lg-end">
                             <li class="nav-item">
                                 <a href="https://www.icrewsystems.com" class="nav-link text-muted" target="_blank">Open Source Credits</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('portal.changelog') }}" class="nav-link text-muted">Changelog</a>
                             </li>
                         </ul>
                     </div>

@@ -63,7 +63,7 @@
               <div class="collapse navbar-collapse pt-3 pb-2 py-lg-0 w-100" id="navigation">
                 <ul class="navbar-nav navbar-nav-hover w-100">
                     <li class="nav-item mx-2">
-                        <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a href="{{ route('home.about') }}" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center">
                           About
                         </a>
                     </li>
@@ -236,28 +236,23 @@
               </h6>
               <ul class="d-flex flex-row ms-n3 nav">
                 <li class="nav-item">
-                  <a class="nav-link pe-1" href="https://www.facebook.com/CreativeTim/" target="_blank">
+                  <a class="nav-link pe-1" href="https://www.facebook.com/icrewsystems/" target="_blank">
                     <i class="fab fa-facebook text-lg opacity-8"></i>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link pe-1" href="https://twitter.com/creativetim" target="_blank">
-                    <i class="fab fa-twitter text-lg opacity-8"></i>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link pe-1" href="https://dribbble.com/creativetim" target="_blank">
-                    <i class="fab fa-dribbble text-lg opacity-8"></i>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link pe-1" href="https://github.com/creativetimofficial" target="_blank">
+                  <a class="nav-link pe-1" href="https://github.com/icrewsystemsofficial" target="_blank">
                     <i class="fab fa-github text-lg opacity-8"></i>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link pe-1" href="https://www.youtube.com/channel/UCVyTG4sCw-rOvB9oHkzZD1w" target="_blank">
-                    <i class="fab fa-youtube text-lg opacity-8"></i>
+                  <a class="nav-link pe-1" href="https://www.instagram.com/icrewsystemsofficial/" target="_blank">
+                    <i class="fab fa-instagram text-lg opacity-8"></i>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pe-1" href="https://www.linkedin.com/company/icrewsystems/" target="_blank">
+                    <i class="fab fa-linkedin text-lg opacity-8"></i>
                   </a>
                 </li>
               </ul>
@@ -268,22 +263,22 @@
               <h6 class="text-gradient text-success text-sm mb-2">Company</h6>
               <ul class="flex-column ms-n3 nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('portal.index') }}" target="_blank">
+                    <a class="nav-link" href="{{ route('home.about') }}">
                         About
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('portal.index') }}" target="_blank">
+                    <a class="nav-link" href="{{ route('home.partners') }}">
                       Partners
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('portal.index') }}" target="_blank">
+                    <a class="nav-link" href="{{ route('home.contributors') }}">
                       Contributors
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('portal.index') }}" target="_blank">
+                    <a class="nav-link" href="{{ route('home.investors') }}">
                       Investors
                     </a>
                 </li>
@@ -317,12 +312,12 @@
               <h6 class="text-gradient text-success text-sm">Legal</h6>
               <ul class="flex-column ms-n3 nav">
                 <li class="nav-item">
-                  <a class="nav-link" href="https://www.creative-tim.com/terms" target="_blank">
-                    Terms & Conditions
+                  <a class="nav-link" href="{{ route ('home.terms-of-service') }}" target="_blank">
+                    Terms Of Service
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="https://www.creative-tim.com/privacy" target="_blank">
+                  <a class="nav-link" href="{{ route ('home.privacy-policy') }}" target="_blank">
                     Privacy Policy
                   </a>
                 </li>
@@ -346,7 +341,7 @@
                 <br><br>
                 <span class="text-lg">
                     Made with <i class="fas fa-heart text-danger text-gradient"></i> for <span class="text-success font-weight-bolder">Mother Earth</span>,
-                    by her <span class="font-weight-bolder">children</span>
+                    by her <a class="font-weight-bolder" href="{{ route('home.contributors') }}"><u>children</u></a>
                 </span>
               </p>
             </div>
@@ -401,6 +396,7 @@
         };
       }
     </script>
+    @yield('js')
   </body>
 
 </html>
