@@ -28,13 +28,13 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        // $adminnum = User::role('admin')->where('temporary', '0')->count();
-        // $superadminnum = User::role('superadmin')->where('temporary', '0')->count();
-        // $totaladminnum = $adminnum + $superadminnum;
-        // $usernum = User::role('user')->where('temporary', '0')->count();
-        // $volunteernum = User::role('volunteer')->where('temporary', '0')->count();
+        $adminnum = User::role('admin')->where('temporary', '0')->count();
+        $superadminnum = User::role('superadmin')->where('temporary', '0')->count();
+        $totaladminnum = $adminnum + $superadminnum;
+        $usernum = User::role('user')->where('temporary', '0')->count();
+        $volunteernum = User::role('volunteer')->where('temporary', '0')->count();
         $pending = User::where('temporary', '1')->count();
-        return view('pages.user.index', compact('users',  'pending'));
+        return view('pages.user.index', compact('users', 'totaladminnum', 'volunteernum', 'usernum', 'pending'));
     }
 
     /**
@@ -193,8 +193,8 @@ class UserController extends Controller
         $user->save();
 
         $user->roles()->detach();
-        // $newrole = Role::findByName($request->input('role'));
-        // $user->assignRole($newrole->name);
+        $newrole = Role::findByName($request->input('role'));
+        $user->assignRole($newrole->name);
 
         if(request('send_welcome_email') == null) {
             $data = array(
