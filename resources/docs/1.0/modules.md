@@ -6,7 +6,7 @@
 - [User Management](#section-2)
 - [Activity Management](#section-3)
 - [Announcement Management](#section-4)
-- [Badge Module](#section-5)
+- [Badge Configuration](#section-5)
 <a name="section-1"></a>
 
 ## Tree Management
@@ -117,15 +117,39 @@ Here, the Administrator can edit the details of previous announcements.
 
 <a name="section-5"></a>
 
-## Badge Js  Library 
+## Badge Configuration
 
-This module will be served as a CDN, so when the clients sign up into this app they will be getting two links one for css another one for js and also a few html tags
+### CSS link 
+This link needs to placed inside the head tag
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/icrewsystemsofficial/GreenEarth@master/public/css/badge.css">
+```
+### Html tags 
+This needs to placed before the ending of the body tag 
+```html
+<span data-api-id="APIKEY">
+        <a href="javascript:void(0);" id="ge_btn" class="ge_btn" 
+        style="text-decoration: none;">
+        <img src="http://greenearth.test/api/v1/badge/APIKEY"/>
+           Carbon neutral website
+        </a>
+    <div id="ge_modal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content" id="ge_modal_content">
+        <span class="ge_modal_close">&times;</span>
+          <div class="ge_iframe" id="iframe_wrapper">
+              <div class="iframe_loader" id="ge_iframe_loader"></div>
+          </div>
+      </div>
+    </div>
+</span>
+```
 
-Now the client copy and paste the provided links in to their website, and now a badge/button will be visible on their website bottom right corner and once they click the button it opens up a modal and load a certificate saying that is website is a carbon-neutral website 
+### Js link 
+This needs after the above html tags
+```html
+<script src="https://cdn.jsdelivr.net/gh/icrewsystemsofficial/GreenEarth@thirumalai/public/js/badge.js"></script>
+```
 
-And also for every 15 minutes this module will be sending an api request to the server with  the visitor's information that is the public ip, location,client type (mobile/tablet/desktop) these are collected for analytics purpose and API is in wip .
-
-### How to use this module 
-So first need to put the given html tags before the ending of the `<body>` tag , after that place the given js link atlast paste the css link inside the `<head>` tag, and this module is written is jquery so make sure the jquery library has been installed
 
 

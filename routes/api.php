@@ -23,7 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::as('api.v1.')->prefix('v1')->group(function () {
     Route::post('/admin/directories/upload-logo', [DirectoriesController::class, 'upload_logo'])->name('upload_business_logo');
-
+// BADGE ANALYTICS
     Route::prefix('analytics')->group(function () {
         Route::get('business/{business_id}',[BadgeController::class,'sendSessionDetails']);
     });
