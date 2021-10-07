@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Cronfig\Sysinfo\System;
 use App\Models\Contact;
+use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -176,6 +177,14 @@ class FrontendController extends Controller
     }
 
     public function contact_store(Request $request){
+
+        $request->validate([
+                'email' => 'required',
+                'body' => 'required',
+                'type' => 'required',
+                'g-recaptcha-response' => 'recaptcha'
+        ]);
+
         $contact= new contact;
         $contact->email = $request->email;
         $contact->type = $request->type;
@@ -196,17 +205,21 @@ class FrontendController extends Controller
         $data_for_id=contact::where([['email',$email],['type',$type],['body',$body]]) -> first();
         $id=$data_for_id->id;
         $url= route('portal.admin.contact-requests.view',$id);
-
+        $admins_emailid= User::where('role','admin')->get('email') ;
         $mailInfo = [
             'title' => 'Greenearth - New message from a User',
             'email' => $email,
             'type' => $type,
             'body' => $body,
             'url' => $url,
-            'id' => $id
+            'id' => $id,
+            'mails' => $admins_emailid
         ];
 
-        Mail::to($email)->send(new SendContactMailtoAdmins($mailInfo));
+        foreach($admins_emailid as $mail){
+            $emailid=$mail->email;
+            Mail::to($emailid)->send(new SendContactMailtoAdmins($mailInfo));
+        }
 
         Mail::to($email)->send(new SendContactMailtoUser($mailInfo));
 

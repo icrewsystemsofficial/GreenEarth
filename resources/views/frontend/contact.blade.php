@@ -9,6 +9,9 @@
 @endsection
 
 @section('content')
+
+
+<head>{!! ReCaptcha::htmlScriptTagJsApi() !!}</head>
 <header class="bg-gradient-success">
     <div class="page-header min-vh-75">
       <div class="container">
@@ -56,34 +59,65 @@
 
                         @csrf
 
+
                         <div class="form-group">
+                            @if($errors->first('email'))
+                                <div class="alert alert-warning" role="alert">
+                                    Please enter email!
+                                </div>
+                            @endif
 
                             <div class="form-group">
                                 <label class="h6 control-label col-sm2" for="email">Your email</label>
                                 <div class="col-sm-12">
-                                    <input type="email" class="form-control" placeholder="john.doe@icrewsystems.com" name="email" required>
+                                    <input type="email" class="form-control" placeholder="john.doe@icrewsystems.com" name="email"  >
                                 </div>
                             </div>
 
+
+                            @if($errors->first('body'))
+                                <div class="alert alert-warning" role="alert">
+                                    An empty message can't be sent!
+                                </div>
+                            @endif
                             <div class="form-group ">
                                 <label class="h6 control-label col-sm2" for="Body">Your Message for us</label>
                                 <div class="col-sm-12">
-                                    <textarea class="form-control " placeholder="Hey.. Can you clarify this?" name="body" required></textarea>
+                                    <textarea class="form-control " placeholder="Hey.. Can you clarify this?" name="body" ></textarea>
                                 </div>
                             </div>
 
+
+                            @if($errors->first('type'))
+                                <div class="alert alert-warning" role="alert">
+                                    Please select query type!
+                                </div>
+                            @endif
                             <?php
                                 $types = array('1'=>'Support', '2' => 'Enquiry', '3' => 'Partnership', '4' => 'Other');
                             ?>
 
                                 <label class="h6 control-label col-sm2" for="type">Query Type</label>
                                 <div class="col-sm-12">
-                                    <select class="form-control" name="type" required>
+                                    <select class="form-control" name="type" >
                                         @foreach ($types as $type )
                                             <option value="{{$type}}"  selected>{{$type}}</option>
                                         @endforeach
                                     </select>
                                 </div>
+                            </div>
+
+
+
+
+                            @if($errors->first('g-recaptcha-response')=='validation.recaptcha')
+                                <div class="alert alert-warning" role="alert">
+                                    Please verify the reCAPTCHA
+                                </div>
+                            @endif
+                            <div class="form-group row">
+                                <label class="col-md-0 col-form-label text-md-right"></label>
+                                <div class="col-md-6" > {!! htmlFormSnippet() !!} </div>
                             </div>
 
 
