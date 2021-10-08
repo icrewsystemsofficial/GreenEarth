@@ -89,7 +89,8 @@ Route::prefix('home')->as('home.')->group(function () {
     Route::get('/track-my-tree/{uuid}', [FrontendController::class, 'index']);
     Route::get('/statistics', [FrontendController::class, 'index']);
     Route::get('/investors', [FrontendController::class, 'comingsoon'])->name('investors');
-    Route::get('/announcements', [FrontendController::class, 'index']);
+    Route::get('/announcements', [FrontendController::class, 'announcements'])->name('announcements');
+    Route::get('/announcements/{slug}', [FrontendController::class, 'view'])->name('announcements.view');
     Route::get('/blog', [FrontendController::class, 'index']);
     Route::get('/coming-soon', [FrontendController::class, 'comingsoon'])->name('coming-soon');
     Route::get('/verify/{uuid}', [UserController::class, 'verify'])->name('users.verify');
