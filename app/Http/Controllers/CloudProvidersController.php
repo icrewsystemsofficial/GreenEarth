@@ -43,8 +43,12 @@ class CloudProvidersController extends Controller
 
         CloudProviders::create($request->all());
 
-        return redirect()->route('pages.cloudproviders.index')
-            ->with('success', 'Provider created successfully.');
+        return redirect()->route('pages.cloudproviders.index');
+        smilify('success', 'Providers were successfully stored');
+
+        activity()->log('Providers were stored');
+
+        
     }
 
     /**
@@ -83,8 +87,10 @@ class CloudProvidersController extends Controller
         ]);
         $cloudProviders->update($request->all());
 
-        return redirect()->route('pages.cloudproviders.index')
-            ->with('success', 'Provider updated successfully');
+        return redirect()->route('pages.cloudproviders.index');
+        smilify('success', 'Providers were successfully updated');
+
+        activity()->log('Providers were updated');
     }
 
     /**
@@ -97,7 +103,9 @@ class CloudProvidersController extends Controller
     {
         $cloudProviders->delete();
 
-        return redirect()->route('pages.cloudproviders.index')
-            ->with('success', 'Provider deleted successfully');
+        return redirect()->route('pages.cloudproviders.index');
+        smilify('success', 'Providers were successfully destroyed');
+
+        activity()->log('Providers were deleted');
     }
 }
