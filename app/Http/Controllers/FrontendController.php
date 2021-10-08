@@ -178,14 +178,15 @@ class FrontendController extends Controller
 
     public function contact_store(Request $request){
 
-        $request->validate([
-                'email' => 'required',
-                'body' => 'required',
-                'type' => 'required',
-                'g-recaptcha-response' => 'recaptcha'
-        ]);
 
-        $contact= new contact;
+        // $request->validate([
+        //         'email' => 'required',
+        //         'body' => 'required',
+        //         'type' => 'required',
+        //         'g-recaptcha-response' => 'recaptcha'
+        // ]);
+
+        $contact= new Contact;
         $contact->email = $request->email;
         $contact->type = $request->type;
         $contact->body = $request->body;
@@ -194,18 +195,25 @@ class FrontendController extends Controller
 
         $this->contact_mailsend($contact);
 
+        smilify('Yay', 'Your message was sent to us, we\'ll get in touch with you soon');
         return redirect(route('home.contact.index'));
 
     }
 
     public function contact_mailSend($data) {
+
         $email = $data->email;
         $type = $data->type;
         $body = $data->body;
-        $data_for_id=contact::where([['email',$email],['type',$type],['body',$body]]) -> first();
-        $id=$data_for_id->id;
+        $data_for_id = Contact::where([['email',$email],['type',$type],['body',$body]])->first();
+
+        $id = $data_for_id->id;
         $url= route('portal.admin.contact-requests.view',$id);
-        $admins_emailid= User::where('role','admin')->get('email') ;
+
+
+
+        $admins_emailid = User::role('admin')->get('email');
+
         $mailInfo = [
             'title' => 'Greenearth - New message from a User',
             'email' => $email,

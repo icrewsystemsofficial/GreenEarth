@@ -45,7 +45,6 @@ class LoginController extends Controller
     {
         $data = Socialite::driver('google')->user();
         $this->login($data);
-
         return redirect(route('portal.index'));
     }
 
@@ -60,6 +59,7 @@ class LoginController extends Controller
             //$user->avater = $data->avatar;
             $user->save();
         }
+
         Auth::login($user);
     }
 }
