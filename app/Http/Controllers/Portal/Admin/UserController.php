@@ -13,6 +13,7 @@ use App\Mail\SendWelcomeMail;
 use App\Mail\SendWelcomeEmail;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use App\Models\Directory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,7 +46,7 @@ class UserController extends Controller
 
      public function create() {
          return view('pages.user.create', [
-             'roles' => Role::all(),
+             'roles' => Role::all(), 'organisations' => Directory::all(), 'count_org' => count(Directory::all())
          ]);
      }
 
@@ -180,7 +181,6 @@ class UserController extends Controller
             smilify('error', 'A user with that email already exists in our database', 'Whooops');
             return back();
         }
-
 
         $user = new User;
         $user->name = request('name');

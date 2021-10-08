@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Storage;
     WHOIS Data helper for domain data.
     Author: @leonard
     Credits: @phpWhois
+
+    DEPRECATED, use PHPWHOIS
 */
 
 class Whois

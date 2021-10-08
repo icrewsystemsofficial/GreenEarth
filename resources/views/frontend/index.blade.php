@@ -75,7 +75,7 @@
                                         <input type="text" class="form-control" name="website" placeholder="www.google.com" id="website_inputarea" onfocus="append_https();" />
                                     </div>
                                     <p class="mt-1 text-muted text-sm" id="url_suggestion" style="display: none;">
-                                        <i class="fa fa-exclamation-triangle"></i> Make sure to <strong>https:// or http://</strong> along with your URL.
+                                        <i class="fa fa-exclamation-triangle"></i> Make sure to include <strong>https:// or http://</strong> along with your URL.
                                     </p>
 
 
@@ -91,7 +91,7 @@
                             </div>
                             <div class="col-md-3">
                                 <button class="btn btn-dark text-success btn-gradient block">
-                                    GO CO<sub>2</sub> neutral
+                                    Calculate
                                 </button>
                             </div>
                         </div>

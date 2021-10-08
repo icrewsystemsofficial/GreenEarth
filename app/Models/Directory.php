@@ -31,7 +31,8 @@ class Directory extends Model
         'employee_count',
         'business_founding_date',
         'business_name_slug',
-        'logo'
+        'logo',
+        'organization_name'
     ];
 
     /**
@@ -67,5 +68,9 @@ class Directory extends Model
         }
 
         return $image_link;
+    }
+
+    public function getUsers() {
+        return $this->hasMany(User::class, 'organization', 'organization_name');
     }
 }
