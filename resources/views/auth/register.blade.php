@@ -18,7 +18,7 @@
                             </div>
 
                             <div class="text-center">
-                                <a href="{{ route('login.google') }}" type="button" class="btn btn-info btn-icon w-100">
+                                <a href="{{ route('login') }}" type="button" class="btn btn-info btn-icon w-100">
                                     <span class="btn-inner--icon"><i class="fab fa-google"></i></span>
                                     <span class="btn-inner--text">Register with Google</span>
                                 </a>
