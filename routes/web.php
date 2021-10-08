@@ -86,7 +86,7 @@ Route::prefix('home')->as('home.')->group(function () {
     Route::get('/partners', [FrontendController::class, 'partners'])->name('partners');
     Route::get('/glossary', [FrontendController::class, 'glossary'])->name('glossary');
     Route::get('/volunteer/@{username}', [FrontendController::class, 'volunteer'])->name('volunteer');
-    Route::get('/cloud-providers', [CloudProvidersController::class, 'index'])->name('index');
+    Route::get('/cloud-providers', [CloudProvidersController::class, 'index'])->name('cloud-providers.index');
 
     // PENDING PAGES
     Route::get('/directory', [DirectoriesController::class, 'home_index'])->name('directory.index');

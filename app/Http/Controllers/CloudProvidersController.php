@@ -43,8 +43,9 @@ class CloudProvidersController extends Controller
 
         CloudProviders::create($request->all());
 
-        return redirect()->route('pages.cloudproviders.index');
         smilify('success', 'Providers were successfully stored');
+        return redirect()->route('home.cloud-providers.index');
+
 
         activity()->log('Providers were stored');
 
@@ -68,8 +69,9 @@ class CloudProvidersController extends Controller
      * @param  \App\Models\CloudProviders  $cloudProviders
      * @return \Illuminate\Http\Response
      */
-    public function edit(CloudProviders $cloudProviders)
+    public function edit($id)
     {
+        $cloudProviders = CloudProviders::where('id', $id)->first();
         return view('pages.cloudproviders.edit', compact('cloudProviders'));
     }
 
@@ -80,15 +82,21 @@ class CloudProvidersController extends Controller
      * @param  \App\Models\CloudProviders  $cloudProviders
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CloudProviders $cloudProviders)
+    public function update($id, Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-        ]);
-        $cloudProviders->update($request->all());
+        $cloudProviders = CloudProviders::where('id', $id)->first();
 
-        return redirect()->route('pages.cloudproviders.index');
+        $this->validate($request, [
+            'name' => 'required'
+        ]);
+
+        $input = $request->all();
+
+        $cloudProviders->fill($input)->save();
+
         smilify('success', 'Providers were successfully updated');
+        return redirect()->route('home.cloud-providers.index');
+
 
         activity()->log('Providers were updated');
     }
@@ -99,12 +107,13 @@ class CloudProvidersController extends Controller
      * @param  \App\Models\CloudProviders  $cloudProviders
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CloudProviders $cloudProviders)
+    public function destroy($id)
     {
-        $cloudProviders->delete();
+        CloudProviders::where('id', $id)->delete();
 
-        return redirect()->route('pages.cloudproviders.index');
         smilify('success', 'Providers were successfully destroyed');
+        return redirect()->route('home.cloud-providers.index');
+
 
         activity()->log('Providers were deleted');
     }

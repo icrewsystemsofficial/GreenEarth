@@ -7,22 +7,6 @@
 @endsection
 
 @section('js')
-<script>
-    function change_create_button_text() {
-        var send_email_checkbox = document.getElementById('send_email_checkbox');
-        var create_button = document.getElementById('create_button');
-        if (send_email_checkbox.checked) {
-            create_button.innerHTML = '<i class="fa fa-save"></i> CREATE & SEND WELCOME EMAIL';
-        } else {
-            create_button.innerHTML = '<i class="fa fa-save"></i> CREATE';
-        }
-    }
-
-    function loadingButton() {
-        var create_button = document.getElementById('create_button');
-        create_button.innerHTML = '<i class=\'fa fa-spinner fa-spin\'></i> Please wait';
-    }
-</script>
 @endsection
 
 @section('content')
@@ -37,6 +21,26 @@
             <div class="card">
                 <div class="card-body">
 
+                    @if($cloudProviders->whitelisted == 0)
+                    <span class="badge bg-danger mb-3">
+                        <i class="fa fa-check-circle"></i> Account Not Whitelisted
+                    </span>
+                    @else
+                    <span class="badge bg-success mb-3">
+                        <i class="fa fa-exclamation-circle"></i> Account Whitelisted
+                    </span>
+                    @endif
+
+                    @if($cloudProviders->enabled == 0)
+                    <span class="badge bg-danger mb-3">
+                        <i class="fa fa-check-circle"></i> Account Not Enabled
+                    </span>
+                    @else
+                    <span class="badge bg-success mb-3">
+                        <i class="fa fa-exclamation-circle"></i> Account Enabled
+                    </span>
+                    @endif
+
                     <div>
                         <ul>
                             @include('notify::messages')
@@ -45,63 +49,67 @@
                         </ul>
                     </div>
 
-                    <form action="{{ route('portal.admin.cloud-providers.store') }}" method="POST">
+                    <form action="{{ route('portal.admin.cloud-providers.update', $cloudProviders->id) }}" method="POST">
+
                         @csrf
+                        @method('PATCH')
 
                         <div class="form-group">
                             <label class="control-label col-sm2" for="name">Name</label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control" id="name" name="name" placeholder="John Doe" required>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="{{ $cloudProviders->name }}" value="{{ $cloudProviders->name }}">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label col-sm2" for="url">URL</label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control" id="url" name="url" placeholder="www.example.com" required />
+                                <input type="text" class="form-control" name="url" placeholder="{{ $cloudProviders->url }}" value="{{ $cloudProviders->url }}">
                             </div>
                         </div>
-
 
                         <div class="form-group">
                             <label class="control-label col-sm2" for="description">Description</label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control" name="description" placeholder="describe the provider..." required />
+                                <input type="text" class="form-control" name="description" placeholder="{{ $cloudProviders->description }}" value="{{ $cloudProviders->description }}">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label col-sm2" for="datacenters">Datacenters</label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control" name="datacenters" placeholder="how many datacenters..." required />
+                                <input type="text" class="form-control" name="datacenters" placeholder="{{ $cloudProviders->datacenters }}" value="{{ $cloudProviders->datacenters }}">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label col-sm2" for="enabled">Enabled? (1 = true, 0 = false)</label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control" id="enabled" name="enabled" placeholder="1/0" required>
+                                <input type="text" class="form-control" name="enabled" placeholder="{{ $cloudProviders->enabled }}" value="{{ $cloudProviders->enabled }}">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label col-sm2" for="whitelisted">Whitelisted? (1 = true, 0 = false)</label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control" id="whitelisted" name="whitelisted" placeholder="1/0" required>
+                                <input type="text" class="form-control" name="whitelisted" placeholder="{{ $cloudProviders->whitelisted }}" value="{{ $cloudProviders->whitelisted }}">
                             </div>
                         </div>
 
-                        <button class="btn btn-success" type="submit" id="create_button" onclick="loadingButton();">
-                            <i class="fa fa-save"></i> CREATE
+                        <button type="submit" class="btn btn-success">
+                            <span id="submit" class=""><i class="fa fa-save"></i> UPDATE</span>
                         </button>
-                        <a href="{{ route('portal.admin.cloud-providers.store') }}" class="btn btn-warning">
+
+
+                        <a href="{{ route('home.cloud-providers.index') }}" class="btn btn-warning">
                             <i class="fa fa-arrow-left"></i> Back
                         </a>
+
+                    </form>
+
                 </div>
             </div>
         </div>
-
-        </form>
     </div>
 </div>
 @endsection
