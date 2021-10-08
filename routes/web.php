@@ -29,6 +29,7 @@ use App\Http\Controllers\TreeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CalculationController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\CertificateGenerator;
 use App\Http\Controllers\TreeMaintenanceController;
@@ -73,9 +74,13 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     -- FRONTEND ROUTES --
 ************************/
 
+Route::get('/test', function() {
+    dd(app(\App\Helpers\CO2Helper::class)->calculate());
+});
+
 Route::prefix('home')->as('home.')->group(function () {
     Route::get('/', [FrontendController::class, 'index'])->name('index');
-    Route::get('/calculate', [FrontendController::class, 'calculate'])->name('calculate');
+    Route::get('/calculate', [CalculationController::class, 'frontend'])->name('calculate');
     Route::get('/certificate/{uuid}', [FrontendController::class, 'index']);
     Route::get('/about', [FrontendController::class, 'aboutus'])->name('about');
     Route::get('/contributors', [FrontendController::class, 'contributors'])->name('contributors');
