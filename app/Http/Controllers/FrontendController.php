@@ -105,9 +105,9 @@ class FrontendController extends Controller
         // dd($res->body());
 
         // $apikey = 'a4880f98a92ce578i094a6b828e05791f';
-        // $client = new Client();        
-        // $crawler = $client->request('GET', 'https://check-host.net/ip-info?host=https://icrewsystems.com');        
-        // // $link = $crawler->selectLink('Retrive whois data')->link();                
+        // $client = new Client();
+        // $crawler = $client->request('GET', 'https://check-host.net/ip-info?host=https://icrewsystems.com');
+        // // $link = $crawler->selectLink('Retrive whois data')->link();
         // $link = $crawler->filter('#whois_retrieve')->link();
         // $crawler = $client->click($link);
         // dd($crawler->filter('#whois_result'));
@@ -215,7 +215,7 @@ class FrontendController extends Controller
             'commits' => $total_commits,
             'commits_all' => array_reverse($commits['commits']),
         ]);
-        
+
     }
 
     public function glossary(){
