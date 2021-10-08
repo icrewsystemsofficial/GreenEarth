@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(DeveloperAccessSeeder::class);
         $this->call(RolesandPermissionsSeeder::class);
         $this->call(FAQSeeder::class);
+        $this->call(CountriesSeeder::class);
         //TODO add DeveloperAccess seeder
 
     }
