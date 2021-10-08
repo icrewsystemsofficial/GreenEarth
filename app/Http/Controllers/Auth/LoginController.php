@@ -52,22 +52,13 @@ class LoginController extends Controller
             Auth::login($user);
             return redirect(route('portal.index'));
         } else {
-
-
-            $oauth = array(
-                'name' => $data->name,
-                'email' => $data->email,
-            );
             return view('auth.register')->with([
                 'error' => 'No users associated with that e-mail ID',
-                'oauth' => $oauth,
+                'oauth' => array(
+                    'name' => $data->name,
+                    'email' => $data->email,
+                ),
             ]);
         }
     }
-
-    // protected function login(Request $request)
-    // {
-    //     $user = User::where('email', '=', $request->email)->first();
-    //     Auth::login($user);
-    // }
 }
