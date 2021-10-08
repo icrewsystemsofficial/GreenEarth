@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Providers\RouteServiceProvider;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
@@ -44,22 +45,29 @@ class LoginController extends Controller
     public function registerOrLoginUser()
     {
         $data = Socialite::driver('google')->user();
-        $this->login($data);
 
-        return redirect(route('portal.index'));
-    }
+        // Find the user with that Google ID
+        $user = User::where('email', $data->email)->first();
+        if($user) {
+            Auth::login($user);
+            return redirect(route('portal.index'));
+        } else {
 
-    protected function login($data)
-    {
-        $user = User::where('email', '=', $data->email)->first();
-        if (!$user) {
-            $user = new User();
-            $user->name = $data->name;
-            $user->email = $data->email;
-            $user->password = bcrypt($data->id);
-            //$user->avater = $data->avatar;
-            $user->save();
+
+            $oauth = array(
+                'name' => $data->name,
+                'email' => $data->email,
+            );
+            return view('auth.register')->with([
+                'error' => 'No users associated with that e-mail ID',
+                'oauth' => $oauth,
+            ]);
         }
-        Auth::login($user);
     }
+
+    // protected function login(Request $request)
+    // {
+    //     $user = User::where('email', '=', $request->email)->first();
+    //     Auth::login($user);
+    // }
 }
