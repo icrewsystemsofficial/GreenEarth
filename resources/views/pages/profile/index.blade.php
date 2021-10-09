@@ -30,6 +30,9 @@
 {{-- --}}
 {{--</script>--}}
 {{--@endsection --}}
+@section('css')
+{{-- <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" /> --}}
+@endsection
 
 @section('content')
 <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
@@ -76,6 +79,7 @@
         <div class="col-auto">
           <div class="avatar avatar-xl position-relative">
             <img src="{{ $user->profile_picture() }}" alt="{{ $user->name }}'s avatar" class="w-100 border-radius-lg shadow-sm">
+            <input type="file" class="absolute" id="avatar" name="filepond" multiple data-max-file-size="3MB" data-max-files="3"/>
           </div>
         </div>
         <div class="col-auto my-auto">
@@ -160,4 +164,57 @@
   </div>
 </div>
 
+@endsection
+
+@section('js')
+<script>
+  // FilePond.registerPlugin(FilePondPluginImageCrop);
+  // const inputElement = document.querySelector('input[id="avatar"]');
+  // const pond = FilePond.create(inputElement);
+
+
+
+  /*
+We need to register the required plugins to do image manipulation and previewing.
+*/
+FilePond.registerPlugin(
+	// encodes the file as base64 data
+  FilePondPluginFileEncode,
+	
+	// validates files based on input type
+  FilePondPluginFileValidateType,
+	
+	// corrects mobile image orientation
+  FilePondPluginImageExifOrientation,
+	
+	// previews the image
+  FilePondPluginImagePreview,
+	
+	// crops the image to a certain aspect ratio
+  FilePondPluginImageCrop,
+	
+	// resizes the image to fit a certain size
+  FilePondPluginImageResize,
+	
+	// applies crop and resize information on the client
+  FilePondPluginImageTransform
+);
+
+// Select the file input and use create() to turn it into a pond
+// in this example we pass properties along with the create method
+// we could have also put these on the file input element itself
+FilePond.create(
+	document.querySelector('input[id="avatar"]'),
+	{
+		labelIdle: `<span class="filepond--label-action">Edit</span>`,
+    imagePreviewHeight: 170,
+    imageCropAspectRatio: '1:1',
+    imageResizeTargetWidth: 200,
+    imageResizeTargetHeight: 200,
+    stylePanelLayout: 'compact circle',
+    styleLoadIndicatorPosition: 'center bottom',
+    styleButtonRemoveItemPosition: 'center bottom'
+	}
+);
+</script>
 @endsection
