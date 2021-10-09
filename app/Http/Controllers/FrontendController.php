@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Goutte\Client;
 use App\Helpers\Whois;
+use App\Models\Announcement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -104,9 +105,9 @@ class FrontendController extends Controller
         // dd($res->body());
 
         // $apikey = 'a4880f98a92ce578i094a6b828e05791f';
-        // $client = new Client();        
-        // $crawler = $client->request('GET', 'https://check-host.net/ip-info?host=https://icrewsystems.com');        
-        // // $link = $crawler->selectLink('Retrive whois data')->link();                
+        // $client = new Client();
+        // $crawler = $client->request('GET', 'https://check-host.net/ip-info?host=https://icrewsystems.com');
+        // // $link = $crawler->selectLink('Retrive whois data')->link();
         // $link = $crawler->filter('#whois_retrieve')->link();
         // $crawler = $client->click($link);
         // dd($crawler->filter('#whois_result'));
@@ -214,7 +215,7 @@ class FrontendController extends Controller
             'commits' => $total_commits,
             'commits_all' => array_reverse($commits['commits']),
         ]);
-        
+
     }
 
     public function glossary(){
@@ -223,6 +224,16 @@ class FrontendController extends Controller
 
     public function volunteer($username){
         return view('frontend.volunteer');
+    }
+
+    public function announcements(){
+        $announcements = Announcement::where('status', "1")->orderBy('created_at', 'desc')->get();
+        return view('frontend.announcement', compact('announcements'));
+    }
+
+    public function view($slug){
+        $announcements = Announcement::where('slug', $slug)->first();
+        return view('frontend.view', compact('announcements'));
     }
 
 }

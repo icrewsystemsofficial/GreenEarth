@@ -327,7 +327,30 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+
+          </div>
+{{--          <div class="col-md-2 col-sm-6 col-6 mb-4">--}}
+{{--            <div>--}}
+{{--              <h6 class="text-gradient text-success text-sm">Resources</h6>--}}
+{{--              <ul class="flex-column ms-n3 nav">--}}
+{{--                <li class="nav-item">--}}
+{{--                    <a class="nav-link" href="{{ route('home.announcements') }}" target="_blank">--}}
+{{--                        Announcements--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li class="nav-item">--}}
+{{--                    <a class="nav-link" href="{{ route('portal.index') }}" target="_blank">--}}
+{{--                    TrackMyTree--}}
+{{--                  </a>--}}
+{{--                </li>--}}
+{{--                <li class="nav-item">--}}
+{{--                  <a class="nav-link" href="{{ route('portal.index') }}" target="_blank">--}}
+{{--                    CarbonCalculator--}}
+{{--                  </a>--}}
+{{--                </li>--}}
+{{--              </ul>--}}
+
+{{--            </div>--}}
             <div class="col-md-2 col-sm-6 col-6 mb-4 me-auto">
                 <div>
                     <h6 class="text-gradient text-success text-sm">Legal</h6>

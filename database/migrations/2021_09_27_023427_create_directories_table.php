@@ -20,6 +20,7 @@ class CreateDirectoriesTable extends Migration
             #$table->foreign('business_owner')->references('name')->on('users'); # FK Constraint
             $table->string('business_name');
             $table->string('brand_name')->nullable();
+            $table->string('organization_name')->nullable();
             $table->longText('business_about')->nullable();
             $table->longText('location');
             $table->dateTime('business_founding_date')->nullable();

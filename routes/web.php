@@ -29,6 +29,7 @@ use App\Http\Controllers\TreeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CalculationController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\CertificateGenerator;
 use App\Http\Controllers\TreeMaintenanceController;
@@ -58,8 +59,6 @@ Route::get('/', function () {
 
 
 Auth::routes();
-
-
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
@@ -73,9 +72,13 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     -- FRONTEND ROUTES --
 ************************/
 
+Route::get('/test', function() {
+    dd(app(\App\Helpers\CO2Helper::class)->calculate());
+});
+
 Route::prefix('home')->as('home.')->group(function () {
     Route::get('/', [FrontendController::class, 'index'])->name('index');
-    Route::get('/calculate', [FrontendController::class, 'calculate'])->name('calculate');
+    Route::get('/calculate', [CalculationController::class, 'frontend'])->name('calculate');
     Route::get('/certificate/{uuid}', [FrontendController::class, 'index']);
     Route::get('/about', [FrontendController::class, 'aboutus'])->name('about');
     Route::get('/contributors', [FrontendController::class, 'contributors'])->name('contributors');
@@ -89,7 +92,8 @@ Route::prefix('home')->as('home.')->group(function () {
     Route::get('/track-my-tree/{uuid}', [FrontendController::class, 'index']);
     Route::get('/statistics', [FrontendController::class, 'index']);
     Route::get('/investors', [FrontendController::class, 'comingsoon'])->name('investors');
-    Route::get('/announcements', [FrontendController::class, 'index']);
+    Route::get('/announcements', [FrontendController::class, 'announcements'])->name('announcements');
+    Route::get('/announcements/{slug}', [FrontendController::class, 'view'])->name('announcements.view');
     Route::get('/blog', [FrontendController::class, 'index']);
     Route::get('/coming-soon', [FrontendController::class, 'comingsoon'])->name('coming-soon');
     Route::get('/verify/{uuid}', [UserController::class, 'verify'])->name('users.verify');
