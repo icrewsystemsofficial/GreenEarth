@@ -7,6 +7,7 @@ use App\Helpers\Whois;
 use App\Mail\SendContactMailtoAdmins;
 use App\Mail\SendContactMailtoUser;
 
+use App\Models\Announcement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -299,6 +300,16 @@ class FrontendController extends Controller
 
     public function volunteer($username){
         return view('frontend.volunteer');
+    }
+
+    public function announcements(){
+        $announcements = Announcement::where('status', "1")->orderBy('created_at', 'desc')->get();
+        return view('frontend.announcement', compact('announcements'));
+    }
+
+    public function view($slug){
+        $announcements = Announcement::where('slug', $slug)->first();
+        return view('frontend.view', compact('announcements'));
     }
 
 }
