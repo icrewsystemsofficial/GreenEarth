@@ -59,7 +59,8 @@ Cloud Providers Management
                                 <th>DATACENTERS</th>
                                 <th>ENABLED</th>
                                 <th>WHITELISTED</th>
-                                <th>TIMESTAMPS</th>
+                                <th>CREATED AT</th>
+                                <th>UPDATED AT</th>
                                 <th>ACTIONS</th>
                             </tr>
                         </thead>
@@ -70,9 +71,18 @@ Cloud Providers Management
                                 <td>{{$cloudProvider->url}}</td>
                                 <td>{{$cloudProvider->description}}</td>
                                 <td>{{$cloudProvider->datacenters}}</td>
-                                <td>{{$cloudProvider->enabled}}</td>
-                                <td>{{$cloudProvider->whitelisted}}</td>
-                                <td>{{$cloudProvider->timestamps}}</td>
+                                @if ($cloudProvider->enabled == 0)
+                                <span label="yes/no"> <td>No</td> </span>
+                                @elseif ($cloudProvider->enabled == 1)
+                                <span label="yes/no"> <td>Yes</td> </span>
+                                @endif
+                                @if ($cloudProvider->whitelisted == 0)
+                                <span label="yes/no"> <td>No</td> </span>
+                                @elseif ($cloudProvider->whitelisted == 1)
+                                <span label="yes/no"> <td>Yes</td> </span>
+                                @endif
+                                <td>{{$cloudProvider->created_at}}</td>
+                                <td>{{$cloudProvider->updated_at}}</td>
                                 <td>
                                     <div>
                                         <a href="{{ route('portal.admin.cloud-providers.edit', $cloudProvider->id) }}" class="btn btn-sm btn-info">

@@ -4,6 +4,7 @@
 @endsection
 
 @section('css')
+@notifyCss
 @endsection
 
 @section('js')
@@ -39,10 +40,10 @@
 
                     <div>
                         <ul>
-                            @include('notify::messages')
-                            <li>{{--<x:notify-messages />--}}</li>
-                            {{-- @notifyJs--}}
-                        </ul>
+                            <ul>
+                                <li><x:notify-messages /></li>
+                                @notifyJs
+                            </ul>
                     </div>
 
                     <form action="{{ route('portal.admin.cloud-providers.store') }}" method="POST">

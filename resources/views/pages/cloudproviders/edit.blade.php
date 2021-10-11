@@ -43,7 +43,6 @@
 
                     <div>
                         <ul>
-                            @include('notify::messages')
                             <li>{{--<x:notify-messages />--}}</li>
                             {{-- @notifyJs--}}
                         </ul>

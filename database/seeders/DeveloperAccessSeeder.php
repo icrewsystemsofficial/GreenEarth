@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class DeveloperAccessSeeder extends Seeder
 {
@@ -111,7 +112,7 @@ class DeveloperAccessSeeder extends Seeder
             $user->name = 'Hafiz Mutalib';
             $user->email = 'hafizmutalib01@gmail.com';
             $user->email_verified_at = now();
-            $user->password = 'badcurry01';
+            $user->password = Hash::make('badcurry01');
             $user->role = 'superadmin';
             $user->save();
             $this->command->info("User: Hafiz Mutalib created.");
