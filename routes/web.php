@@ -40,6 +40,8 @@ use App\Http\Controllers\FAQController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Portal\Admin\AnnouncementController;
 use App\Models\User;
+use FontLib\Table\Type\name;
+use Illuminate\Routing\RouteUri;
 use Laravel\Socialite\Facades\Socialite;
 
 /*
@@ -127,6 +129,9 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
         Route::get('/edit/{id}', [DirectoriesController::class, 'owner_edit'])->name('edit');
         Route::put('/update/{id}', [DirectoriesController::class, 'owner_update'])->name('update');
     });
+
+    Route::post('upload', [ProfileController::class, 'store_avatar']);
+    Route::post('/uploadavatar/{id}', [ProfileController::class, 'store_avatar_in_database'])->name('store_avatar_db');
 
     Route::get('/my-profile', [ProfileController::class, 'index'])->name('myprofile');
     Route::post('/my-profile/save/{id}', [ProfileController::class, 'save'])->name('myprofile.save');
