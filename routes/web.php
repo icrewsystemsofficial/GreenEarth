@@ -57,6 +57,10 @@ Route::get('/', function () {
     return redirect(route('home.index'));
 });
 
+Route::get('/embed/{code}', function($code){
+    return view('embeds.embed')->with('code', $code);
+});
+
 
 Auth::routes();
 Route::get('/email/verify', function () {

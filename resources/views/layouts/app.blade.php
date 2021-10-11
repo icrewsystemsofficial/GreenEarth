@@ -187,6 +187,8 @@
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{asset('js/soft-ui-dashboard.min.js')}}"></script>
 
+    
+
     @notifyJs
     @yield('js')
 </body>

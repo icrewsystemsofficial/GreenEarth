@@ -396,6 +396,10 @@
         };
       }
     </script>
+
+    <script id="ge-script" code="1234" src="http://127.0.0.1:8000/js/greenearth.js"></script>
+
+
     @yield('js')
   </body>
 
