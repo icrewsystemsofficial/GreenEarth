@@ -4,19 +4,12 @@
 @endsection
 
 @section('css')
-<!-- CSS only -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.css" integrity="sha512-jU/7UFiaW5UBGODEopEqnbIAHOI8fO6T99m7Tsmqs2gkdujByJfkCbbfPSN4Wlqlb9TGnsuC0YgUgWkRBK7B9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 <style>
-    .btn{
-        text-transform: unset !important;
-    }
+
     .dropzoneDragArea{
         background-color: #fbfdff;
         border: 1px dashed #c0ccda;
@@ -31,9 +24,6 @@
         border: none;
     }
 
-    .card{
-        border-radius: 10px;
-    }
 
     .gallery{
         width:200px;
@@ -62,13 +52,8 @@
 @endsection
 
 @section('js')
-<!-- JavaScript Bundle with Popper -->
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js" integrity="sha512-VQQXLthlZQO00P+uEu4mJ4G4OAgqTtKG1hri56kQY1DtdLeIqhKUp9W/lllDDu3uN3SnUNawpW7lBda8+dSi7w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
 <script type="text/javascript">
@@ -175,10 +160,9 @@
                             <div class="form-group ps-3 pe-3 text-sm">
                                 <label for="health" class="pe-4"> Health </label>
                                 <select name="health" id="health">
-                                    <option {{ $trees->health == 'Healthy' ? 'selected':'' }}> Healthy </option>
-                                    <option {{ $trees->health == 'Not So Healthy' ? 'selected':'' }}> Not So Healthy </option>
-                                    <option {{ $trees->health == 'Needs Immediate Attention' ? 'selected':'' }}> Needs Immediate Attention </option>
-
+                                @foreach($treeHealth as $health)
+                                    <option {{ ($trees->health == $health) ? 'selected':'' }} value="{{$health}}"> {{$health}} </option>
+                                @endforeach
                                 </select>
                             </div>
 
@@ -204,7 +188,7 @@
                                     <div class="col" style="column-gap: 0.25rem;">
 
                                         <div class="card container pe-0" style="width:200px; border:none;">
-                                            <a onclick="return confirm('Are you sure?')" href="{{route('portal.admin.tree.edit',$trees->id,$treeImage->id)}}">
+                                            <a onclick="return confirm('Are you sure?')" href="{{route('portal.admin.tree.deleteImage',['treeid'=>$trees->id,'id'=>$treeImage->id])}}">
                                                 <i class="fas fa-times-circle pe-2 pt-1 text-white" style="float: right;"></i>
                                             </a>
                                             <img class="card-img-top gallery" src="{{ asset('uploads/images/') }}/{{ $treeImage->name }}" />
@@ -215,8 +199,8 @@
                             </div>
 
                             <div class="card-footer ps-3">
-                                <button type="submit" class="btn text-white bg-green-600 btn-sm ps-3 pe-3 pt-2 pb-2"> Update Tree </button>
-                                <a href="{{ route('portal.admin.tree.index') }}" class="btn text-white bg-red-600 btn-sm ps-3 pe-3 pt-2 pb-2">
+                                <button type="submit" class="btn btn-sm btn-success"> Update Tree </button>
+                                <a href="{{ route('portal.admin.tree.index') }}" class="btn btn-sm btn-warning">
                                     Back
                                </a>
                             </div>

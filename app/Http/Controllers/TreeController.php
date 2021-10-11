@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Helpers\TreesHealthHelper;
 use http\Env\Response;
 use App\Models\Tree;
 use App\Models\TreeImages;
@@ -20,14 +21,16 @@ class TreeController extends Controller
 
     public function create()
     {
-        return view('pages.tree.create');
+        $treeHealth = TreesHealthHelper::health();
+        return view('pages.tree.create', compact('treeHealth'));
     }
 
     public function edit($id)
     {
+        $treeHealth = TreesHealthHelper::health();
         $trees = Tree::where('id', $id)->first();
         $treeImages = TreeImages::where('tree_id', $id)->get();
-        return view('pages.tree.edit', compact('trees', 'treeImages'));
+        return view('pages.tree.edit', compact('trees', 'treeImages', 'treeHealth'));
     }
 
     public function update(Request $request, $id)
@@ -50,7 +53,7 @@ class TreeController extends Controller
 		catch (\Exception $e) {
 			return response()->json(['status'=>'exception', 'msg'=>$e->getMessage()]);
 		}
-
+        smilify('success','Tree updated successfully!');
         return response()->json(['status'=>"success",'tree_id'=>$id]);
     }
 
@@ -75,7 +78,7 @@ class TreeController extends Controller
 		catch (\Exception $e) {
 			return response()->json(['status'=>'exception', 'msg'=>$e->getMessage()]);
 		}
-
+        smilify('success','Tree created successfully!');
         return response()->json(['status'=>"success",'tree_id'=>$tree_id]);
 	}
 
@@ -101,26 +104,25 @@ class TreeController extends Controller
                 $tree->tree_id = $treeid;
                 $tree->save();
             }
-
-            return redirect()->route('portal.admin.tree.index');
+            return redirect(route('portal.admin.tree.index'));
         }
-
-        return redirect()->route('portal.admin.tree.index');
+        return redirect(route('portal.admin.tree.index'));
 
 	}
 
-    public function deleteImage(Request $request, $treeid, $id)
+    public function deleteImage($treeid, $id)
     {
         TreeImages::where('id', $id)->delete();
-        return back();
+        smilify('success','Image deleted successfully!');
 
+        return back();
     }
 
     public function destroy(Request $request, $id)
     {
         TreeImages::where('tree_id', $id)->delete();
         Tree::where('id', $id)->delete();
-
+        smilify('success','Tree deleted successfully!');
         return redirect(route('portal.admin.tree.index'));
     }
 

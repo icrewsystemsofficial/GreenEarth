@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Route;
 use Spatie\Activitylog\Models\Activity;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TreeController;
+use App\Http\Controllers\TreesUpdatesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\Auth\LoginController;
@@ -200,10 +201,10 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::get('/edit/{id}', [TreeController::class, 'edit'])->name('edit');
             Route::put('/edit/{id}', [TreeController::class, 'update'])->name('update');
             Route::get('/edit/{treeid}/{id}', [TreeController::class, 'deleteImage'])->name('deleteImage');
-            Route::get('/delete/{id}', [TreeController::class, 'destroy'])->name('delete');
-            Route::get('/add-maintenance/{id}', [TreeMaintenanceController::class, 'create'])->name('add_maintenance');
-            Route::get('/history/{id}', [TreeMaintenanceController::class, 'index'])->name('history_maintenance');
-            Route::post('/add-maintenance/{id}', [TreeMaintenanceController::class, 'store'])->name('maintenance_store');
+            Route::get('/delete/{id}', [TreeController::class, 'destroy'])->name('delete');          
+            Route::get('/update/{id}', [TreesUpdatesController::class, 'create'])->name('add_updates');
+            Route::post('/update/{id}', [TreesUpdatesController::class, 'store'])->name('store_updates');
+            Route::get('/history/{id}', [TreesUpdatesController::class, 'index'])->name('history_maintenance');
 
         });
 

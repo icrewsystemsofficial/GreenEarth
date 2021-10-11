@@ -4,17 +4,11 @@
 @endsection
 
 @section('css')
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.css" integrity="sha512-jU/7UFiaW5UBGODEopEqnbIAHOI8fO6T99m7Tsmqs2gkdujByJfkCbbfPSN4Wlqlb9TGnsuC0YgUgWkRBK7B9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 <style>
-    .btn{
-        text-transform: unset !important;
-    }
     .dropzoneDragArea{
         background-color: #fbfdff;
         border: 1px dashed #c0ccda;
@@ -28,20 +22,12 @@
     .dropzone{
         border: none;
     }
-
-    .card{
-        border-radius: 10px;
-    }
 </style>
 @endsection
 
 @section('js')
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js" integrity="sha512-VQQXLthlZQO00P+uEu4mJ4G4OAgqTtKG1hri56kQY1DtdLeIqhKUp9W/lllDDu3uN3SnUNawpW7lBda8+dSi7w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
 <script type="text/javascript">
@@ -90,7 +76,7 @@
 						        $("#treeid").val(treeid);
                                 myDropzone.processQueue();
 
-                                window.location.href = "{{URL::to('portal/admin/tree')}}";
+                                window.location.href = "{{ route('portal.admin.tree.index') }}";
                             }
                             else{
                                 console.log("error");
@@ -150,9 +136,9 @@
                             <div class="form-group ps-3 pe-3 text-sm">
                                 <label for="health" class="pe-4"> Health </label>
                                 <select name="health" id="health">
-                                    <option value="Healthy"> Healthy </option>
-                                    <option value="Not So Healthy"> Not So Healthy </option>
-                                    <option value="Needs Immediate Attention"> Needs Immediate Attention </option>
+                                @foreach($treeHealth as $health)
+                                    <option value="{{$health}}"> {{$health}} </option>
+                                @endforeach
                                 </select>
                             </div>
 
@@ -173,7 +159,7 @@
                             </div>
 
                             <div class="card-footer p-3">
-                                <button type="submit" class="btn bg-gradient-dark text-sm btn-sm ps-3 pe-3 pt-2 pb-2"> Save </button>
+                                <button type="submit" class="btn btn-sm btn-success"> Save </button>
                             </div>
 
                         </form>
