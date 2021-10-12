@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Profile;
+use App\Models\TemporaryFile;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use Prophecy\Promise\ReturnPromise;
 
 class ProfileController extends Controller
 {
@@ -30,10 +34,11 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        return view ('pages.profile.create');
+        return view('pages.profile.create');
     }
 
-    public function resend_email_verification(Request $request) {
+    public function resend_email_verification(Request $request)
+    {
         $request->user()->sendEmailVerificationNotification();
         smilify('success', 'A verification link was sent to your e-mail', 'Update');
         return back();
@@ -56,7 +61,7 @@ class ProfileController extends Controller
         User::create($request->all());
 
         return redirect()->route('portal.profile.index')
-            ->with('success','User created successfully.');
+            ->with('success', 'User created successfully.');
     }
 
     /**
@@ -67,7 +72,7 @@ class ProfileController extends Controller
      */
     public function show(User $user)
     {
-        return view('pages.profile.show',compact('user'));
+        return view('pages.profile.show', compact('user'));
     }
 
     /**
@@ -78,7 +83,7 @@ class ProfileController extends Controller
      */
     public function edit(User $user)
     {
-        return view('pages.profile.edit',compact('user'));
+        return view('pages.profile.edit', compact('user'));
     }
 
     /**
@@ -90,7 +95,7 @@ class ProfileController extends Controller
      */
     public function save(Request $request, $id)
     {
-        if($id == '') {
+        if ($id == '') {
             throw new \Exception('ID must be provided to update user records');
         }
 
@@ -103,8 +108,8 @@ class ProfileController extends Controller
         $user->save();
 
         //Logging the activity.
-        activity()->log('User: ' .$request->input('name') . '\'s account was updated');
-        smilify('success', $request->input('name') .'\'s profile was updated', 'Yay!');
+        activity()->log('User: ' . $request->input('name') . '\'s account was updated');
+        smilify('success', $request->input('name') . '\'s profile was updated', 'Yay!');
         return redirect(route('portal.myprofile'));
     }
 
@@ -119,6 +124,45 @@ class ProfileController extends Controller
         $user->delete();
 
         return redirect()->route('portal.profile.index')
-            ->with('success','User deleted successfully');
+            ->with('success', 'User deleted successfully');
+    }
+
+    public function store_avatar(Request $req)
+    {
+        if ($req->hasFile('avatar')) {
+            $file = $req->file('avatar');
+            $folder = $file->getClientOriginalName();
+            $filename = uniqid() . '-' . now()->timestamp . '.png';
+
+            if (TemporaryFile::exists()) {
+                $path = 'avatars';
+                $files = Storage::allFiles($path);
+                Storage::delete($files);
+                TemporaryFile::truncate();
+            }
+            $file->storeAs('avatars/', $filename);
+            TemporaryFile::create([
+                'folder' => $folder,
+                'filename' => $filename,
+                'user_id' => Auth::user()->id,
+            ]);
+            return $filename;
+        }
+    }
+
+    public function store_avatar_in_database($id)
+    {
+        $temporaryFile = TemporaryFile::first();
+        $user = User::where('id', $id)->first();
+        $ds = DIRECTORY_SEPARATOR;
+        File::delete(public_path($user->avatar));
+        $user->avatar = 'storage/avatars/' . $temporaryFile->filename;
+        $user->save();
+        $path_to = 'public/avatars' . $ds . $temporaryFile->filename;
+        $path_from = 'avatars' . $ds . $temporaryFile->filename;
+        Storage::copy($path_from, $path_to);
+        $files = Storage::allFiles('avatars');
+        Storage::delete($files);
+        return redirect()->back();
     }
 }
