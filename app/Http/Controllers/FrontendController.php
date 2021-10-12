@@ -4,11 +4,18 @@ namespace App\Http\Controllers;
 
 use Goutte\Client;
 use App\Helpers\Whois;
+use App\Mail\SendContactMailtoAdmins;
+use App\Mail\SendContactMailtoUser;
+
 use App\Models\Announcement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Cronfig\Sysinfo\System;
+use App\Models\Contact;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use Symfony\Component\HttpFoundation\Response;
 
 class FrontendController extends Controller
 {
@@ -163,6 +170,75 @@ class FrontendController extends Controller
     public function investors(){
         return view('frontend.comingsoon');
     }
+
+    /*Contact Module*/
+
+    public function contact(){
+        return view('frontend.contact');
+    }
+
+    public function contact_store(Request $request){
+
+
+        // $request->validate([
+        //         'email' => 'required',
+        //         'body' => 'required',
+        //         'type' => 'required',
+        //         'g-recaptcha-response' => 'recaptcha'
+        // ]);
+
+        $contact= new Contact;
+        $contact->email = $request->email;
+        $contact->type = $request->type;
+        $contact->body = $request->body;
+        $contact->status = 0; // Status: 0 = New, 1 = Contacted, 2 = Resolved, 3 = Spam.
+        $contact -> save();
+
+        $this->contact_mailsend($contact);
+
+        smilify('Yay', 'Your message was sent to us, we\'ll get in touch with you soon');
+        return redirect(route('home.contact.index'));
+
+    }
+
+    public function contact_mailSend($data) {
+
+        $email = $data->email;
+        $type = $data->type;
+        $body = $data->body;
+        $data_for_id = Contact::where([['email',$email],['type',$type],['body',$body]])->first();
+
+        $id = $data_for_id->id;
+        $url= route('portal.admin.contact-requests.view',$id);
+
+
+
+        $admins_emailid = User::role('admin')->get('email');
+
+        $mailInfo = [
+            'title' => 'Greenearth - New message from a User',
+            'email' => $email,
+            'type' => $type,
+            'body' => $body,
+            'url' => $url,
+            'id' => $id,
+            'mails' => $admins_emailid
+        ];
+
+        foreach($admins_emailid as $mail){
+            $emailid=$mail->email;
+            Mail::to($emailid)->send(new SendContactMailtoAdmins($mailInfo));
+        }
+
+        Mail::to($email)->send(new SendContactMailtoUser($mailInfo));
+
+        return response()->json([
+            'message' => 'Mail has sent.'
+        ], Response::HTTP_OK);
+    }
+
+
+
 
     public function contributors(){
         $github_api_url = 'https://api.github.com/repos/icrewsystemsofficial/GreenEarth';
