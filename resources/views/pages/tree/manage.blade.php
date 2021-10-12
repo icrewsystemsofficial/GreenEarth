@@ -22,21 +22,21 @@
                         {{ method_field('PUT') }}
                             @csrf
                             <div class="form-group">
-                                <label class="control-label col-sm2" for="name"> Forest ID </label>
+                                <label class="control-label col-sm2" for="forestid"> Forest ID </label>
                                 <div class="col-sm-12">
-                                    <input type="text" class="form-control" id="forestid" name="name" placeholder="" value="">
+                                    <input type="text" class="form-control" id="forestid" name="forestid" placeholder="" value="">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm2"> Species ID </label>
                                 <div class="col-sm-12">
-                                    <input type="text" class="form-control" name="description" placeholder="" value="">
+                                    <input type="text" class="form-control" name="speciesid" placeholder="" value="">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm2"> Mission ID </label>
                                 <div class="col-sm-12">
-                                    <input type="text" class="form-control" name="location" placeholder="" value="">
+                                    <input type="text" class="form-control" name="missionid" placeholder="" value="">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -49,9 +49,9 @@
                                     </select>                                    
                                 </div>
                             </div>
-                            <a type="submit" class="btn btn-success">
+                            <button type="submit" class="btn btn-success">
                                  <span id="footer_action_button" class=""><i class="fa fa-save"></i> UPDATE </span>
-                            </a>
+                            </button>
                             <a href="{{ route('portal.admin.tree.index') }}" class="btn btn-warning">
                                 <i class="fa fa-arrow-left"></i> Back
                             </a>
@@ -103,7 +103,7 @@
                 <div class="card">
                     <div class="card-body">
                         <a href="{{route('portal.admin.tree.add_updates', $tree->id )}}" class="btn btn-secondary block btn-sm">
-                                   Add Updates
+                            Add Updates
                         </a>
                         <a href="{{route('portal.admin.tree.history_maintenance', $tree->id )}}" class="btn btn-info block btn-sm">
                             History

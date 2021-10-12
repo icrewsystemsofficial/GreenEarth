@@ -79,8 +79,8 @@ class TreeController extends Controller
 			return response()->json(['status'=>'exception', 'msg'=>$e->getMessage()]);
 		}
         smilify('success','Tree created successfully!');
-        //return response()->json(['status'=>"success",'tree_id'=>$tree_id]);
-        return redirect(route('portal.admin.tree.index'));
+        return response()->json(['status'=>"success",'tree_id'=>$tree_id]);
+        //return redirect(route('portal.admin.tree.index'));
 	}
 
 	public function storeImage(Request $request)

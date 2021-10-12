@@ -48,8 +48,8 @@
                 <table id="all-maintenance" class="table text-center table-responsive">
                     <thead>
                         <tr>
-                            <th> HEALTH </th>
                             <th> REMARKS </th>
+                            <th> HEALTH </th>
                             <th> DATE  </th>
                             <th> VOLUNTEER </th>
                             <th> ACTIONS </th>
@@ -58,6 +58,7 @@
                     <tbody>
                     @foreach ($maintenance_log as $maintenance_record)
                         <tr style="vertical-align: middle;">
+                            <td> {!! Str::limit($maintenance_record->remarks, 17) !!} </td>
                             <td> 
                                 @if($tree->health == "Healthy")
                                 <span class="badge bg-success text-white">
@@ -73,7 +74,6 @@
                                 </span>
                                 @endif
                             </td>
-                            <td> {!! Str::limit($maintenance_record->remarks, 17) !!} </td>
                             <td> {{ $maintenance_record->created_at->diffForHumans() }} </td>
                             <td> {{ $maintenance_record->updated_by }} </td>
                             <td class="pb-0">

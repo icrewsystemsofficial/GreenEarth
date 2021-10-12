@@ -86,7 +86,7 @@
                                 @endif
                             </td>
                             <td class="pb-0">
-                                <a href="{{route('portal.admin.tree.manage',$tree->id)}}" class="btn btn-dark btn-sm">
+                                <a href="{{route('portal.admin.tree.manage',$tree->id)}}" class="btn btn-info btn-sm">
                                     Manage
                                 </a>
                             </td>

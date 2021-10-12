@@ -57,9 +57,9 @@
 @endsection
 
 @section('content')
-<div class="container-fluid py-4">
+    <div class="container-fluid py-4">
         <h5 class="text-muted mb-3">
-            Trees Management
+            Trees Maintenance Management
         </h5>
         <div class="row">
             <div class="col-md-6">
@@ -91,9 +91,9 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-success">
-                                 <span id="footer_action_button" class=""><i class="fa fa-save"></i> UPDATE </span>
-</button>
-                            <a href="{{ route('portal.admin.tree.index') }}" class="btn btn-warning">
+                                 <span id="footer_action_button" class="mt-2"><i class="fa fa-save"></i> UPDATE </span>
+                            </button>
+                            <a href="{{ route('portal.admin.tree.index') }}" class="btn btn-warning mt-2">
                                 <i class="fa fa-arrow-left"></i> Back
                             </a>
                         </form>
@@ -140,8 +140,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                
+                </div>    
             </div>
         </div>
     </div>
