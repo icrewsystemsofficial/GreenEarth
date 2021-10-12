@@ -58,7 +58,7 @@
         Get in touch with us and we'll answer your questions. You can either write to us,
         or start a conversation on our chatbot.
         <br>
-        <a href="{{ route('home.contact') }}" class="mt-3 btn btn-sm btn-success">
+        <a href="{{ route('home.contact.index') }}" class="mt-3 btn btn-sm btn-success">
             Contact
         </a>
         <a href="#" class="mt-3 btn btn-sm btn-dark">
