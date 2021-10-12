@@ -23,21 +23,21 @@
 
                     @if($cloudProviders->whitelisted == 0)
                     <span class="badge bg-danger mb-3">
-                        <i class="fa fa-check-circle"></i> Account Not Whitelisted
+                        <i class="fa fa-exclamation-circle"></i> Account Not Whitelisted
                     </span>
                     @else
                     <span class="badge bg-success mb-3">
-                        <i class="fa fa-exclamation-circle"></i> Account Whitelisted
+                        <i class="fa fa-check-circle"></i> Account Whitelisted
                     </span>
                     @endif
 
                     @if($cloudProviders->enabled == 0)
                     <span class="badge bg-danger mb-3">
-                        <i class="fa fa-check-circle"></i> Account Not Enabled
+                        <i class="fa fa-exclamation-circle"></i> Account Not Enabled
                     </span>
                     @else
                     <span class="badge bg-success mb-3">
-                        <i class="fa fa-exclamation-circle"></i> Account Enabled
+                        <i class="fa fa-check-circle"></i> Account Enabled
                     </span>
                     @endif
 
@@ -105,7 +105,13 @@
                         </a>
 
                     </form>
-
+                    <div>
+                        <form action="{{ route('portal.admin.cloud-providers.destroy', $cloudProviders->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

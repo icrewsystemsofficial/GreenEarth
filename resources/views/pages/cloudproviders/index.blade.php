@@ -37,7 +37,7 @@ Cloud Providers Management
 
         <div class="col-md-12">
             <h5>
-                
+
             </h5>
         </div>
 
@@ -55,11 +55,9 @@ Cloud Providers Management
                             <tr>
                                 <th>NAME</th>
                                 <th>URL</th>
-                                <th>DESCRIPTION</th>
                                 <th>DATACENTERS</th>
                                 <th>ENABLED</th>
                                 <th>WHITELISTED</th>
-                                <th>CREATED AT</th>
                                 <th>UPDATED AT</th>
                                 <th>ACTIONS</th>
                             </tr>
@@ -69,33 +67,40 @@ Cloud Providers Management
                             <tr>
                                 <td>{{$cloudProvider->name}}</td>
                                 <td>{{$cloudProvider->url}}</td>
-                                <td>{{$cloudProvider->description}}</td>
                                 <td>{{$cloudProvider->datacenters}}</td>
                                 @if ($cloudProvider->enabled == 0)
-                                <span label="yes/no"> <td>No</td> </span>
+                                <td>
+                                    <span class="badge bg-danger mb-3">
+                                        <i class="fa fa-exclamation-circle""></i> No
+                                    </span>
+                                </td>
                                 @elseif ($cloudProvider->enabled == 1)
-                                <span label="yes/no"> <td>Yes</td> </span>
+                                <td>
+                                    <span class="badge bg-success mb-3">
+                                        <i class="fa fa-check-circle"></i> Yes
+                                    </span>
+                                </td>
                                 @endif
                                 @if ($cloudProvider->whitelisted == 0)
-                                <span label="yes/no"> <td>No</td> </span>
+                                <td>
+                                    <span class="badge bg-danger mb-3">
+                                        <i class="fa fa-exclamation-circle"></i> No
+                                    </span>
+                                </td>
                                 @elseif ($cloudProvider->whitelisted == 1)
-                                <span label="yes/no"> <td>Yes</td> </span>
+                                <td>
+                                    <span class="badge bg-success mb-3">
+                                        <i class="fa fa-check-circle"></i> Yes
+                                    </span>
+                                </td>
                                 @endif
-                                <td>{{$cloudProvider->created_at}}</td>
-                                <td>{{$cloudProvider->updated_at}}</td>
+                                <td>{{$cloudProvider->updated_at->diffForHumans()}}</td>
                                 <td>
                                     <div>
                                         <a href="{{ route('portal.admin.cloud-providers.edit', $cloudProvider->id) }}" class="btn btn-sm btn-info">
-                                            Edit
+                                            Manage
                                         </a>
-                                    </div>
-                                    <div>
-                                        <form action="{{ route('portal.admin.cloud-providers.destroy', $cloudProvider->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-warning">Delete</button>
-                                        </form>
-                                    </div>
+                                    </div>                                  
                                 </td>
                             </tr>
                             @endforeach
