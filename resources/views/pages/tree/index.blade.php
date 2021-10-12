@@ -70,22 +70,25 @@
                                 {{ \Carbon\Carbon::parse($tree->last_maintained)->diffForHumans() }} 
                                 @endif
                             </td>
-                            <td> {{ $tree->health }} </td>
-                            <td class="pb-0">
-                                <a href="{{route('portal.admin.tree.edit',$tree->id)}}" class="btn btn-dark btn-sm">
-                                    Edit
-                                </a>
-                                <a href="{{route('portal.admin.tree.add_updates', $tree->id )}}" class="btn btn-secondary btn-sm">
-                                    Update
-                                </a>
-                                <a href="{{route('portal.admin.tree.history_maintenance', $tree->id )}}" class="btn btn-info btn-sm">
-                                    History
-                                </a>
-                                @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin') || \Illuminate\Support\Facades\Auth::user()->hasRole('superadmin'))
-                                <a onclick="return confirm('Are you sure?')" href="{{route('portal.admin.tree.delete', $tree->id )}}" class="btn btn-danger btn-sm">
-                                    Delete
-                                </a>
+                            <td> 
+                                @if($tree->health == "Healthy")
+                                <span class="badge bg-success text-white">
+                                {{ $tree->health }}
+                                </span> 
+                                @elseif($tree->health == "Not So Healthy")
+                                <span class="badge bg-warning text-white">
+                                {{ $tree->health }}
+                                </span>
+                                @else
+                                <span class="badge bg-danger text-white">
+                                {{ $tree->health }}
+                                </span>
                                 @endif
+                            </td>
+                            <td class="pb-0">
+                                <a href="{{route('portal.admin.tree.manage',$tree->id)}}" class="btn btn-dark btn-sm">
+                                    Manage
+                                </a>
                             </td>
                         </tr>
                         @endforeach

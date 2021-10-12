@@ -40,7 +40,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="h5"> Tree Maintenance History  </div>
-                <div class="text-secondary text-sm ">{{$tree->name}} planted at {{$tree->location}} on {{$tree->created_at}}</div>
+                <div class="text-secondary text-sm ">{{$tree->name}} planted at {{$tree->location}} on {{$tree->created_at->diffForHumans()}} ({{ $tree->created_at->format('d/m/Y') }})</div>
                 <div class="text-secondary text-sm" id="subheading"> </div>
             </div>
 
@@ -58,7 +58,21 @@
                     <tbody>
                     @foreach ($maintenance_log as $maintenance_record)
                         <tr style="vertical-align: middle;">
-                            <td> {{ $maintenance_record->health }} </td>
+                            <td> 
+                                @if($tree->health == "Healthy")
+                                <span class="badge bg-success text-white">
+                                {{ $tree->health }}
+                                </span> 
+                                @elseif($tree->health == "Not So Healthy")
+                                <span class="badge bg-warning text-white">
+                                {{ $tree->health }}
+                                </span>
+                                @else
+                                <span class="badge bg-danger text-white">
+                                {{ $tree->health }}
+                                </span>
+                                @endif
+                            </td>
                             <td> {!! Str::limit($maintenance_record->remarks, 17) !!} </td>
                             <td> {{ $maintenance_record->created_at->diffForHumans() }} </td>
                             <td> {{ $maintenance_record->updated_by }} </td>
@@ -82,7 +96,21 @@
                                                         <p>
                                                             <span class="h6"> Date:</span> {{ $maintenance_record->created_at->diffForHumans() }} <br>
                                                             <span class="h6"> Updated By: </span> {{ $maintenance_record->updated_by }} <br>
-                                                            <span class="h6"> Tree Health: </span> {{ $maintenance_record->health }} <br>
+                                                            <span class="h6"> Tree Health: </span> 
+                                                            @if($tree->health == "Healthy")
+                                                            <span class="badge bg-success text-white">
+                                                            {{ $tree->health }}
+                                                            </span> 
+                                                            @elseif($tree->health == "Not So Healthy")
+                                                            <span class="badge bg-warning text-white">
+                                                            {{ $tree->health }}
+                                                            </span>
+                                                            @else
+                                                            <span class="badge bg-danger text-white">
+                                                            {{ $tree->health }}
+                                                            </span>
+                                                            @endif
+                                                            <br>
                                                             <span class="h6"> Remarks: </span> {!! $maintenance_record->remarks !!} 
                                                         </p>
                                                     </div>

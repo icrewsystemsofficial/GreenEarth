@@ -32,7 +32,8 @@ class TreesUpdatesController extends Controller
     public function create($id)
     {
         $treeHealth = TreesHealthHelper::health();
-        return view('pages.tree.update', compact('treeHealth', 'id'));
+        $tree = Tree::where('id', $id)->first();
+        return view('pages.tree.update', compact('treeHealth', 'tree'));
     }
 
     /**

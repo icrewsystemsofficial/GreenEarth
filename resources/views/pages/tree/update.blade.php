@@ -58,40 +58,92 @@
 
 @section('content')
 <div class="container-fluid py-4">
-    <div class="container-fluid py-4">
-        <div class="card">
-            <form method="post" action="{{ route('portal.admin.tree.store_updates', $id) }}" enctype="multipart/form-data">
-                @csrf
-                @method('POST')
-                <div class="card-body text-sm">
-                    <div class="form-group ms-3">
-                        <label> Image of the tree </label>
-                        <div class="m-2">
-                            <input type="file" id="logo" name="logo"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="health" class="ms-3 me-3"> Health </label>
-                        <select name="health" id="health" class="bg-white">
-                            @foreach($treeHealth as $health)
-                                <option value="{{$health}}"> {{$health}} </option>
-                            @endforeach
-                        </select>
-                    </div> 
-                    <div class="form-group mb-3 ms-3">
-                        <label> Remarks </label>
-                        <textarea class="ckeditor form-control" name="remarks"> </textarea>
+        <h5 class="text-muted mb-3">
+            Trees Management
+        </h5>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="{{ route('portal.admin.tree.store_updates', $tree->id) }}" method="POST">
+                        {{ method_field('POST') }}
+                            @csrf
+                            <div class="form-group">
+                                <label class="control-label col-sm2" for="logo"> Image of the tree </label>
+                                <div class="col-sm-12">
+                                    <input type="file" class="form-control" id="logo" name="logo">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm2" for="health"> Health </label>
+                                <div class="col-sm-12">
+                                    <select class="form-control" name="health" id="health">
+                                    @foreach($treeHealth as $health)
+                                        <option {{ ($tree->health == $health) ? 'selected':'' }} value="{{$health}}"> {{$health}} </option>
+                                    @endforeach
+                                    </select>                                    
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm2"> Remarks </label>
+                                <div class="col-sm-12">
+                                    <textarea class="ckeditor form-control" name="remarks"> </textarea>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success">
+                                 <span id="footer_action_button" class=""><i class="fa fa-save"></i> UPDATE </span>
+</button>
+                            <a href="{{ route('portal.admin.tree.index') }}" class="btn btn-warning">
+                                <i class="fa fa-arrow-left"></i> Back
+                            </a>
+                        </form>
                     </div>
                 </div>
-                <div class="card-footer ms-3">
-                    <button type="submit" class="btn btn-success btn-sm" > Update </button>
-                    <a href="{{ url()->previous() }}" class="btn btn-warning btn-sm"> 
-                        Back
-                    </a> 
-                </div>                        
-            </form>            
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body p-3">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <div class="numbers">
+                                            <p class="text-sm mb-0 text-capitalize font-weight-bold">PLANTED ON</p>
+                                            <h5 class="font-weight-bolder mb-0">
+                                                {{ $tree->created_at->diffForHumans() }}
+                                            </h5>
+                                            <small class="text-muted text-xs">
+                                                ({{ $tree->created_at->format('d/m/Y') }})
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body p-3">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <div class="numbers">
+                                            <p class="text-sm mb-0 text-capitalize font-weight-bold">PLANTED BY</p>
+                                            <h5 class="font-weight-bolder mb-0">
+                                                Name
+                                            </h5>
+                                            <small class="text-muted text-xs">
+                                                {{ $tree->location }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
         </div>
     </div>
-</div>
 
 @endsection

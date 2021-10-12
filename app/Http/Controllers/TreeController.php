@@ -28,9 +28,8 @@ class TreeController extends Controller
     public function edit($id)
     {
         $treeHealth = TreesHealthHelper::health();
-        $trees = Tree::where('id', $id)->first();
-        $treeImages = TreeImages::where('tree_id', $id)->get();
-        return view('pages.tree.edit', compact('trees', 'treeImages', 'treeHealth'));
+        $tree = Tree::where('id', $id)->first();
+        return view('pages.tree.manage', compact('tree', 'treeHealth'));
     }
 
     public function update(Request $request, $id)
@@ -54,7 +53,8 @@ class TreeController extends Controller
 			return response()->json(['status'=>'exception', 'msg'=>$e->getMessage()]);
 		}
         smilify('success','Tree updated successfully!');
-        return response()->json(['status'=>"success",'tree_id'=>$id]);
+        //return response()->json(['status'=>"success",'tree_id'=>$id]);
+        return redirect(route('portal.admin.tree.index'));
     }
 
     public function storeData(Request $request)
@@ -79,7 +79,8 @@ class TreeController extends Controller
 			return response()->json(['status'=>'exception', 'msg'=>$e->getMessage()]);
 		}
         smilify('success','Tree created successfully!');
-        return response()->json(['status'=>"success",'tree_id'=>$tree_id]);
+        //return response()->json(['status'=>"success",'tree_id'=>$tree_id]);
+        return redirect(route('portal.admin.tree.index'));
 	}
 
 	public function storeImage(Request $request)
@@ -125,5 +126,6 @@ class TreeController extends Controller
         smilify('success','Tree deleted successfully!');
         return redirect(route('portal.admin.tree.index'));
     }
+
 
 }
