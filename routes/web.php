@@ -39,6 +39,7 @@ use App\Http\Controllers\Portal\DirectoriesController;
 use App\Http\Controllers\FAQController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Portal\Admin\AnnouncementController;
+use App\Http\Controllers\Portal\Admin\ContactRequestController;
 use App\Models\User;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -110,7 +111,12 @@ Route::prefix('home')->as('home.')->group(function () {
         Route::get('/{slug}', [FAQController::class, 'detail'])->name('detail');
     });
 
+    //Contact-Us
+    Route::prefix('contact')->as('contact.')->group(function () {
+        Route::get('/', [FrontendController::class, 'contact'])->name('index');
+        Route::post('/send', [FrontendController::class, 'contact_store'])->name('send');
 
+    });
 
 });
 
@@ -227,6 +233,17 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::post('/store', [FAQController::class, 'store'])->name('store');
             Route::post('/update', [FAQController::class, 'update'])->name('updateval');
         });
+
+       // Contact - Request
+        Route::prefix('contact-requests')->as('contact-requests.')->group(function () {
+            Route::get('/', [ContactRequestController::class, 'index'])->name('index');
+            Route::get('/{id}', [ContactRequestController::class, 'edit'])->name('view');
+            Route::post('/{id}', [ContactRequestController::class, 'update'])->name('update');
+
+        });
+
+
+
     });
 
 });
