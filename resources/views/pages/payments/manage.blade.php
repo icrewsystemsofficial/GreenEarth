@@ -39,7 +39,7 @@
                                 @csrf
                                 <div class="form-group pb-2 ps-2">
                                     <label><strong>Description</strong></label>
-                                    <textarea id="description" class="ckeditor form-control" placeholder="{!! $comment !!}" name="description"></textarea>
+                                    <textarea id="description" class="ckeditor form-control" placeholder="{!! $comment !!}" name="description">{!! $comment !!}</textarea>
                                 </div>
                                 <input type="hidden" name="tree_id" value="0">
                                 <div class="card-footer p-2 my-5 ps-2">
