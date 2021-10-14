@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Portal\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helpers\TreesHealthHelper;
 use http\Env\Response;
 use App\Models\Tree;
 use App\Models\TreeImages;
-use App\Models\TreeM;
 use DB;
 use DataTables;
 
@@ -52,7 +52,7 @@ class TreeController extends Controller
 		catch (\Exception $e) {
 			return response()->json(['status'=>'exception', 'msg'=>$e->getMessage()]);
 		}
-        smilify('success','Tree updated successfully!');
+        //smilify('success','Tree updated successfully!');
         //return response()->json(['status'=>"success",'tree_id'=>$id]);
         return redirect(route('portal.admin.tree.index'));
     }

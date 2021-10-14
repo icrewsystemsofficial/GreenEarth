@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Portal\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\TreesUpdates;
 use App\Models\Tree;
 use App\Helpers\TreesHealthHelper;
@@ -120,10 +121,18 @@ class TreesUpdatesController extends Controller
         if ($request->hasFile('logo')) {
             $image = $request->file('logo');
             $imageName = 'update'.strtotime(now()) . rand(11111, 99999) . '.' . $image->getClientOriginalExtension();
-            if(!is_dir(public_path() . '/uploads/tree-updates/')){
+            
+            /*if(!is_dir(public_path() . '/uploads/tree-updates/')){
                 mkdir(public_path() . '/uploads/tree-updates/', 0777, true);
             }
             $image->move(public_path() . '/uploads/tree-updates/', $imageName);
+            */
+
+            if (!is_dir(storage_path('app/public/uploads/tree-updates/'))) {
+                Storage::makeDirectory(storage_path('app/public/uploads/tree-updates/'));
+            }
+
+            $image->move(storage_path('/app/public/uploads/tree-updates/'), $imageName);
             return $imageName;
         }
     }

@@ -90,13 +90,13 @@
                                             <div class="modal-body m-2">
                                                 <div class="row">
                                                     <div class="col-7">
-                                                        <img src=<?php echo $logo = '/uploads/tree-updates/' . $maintenance_record->image_path; ?> alt="tree image" style="height: 350px; width:400px; object-fit:cover; ">
+                                                        <img src="<?php echo asset("storage/uploads/tree-updates/".$maintenance_record->image_path); ?>" alt="tree image" style="height: 350px; width:400px; object-fit:cover; ">
                                                     </div>
                                                     <div class="col-3"  style="text-align:left;">
                                                         <p>
                                                             <span class="h6"> Date:</span> {{ $maintenance_record->created_at->diffForHumans() }} <br>
-                                                            <span class="h6"> Updated By: </span> {{ $maintenance_record->updated_by }} <br>
-                                                            <span class="h6"> Tree Health: </span> 
+                                                            <span class="h6"> Updated By:</span> {{ $maintenance_record->updated_by }} <br>
+                                                            <span class="h6"> Tree Health:</span> <br> 
                                                             @if($tree->health == "Healthy")
                                                             <span class="badge bg-success text-white">
                                                             {{ $tree->health }}
