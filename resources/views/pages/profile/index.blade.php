@@ -104,13 +104,8 @@
                 <div class="row gx-4">
                     <div class="col-auto">
                         <div class="avatar avatar-xl position-relative">
-                            @if ($user->avatar == null)
-                                <img src="{{ $user->profile_picture() }}" alt="{{ $user->name }}'s avatar"
+                            <img src="{{  asset($user->profile_picture()) }}" alt="{{ $user->name }}'s avatar"
                                     class="w-100 border-radius-lg shadow-sm display-block">
-                            @else
-                                <img src="{{ asset($user->avatar) }}" alt="{{ $user->name }}'s avatar"
-                                    class="w-100 border-radius-lg shadow-sm display-block">
-                            @endif
                             <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
                                     class="fas fa-upload position-absolute bottom-7 end-7 text-dark" id="edit"></i></button>
                         </div>

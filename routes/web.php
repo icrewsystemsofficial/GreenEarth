@@ -37,6 +37,8 @@ use App\Http\Controllers\Portal\ChangelogController;
 use App\Http\Controllers\Portal\Admin\UserController;
 use App\Http\Controllers\Portal\DirectoriesController;
 use App\Http\Controllers\FAQController;
+use App\Http\Controllers\PlantSpecieController;
+use App\Http\Controllers\PlantSpeciesController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Portal\Admin\AnnouncementController;
 use App\Http\Controllers\Portal\Admin\ContactRequestController;
@@ -246,9 +248,16 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::post('/{id}', [ContactRequestController::class, 'update'])->name('update');
 
         });
-
-
-
+        /* Forest Module*/
+        Route::prefix('forest')->as('forest.')->group(function () {
+            Route::prefix('trees-species')->as('trees-species.')->group(function () {
+                Route::get('/', [PlantSpeciesController::class, 'index'])->name('index');
+                Route::get('/manage/{id}', [PlantSpeciesController::class, 'manage'])->name('manage');
+                Route::get('/create', [PlantSpeciesController::class, 'create'])->name('create');
+                Route::post('/save', [PlantSpeciesController::class, 'save'])->name('save');
+                Route::post('/update/{id}', [PlantSpeciesController::class, 'update'])->name('update');
+            });
+        });
     });
 
 });
