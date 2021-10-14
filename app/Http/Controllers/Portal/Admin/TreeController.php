@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\portal\admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use http\Env\Response;
 use App\Models\Tree;
