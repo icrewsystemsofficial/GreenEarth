@@ -16,6 +16,7 @@ class TreeController extends Controller
     {
         $trees = Tree::all();
         return view('pages.tree.index', compact('trees'));
+
     }
 
     public function create()
@@ -23,60 +24,63 @@ class TreeController extends Controller
         return view('pages.tree.create');
     }
 
-    public function edit($id)
+    public function manage($id)
     {
         $trees = Tree::where('id', $id)->first();
         $treeImages = TreeImages::where('tree_id', $id)->get();
-        return view('pages.tree.edit', compact('trees', 'treeImages'));
+        return view('pages.tree.manage', compact('trees', 'treeImages'));
     }
 
     public function update(Request $request, $id)
     {
-        try {
+
             $request->validate([
-                'name' => 'required',
-                'description' => 'required',
-                'health' => 'required',
-                'location' => 'required',
+                'forest_id' => 'required',
+                'species_id' => 'required',
+                'health' => 'required'
             ]);
 
-            $name = $request->name;
-            $description = $request->description;
+            $forest_id = $request->forest_id;
+            $species_id = $request->species_id;
+            $mission_id = $request->mission_id;
+            $lat = $request->lat;
+            $long = $request->long;
             $health = $request->health;
-            $location = $request->location;
 
-            Tree::where('id', $id)->update(['name'=>$name, 'description'=>$description, 'health'=> $health, 'location'=>$location]);
-		}
-		catch (\Exception $e) {
-			return response()->json(['status'=>'exception', 'msg'=>$e->getMessage()]);
-		}
+            Tree::where('id', $id)->update(['forest_id'=>$forest_id, 'species_id'=>$species_id, 'mission_id'=>$mission_id, 'lat'=>$lat, 'long'=>$long, 'health'=> $health]);
 
-        return response()->json(['status'=>"success",'tree_id'=>$id]);
+            activity()->log('Updating tree id: '. $id);
+            smilify('success', 'Tree updated successfully!');
+            return redirect()->route('portal.admin.tree.index');
+
+
     }
 
     public function storeData(Request $request)
 	{
-		try {
+
             $request->validate([
-                'name' => 'required',
-                'description' => 'required',
-                'health' => 'required',
-                'location' => 'required',
+                'forest_id' => 'required',
+                'species_id' => 'required',
+                'health' => 'required'
             ]);
 
 			$tree = new Tree;
-            $tree->name = $request->name;
-            $tree->description = $request->description;
+            $tree->forest_id = $request->forest_id;
+            $tree->species_id = $request->species_id;
+            $tree->mission_id = $request->mission_id;
+            $tree->cluster_id = null;
             $tree->health = $request->health;
-            $tree->location = $request->location;
+            $tree->lat = $request->lat;
+            $tree->long = $request->long;
+            $tree->planted_by = $request->planted_by;
             $tree->save();
-            $tree_id = $tree->id;
-		}
-		catch (\Exception $e) {
-			return response()->json(['status'=>'exception', 'msg'=>$e->getMessage()]);
-		}
 
-        return response()->json(['status'=>"success",'tree_id'=>$tree_id]);
+            activity()->log('Creating tree id: '. $tree->id);
+            smilify('success', 'Tree added successfully!');
+            return redirect()->route('portal.admin.tree.index');
+
+
 	}
 
 	public function storeImage(Request $request)
@@ -118,9 +122,11 @@ class TreeController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        TreeImages::where('tree_id', $id)->delete();
-        Tree::where('id', $id)->delete();
 
+        $tree = Tree::find($id);
+        activity()->log('Deleting tree '. $tree->id);
+        $tree->delete();
+        smilify('success', 'Tree deleted successfully');
         return redirect(route('portal.admin.tree.index'));
     }
 

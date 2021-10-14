@@ -203,9 +203,9 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::get('/create', [TreeController::class, 'create'])->name('create');
             Route::post('/create', [TreeController::class, 'storeData'])->name('store');
             Route::post('/storeimage', [TreeController::class, 'storeImage'])->name('storeimage');
-            Route::get('/edit/{id}', [TreeController::class, 'edit'])->name('edit');
-            Route::put('/edit/{id}', [TreeController::class, 'update'])->name('update');
-            Route::get('/edit/{treeid}/{id}', [TreeController::class, 'deleteImage'])->name('deleteImage');
+            Route::get('/manage/{id}', [TreeController::class, 'manage'])->name('manage');
+            Route::put('/manage/{id}', [TreeController::class, 'update'])->name('update');
+            Route::get('/manage/{treeid}/{id}', [TreeController::class, 'deleteImage'])->name('deleteImage');
             Route::get('/delete/{id}', [TreeController::class, 'destroy'])->name('delete');
             Route::get('/add-maintenance/{id}', [TreeMaintenanceController::class, 'create'])->name('add_maintenance');
             Route::get('/history/{id}', [TreeMaintenanceController::class, 'index'])->name('history_maintenance');
