@@ -1,4 +1,4 @@
- @extends('layouts.app')
+@extends('layouts.app')
 
 @section('pagetitle')
 @endsection
@@ -29,11 +29,9 @@
         var info = table.page.info();
         var count = info.recordsTotal;
         var subheading = document.getElementById('subheading');
-        subheading.innerHTML = "There are a total of " + count +" trees in your database";
-           
+        subheading.innerHTML = "There are a total of " + count +" trees in your database";          
     });
     </script>
-   
 @endsection
 
 @section('content')
@@ -44,7 +42,6 @@
                 <div class="h5"> Manage all trees in your database </div>
                 <div class="text-secondary text-sm" id="subheading"> </div>
             </div>
-
             <div class="card-body text-sm">
                 <div class="position-relative">
                     <a href="{{ route('portal.admin.tree.create') }}" class="btn btn-success btn-sm">
@@ -54,7 +51,7 @@
                 <table id="all-trees" class="table text-center table-responsive">
                     <thead>
                         <tr>
-                            <th> TREE NAME  </th>
+                            <th> TREE ID  </th>
                             <th> TREE PLANTED ON </th>
                             <th> LAST MAINTAINED </th>
                             <th> HEALTH </th>
@@ -64,7 +61,7 @@
                     <tbody>
                         @foreach ($trees as $tree)
                         <tr style="vertical-align: middle;">
-                            <td> {{ $tree->name }} </td> 
+                            <td> {{ $tree->id }} </td>
                             <td> {{ $tree->created_at->diffForHumans() }} </td>
                             <td> @if($tree->last_maintained)
                                 {{ \Carbon\Carbon::parse($tree->last_maintained)->diffForHumans() }} 
@@ -98,3 +95,4 @@
         </div>
     </div>
 @endsection
+

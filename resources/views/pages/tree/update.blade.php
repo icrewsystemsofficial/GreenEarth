@@ -90,8 +90,8 @@
                                     <textarea class="ckeditor form-control" name="remarks"> </textarea>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-success">
-                                 <span id="footer_action_button" class="mt-2"><i class="fa fa-save"></i> UPDATE </span>
+                            <button type="submit" class="btn btn-success mt-2">
+                                 <span id="footer_action_button"><i class="fa fa-save"></i> UPDATE </span>
                             </button>
                             <a href="{{ route('portal.admin.tree.index') }}" class="btn btn-warning mt-2">
                                 <i class="fa fa-arrow-left"></i> Back
@@ -129,10 +129,10 @@
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-capitalize font-weight-bold">PLANTED BY</p>
                                             <h5 class="font-weight-bolder mb-0">
-                                                Name
+                                                {{ $planted_by }}
                                             </h5>
                                             <small class="text-muted text-xs">
-                                                {{ $tree->location }}
+                                                ({{ $tree->lat }}, {{$tree->long}})
                                             </small>
                                         </div>
                                     </div>

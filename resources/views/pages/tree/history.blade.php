@@ -94,9 +94,9 @@
                                                     </div>
                                                     <div class="col-3"  style="text-align:left;">
                                                         <p>
-                                                            <span class="h6"> Date:</span> {{ $maintenance_record->created_at->diffForHumans() }} <br>
-                                                            <span class="h6"> Updated By:</span> {{ $maintenance_record->updated_by }} <br>
-                                                            <span class="h6"> Tree Health:</span> <br> 
+                                                            <span class="h6"> Date: </span> {{ $maintenance_record->created_at->diffForHumans() }} <br>
+                                                            <span class="h6"> Updated By: </span> {{ $maintenance_record->updated_by }} <br>
+                                                            <span class="h6"> Tree Health: </span> <br> 
                                                             @if($tree->health == "Healthy")
                                                             <span class="badge bg-success text-white">
                                                             {{ $tree->health }}

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Portal\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\TreesUpdates;
 use App\Models\Tree;
+use App\Models\User;
 use App\Helpers\TreesHealthHelper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -34,7 +35,9 @@ class TreesUpdatesController extends Controller
     {
         $treeHealth = TreesHealthHelper::health();
         $tree = Tree::where('id', $id)->first();
-        return view('pages.tree.update', compact('treeHealth', 'tree'));
+        $user = User::where('id', $tree->planted_by)->first();
+        $planted_by = $user->name;
+        return view('pages.tree.update', compact('treeHealth', 'tree', 'planted_by'));
     }
 
     /**
@@ -49,7 +52,7 @@ class TreesUpdatesController extends Controller
             $request->validate([
             'remarks' => 'required',
             'health' => 'required',
-                'logo' => 'required',
+            'logo' => 'required',
             ]);
 
             $user = Auth::user();
@@ -63,11 +66,10 @@ class TreesUpdatesController extends Controller
 
             $last_maintained = Carbon::now();
             Tree::where('id', $id)->update(['health'=> $request->health, 'last_maintained'=>$last_maintained]);
-            $tree_name = Tree::where('id', $id)->pluck('name');
          } catch (\Exception $e) {
             return response()->json(['status' => 'exception', 'msg' => $e->getMessage()]);
          }
-         smilify('success','Updated for tree '. $tree_name[0], 'Yay!');
+         smilify('success','Updated for tree #'. $id, 'Yay!');
          return redirect(route('portal.admin.tree.index'));
     }
 
@@ -121,12 +123,6 @@ class TreesUpdatesController extends Controller
         if ($request->hasFile('logo')) {
             $image = $request->file('logo');
             $imageName = 'update'.strtotime(now()) . rand(11111, 99999) . '.' . $image->getClientOriginalExtension();
-            
-            /*if(!is_dir(public_path() . '/uploads/tree-updates/')){
-                mkdir(public_path() . '/uploads/tree-updates/', 0777, true);
-            }
-            $image->move(public_path() . '/uploads/tree-updates/', $imageName);
-            */
 
             if (!is_dir(storage_path('app/public/uploads/tree-updates/'))) {
                 Storage::makeDirectory(storage_path('app/public/uploads/tree-updates/'));

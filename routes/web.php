@@ -203,10 +203,8 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::get('/', [TreeController::class, 'index'])->name('index');
             Route::get('/create', [TreeController::class, 'create'])->name('create');
             Route::post('/create', [TreeController::class, 'storeData'])->name('store');
-            Route::post('/storeimage', [TreeController::class, 'storeImage'])->name('storeimage');
             Route::get('/manage/{id}', [TreeController::class, 'edit'])->name('manage');
             Route::put('/manage/{id}', [TreeController::class, 'update'])->name('update');
-            Route::get('/edit/{treeid}/{id}', [TreeController::class, 'deleteImage'])->name('deleteImage'); 
             Route::get('/delete/{id}', [TreeController::class, 'destroy'])->name('delete');          
             Route::get('/update/{id}', [TreesUpdatesController::class, 'create'])->name('add_updates');
             Route::post('/update/{id}', [TreesUpdatesController::class, 'store'])->name('store_updates');

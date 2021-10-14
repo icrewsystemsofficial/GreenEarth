@@ -18,26 +18,27 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
+                        <div class="alert alert-info text-white" role="alert">
+                            <i class="fa fa-lightbulb-o"></i> &nbsp;<strong>ProTip</strong>
+                            <p class="text-white text-sm">
+                                Be cautious while updating the details of the tree. Changes once done cannot be revoked!
+                            </p>
+                        </div>
                         <form action="{{ route('portal.admin.tree.update', $tree->id) }}" method="POST">
-                        {{ method_field('PUT') }}
+                            {{ method_field('PUT') }}
                             @csrf
+                            <input type="hidden" class="treeid" name="treeid" id="treeid" value="">
                             <div class="form-group">
-                                <label class="control-label col-sm2" for="forestid"> Forest ID </label>
-                                <div class="col-sm-12">
-                                    <input type="text" class="form-control" id="forestid" name="forestid" placeholder="" value="">
-                                </div>
+                                <label> Forest ID </label>
+                                <input type="text" name="forest_id" class="form-control text-sm" value="{{ $tree->forest_id}}">
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm2"> Species ID </label>
-                                <div class="col-sm-12">
-                                    <input type="text" class="form-control" name="speciesid" placeholder="" value="">
-                                </div>
+                                <label> Species ID </label>
+                                <input type="text" name="species_id" class="form-control text-sm" value="{{ $tree->species_id}}">
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm2"> Mission ID </label>
-                                <div class="col-sm-12">
-                                    <input type="text" class="form-control" name="missionid" placeholder="" value="">
-                                </div>
+                                <label> Mission ID </label>
+                                <input type="text" name="mission_id" class="form-control text-sm" value="{{ $tree->mission_id}}">
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm2" for="health"> Health </label>
@@ -47,6 +48,26 @@
                                         <option {{ ($tree->health == $health) ? 'selected':'' }} value="{{$health}}"> {{$health}} </option>
                                     @endforeach
                                     </select>                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <label> Latitude </label>
+                                        <input type="text" name="lat" class="form-control text-sm bg-white-600" value="{{ $tree->lat}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <label> Longitude </label>
+                                        <input type="text" name="long" class="form-control text-sm bg-white-600" value="{{ $tree->long}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group pb-2">
+                                <label class="control-label" for="planted_by">Planted by</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" placeholder="{{ $planted_by }}" disabled>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-success">
@@ -86,12 +107,12 @@
                                 <div class="row">
                                     <div class="col-8">
                                         <div class="numbers">
-                                            <p class="text-sm mb-0 text-capitalize font-weight-bold">LAST MAINTAINED</p>
+                                            <p class="text-sm mb-0 text-capitalize font-weight-bold">LAST UPDATED</p>
                                             <h5 class="font-weight-bolder mb-0">
-                                                {{ \Carbon\Carbon::parse($tree->last_maintained)->diffForHumans() }}
+                                                {{ \Carbon\Carbon::parse($tree->updated_at)->diffForHumans() }}
                                             </h5>
                                             <small class="text-muted text-xs">
-                                                ({{ \Carbon\Carbon::parse($tree->last_maintained)->format('d/m/Y') }})
+                                                ({{ \Carbon\Carbon::parse($tree->updated_at)->format('d/m/Y') }})
                                             </small>
                                         </div>
                                     </div>
@@ -102,11 +123,20 @@
                 </div>
                 <div class="card">
                     <div class="card-body">
-                        <a href="{{route('portal.admin.tree.add_updates', $tree->id )}}" class="btn btn-secondary block btn-sm">
+                        <a href="{{route('portal.admin.tree.add_updates', $tree->id )}}" class="btn btn-info block btn-sm">
                             Add Updates
                         </a>
-                        <a href="{{route('portal.admin.tree.history_maintenance', $tree->id )}}" class="btn btn-info block btn-sm">
+                        <a href="{{route('portal.admin.tree.history_maintenance', $tree->id )}}" class="btn btn-secondary block btn-sm">
                             History
+                        </a>
+                        <a href="#" class="btn btn-sm block btn-success">
+                            View Linked Forest
+                        </a>
+                        <a href="#" class="btn btn-sm block btn-secondary">
+                            View Linked Plant Species
+                        </a>
+                        <a href="#" class="btn btn-sm block btn-info">
+                            View Linked Mission
                         </a>
                         @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin') || \Illuminate\Support\Facades\Auth::user()->hasRole('superadmin'))
                         <a data-bs-toggle="modal" data-bs-target="#deleteUserModal" class="btn btn-danger block btn-sm">
@@ -125,7 +155,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        You are about to delete a tree. Deleting this tree will be irrevokable. Do this only if you are sure.
+                                        You are about to delete a tree of id : {{ $tree->id }}. Deleting this tree will be irrevokable. Do this only if you are sure.
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -143,18 +173,4 @@
         </div>
     </div>
 @endsection
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
