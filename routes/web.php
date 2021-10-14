@@ -86,6 +86,9 @@ Route::prefix('home')->as('home.')->group(function () {
     Route::get('/partners', [FrontendController::class, 'partners'])->name('partners');
     Route::get('/glossary', [FrontendController::class, 'glossary'])->name('glossary');
     Route::get('/volunteer/@{username}', [FrontendController::class, 'volunteer'])->name('volunteer');
+    Route::get('/payment', [FrontendController::class, 'payment'])->name('payment');
+    Route::post('/payment', [FrontendController::class, 'submit'])->name('submit');
+    Route::post('/submit', [FrontendController::class, 'pay'])->name('pay');
 
     // PENDING PAGES
     Route::get('/directory', [DirectoriesController::class, 'home_index'])->name('directory.index');
