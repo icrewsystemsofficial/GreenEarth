@@ -37,6 +37,7 @@ use App\Http\Controllers\Portal\ChangelogController;
 use App\Http\Controllers\Portal\Admin\UserController;
 use App\Http\Controllers\Portal\DirectoriesController;
 use App\Http\Controllers\FAQController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Portal\Admin\AnnouncementController;
 use App\Http\Controllers\Portal\Admin\ContactRequestController;
@@ -200,6 +201,7 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             });
         });
 
+
         /* TREES MODULE */
         Route::prefix('tree')->as('tree.')->group(function () {
             Route::get('/', [TreeController::class, 'index'])->name('index');
@@ -213,6 +215,14 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::get('/add-maintenance/{id}', [TreeMaintenanceController::class, 'create'])->name('add_maintenance');
             Route::get('/history/{id}', [TreeMaintenanceController::class, 'index'])->name('history_maintenance');
             Route::post('/add-maintenance/{id}', [TreeMaintenanceController::class, 'store'])->name('maintenance_store');
+
+        });
+        /* TREES MODULE */
+        Route::prefix('payments')->as('payments.')->group(function () {
+            Route::get('/', [PaymentController::class, 'index'])->name('index');
+            Route::get('/{id}/manage', [PaymentController::class, 'manage'])->name('edit');
+            Route::post('/{id}/update', [PaymentController::class, 'update'])->name('update');
+
 
         });
 
