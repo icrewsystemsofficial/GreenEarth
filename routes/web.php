@@ -42,6 +42,7 @@ use App\Http\Controllers\PlantSpeciesController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Portal\Admin\AnnouncementController;
 use App\Http\Controllers\Portal\Admin\ContactRequestController;
+use App\Http\Controllers\Portal\Admin\ForestsController;
 use App\Models\User;
 use FontLib\Table\Type\name;
 use Illuminate\Routing\RouteUri;
@@ -203,6 +204,11 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
                 Route::get('/{business_uuid}/view', [CertificateGenerator::class, 'viewPDF'])->name('certificate.view');
             });
         });
+
+        Route::get('forests/polygon/{id?}', [ForestsController::class, 'drawPolygon'])->name('forests.polygon');
+        Route::post('forests/polygon/{id?}/save', [ForestsController::class, 'savePolygon'])->name('forests.polygon.save');
+        Route::get('forests/manage/{id}', [ForestsController::class, 'manage'])->name('forests.manage');
+        Route::resource('/forests', ForestsController::class);
 
         /* TREES MODULE */
         Route::prefix('tree')->as('tree.')->group(function () {

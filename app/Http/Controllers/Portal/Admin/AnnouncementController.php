@@ -37,12 +37,12 @@ class AnnouncementController extends Controller
     public function update(Request $request, $id)
     {
         $announcement = Announcement::where('id', $id)->first();
-        $this->validate($request, [ 
+        $this->validate($request, [
             'title' => 'required','max:255',Rule::unique('announcements', 'title')->ignore($announcement),
-            'body' => 'required', 
+            'body' => 'required',
             'role' => 'required',
             'status' => 'required',
-        ]); 
+        ]);
 
         $slug = Str::lower($request->title);
         $slug = str_replace(' ', '-', $slug);
@@ -57,13 +57,13 @@ class AnnouncementController extends Controller
     }
 
     public function store(Request $request)
-    {   
-        $request->validate([ 
-            'title' => 'required|unique:announcements|max:255', 
-            'body' => 'required', 
+    {
+        $request->validate([
+            'title' => 'required|unique:announcements|max:255',
+            'body' => 'required',
             'role' => 'required',
             'status' => 'required',
-        ]); 
+        ]);
 
         $slug = Str::lower($request->title);
         $slug = str_replace(' ', '-', $slug);

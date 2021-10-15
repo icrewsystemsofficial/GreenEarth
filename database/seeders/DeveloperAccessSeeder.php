@@ -115,6 +115,18 @@ class DeveloperAccessSeeder extends Seeder
             $user->role = 'superadmin';
             $user->save();
             $this->command->info("User: Johanth P S created.");
+
+        $user = User::where('name', 'Rtr Vijay')->first();
+        if (!$user) {
+            //If you need to add an account for yourself, add it below this.
+            $user = new User;
+            $user->name = 'Rtr Vijay';
+            $user->email = 'rtr.vijay.testing@gmail.com';
+            $user->email_verified_at = now();
+            $user->password = '$2y$10$Z2fX/TDd7hIjBnamBhW9/eiffpxiVddzY/Kyihap2A074PXHMb2jG';
+            $user->role = 'volunteer';
+            $user->save();
+            $this->command->info("User: Rtr Vijay created.");
         }
 
     }
