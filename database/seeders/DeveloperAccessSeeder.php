@@ -104,7 +104,6 @@ class DeveloperAccessSeeder extends Seeder
             $user->save();
             $this->command->info("User: Samay Bhattacharyya created.");
         }
-
         $user = User::where('name', 'Hafiz Mutalib')->first();
         if (!$user) {
             //If you need to add an account for yourself, add it below this.
@@ -116,6 +115,29 @@ class DeveloperAccessSeeder extends Seeder
             $user->role = 'superadmin';
             $user->save();
             $this->command->info("User: Hafiz Mutalib created.");
+        $user = User::where('name', 'Johanth P S')->first();
+        if (!$user) {
+            //If you need to add an account for yourself, add it below this.
+            $user = new User;
+            $user->name = 'Johanth P S';
+            $user->email = 'johanth@test.com';
+            $user->email_verified_at = now();
+            $user->password = '$2y$10$x96L4l4yjYOT7bCqeQNUZ.7cporxa3CvFU02QSW.3GuAdiHLYPgxS';
+            $user->role = 'superadmin';
+            $user->save();
+            $this->command->info("User: Johanth P S created.");
+
+        $user = User::where('name', 'Rtr Vijay')->first();
+        if (!$user) {
+            //If you need to add an account for yourself, add it below this.
+            $user = new User;
+            $user->name = 'Rtr Vijay';
+            $user->email = 'rtr.vijay.testing@gmail.com';
+            $user->email_verified_at = now();
+            $user->password = '$2y$10$Z2fX/TDd7hIjBnamBhW9/eiffpxiVddzY/Kyihap2A074PXHMb2jG';
+            $user->role = 'volunteer';
+            $user->save();
+            $this->command->info("User: Rtr Vijay created.");
         }
 
     }

@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(FAQSeeder::class);
         $this->call(CountriesSeeder::class);
         $this->call(CloudProvidersSeeder::class);
+        $this->call(AnnouncementSeeder::class);
         //TODO add DeveloperAccess seeder
 
     }

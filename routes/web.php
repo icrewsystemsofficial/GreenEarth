@@ -38,9 +38,15 @@ use App\Http\Controllers\Portal\ChangelogController;
 use App\Http\Controllers\Portal\Admin\UserController;
 use App\Http\Controllers\Portal\DirectoriesController;
 use App\Http\Controllers\FAQController;
+use App\Http\Controllers\PlantSpecieController;
+use App\Http\Controllers\PlantSpeciesController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Portal\Admin\AnnouncementController;
+use App\Http\Controllers\Portal\Admin\ContactRequestController;
+use App\Http\Controllers\Portal\Admin\ForestsController;
 use App\Models\User;
+use FontLib\Table\Type\name;
+use Illuminate\Routing\RouteUri;
 use Laravel\Socialite\Facades\Socialite;
 
 /*
@@ -94,7 +100,8 @@ Route::prefix('home')->as('home.')->group(function () {
     Route::get('/track-my-tree/{uuid}', [FrontendController::class, 'index']);
     Route::get('/statistics', [FrontendController::class, 'index']);
     Route::get('/investors', [FrontendController::class, 'comingsoon'])->name('investors');
-    Route::get('/announcements', [FrontendController::class, 'index']);
+    Route::get('/announcements', [FrontendController::class, 'announcements'])->name('announcements');
+    Route::get('/announcements/{slug}', [FrontendController::class, 'view'])->name('announcements.view');
     Route::get('/blog', [FrontendController::class, 'index']);
     Route::get('/coming-soon', [FrontendController::class, 'comingsoon'])->name('coming-soon');
     Route::get('/verify/{uuid}', [UserController::class, 'verify'])->name('users.verify');
@@ -109,6 +116,13 @@ Route::prefix('home')->as('home.')->group(function () {
         Route::get('/', [FAQController::class, 'index_home'])->name('index');
         Route::get('/detail/{id}', [FAQController::class, 'show'])->name('show');
         Route::get('/{slug}', [FAQController::class, 'detail'])->name('detail');
+    });
+  
+  // Contact-Us
+    Route::prefix('contact')->as('contact.')->group(function () {
+        Route::get('/', [FrontendController::class, 'contact'])->name('index');
+        Route::post('/send', [FrontendController::class, 'contact_store'])->name('send');
+
     });
 });
 
@@ -125,6 +139,9 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
         Route::get('/edit/{id}', [DirectoriesController::class, 'owner_edit'])->name('edit');
         Route::put('/update/{id}', [DirectoriesController::class, 'owner_update'])->name('update');
     });
+
+    Route::post('upload', [ProfileController::class, 'store_avatar']);
+    Route::post('/uploadavatar/{id}', [ProfileController::class, 'store_avatar_in_database'])->name('store_avatar_db');
 
     Route::get('/my-profile', [ProfileController::class, 'index'])->name('myprofile');
     Route::post('/my-profile/save/{id}', [ProfileController::class, 'save'])->name('myprofile.save');
@@ -180,6 +197,11 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::post('/setup/add_user', [UserController::class, 'create_user']);
         });
 
+        Route::get('forests/polygon/{id?}', [ForestsController::class, 'drawPolygon'])->name('forests.polygon');
+        Route::post('forests/polygon/{id?}/save', [ForestsController::class, 'savePolygon'])->name('forests.polygon.save');
+        Route::get('forests/manage/{id}', [ForestsController::class, 'manage'])->name('forests.manage');
+        Route::resource('/forests', ForestsController::class);
+
         /* TREES MODULE */
         Route::prefix('tree')->as('tree.')->group(function () {
             Route::get('/', [TreeController::class, 'index'])->name('index');
@@ -215,6 +237,27 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::post('/store', [FAQController::class, 'store'])->name('store');
             Route::post('/update', [FAQController::class, 'update'])->name('updateval');
         });
+
+      
+
+       // Contact - Request
+        Route::prefix('contact-requests')->as('contact-requests.')->group(function () {
+            Route::get('/', [ContactRequestController::class, 'index'])->name('index');
+            Route::get('/{id}', [ContactRequestController::class, 'edit'])->name('view');
+            Route::post('/{id}', [ContactRequestController::class, 'update'])->name('update');
+
+        });
+        /* Forest Module*/
+        Route::prefix('forest')->as('forest.')->group(function () {
+            Route::prefix('trees-species')->as('trees-species.')->group(function () {
+                Route::get('/', [PlantSpeciesController::class, 'index'])->name('index');
+                Route::get('/manage/{id}', [PlantSpeciesController::class, 'manage'])->name('manage');
+                Route::get('/create', [PlantSpeciesController::class, 'create'])->name('create');
+                Route::post('/save', [PlantSpeciesController::class, 'save'])->name('save');
+                Route::post('/update/{id}', [PlantSpeciesController::class, 'update'])->name('update');
+            });
+        });
+    });
 
         // CLOUD-PROVIDERS MODULE /portal/admin/cloud-providers/ROUTENAME
         Route::resource('cloud-providers', CloudProvidersController::class);

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAnnouncementsTable extends Migration
+class CreateContactsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateAnnouncementsTable extends Migration
      */
     public function up()
     {
-        Schema::create('announcements', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
+        Schema::create('contacts', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('email');
+            $table->string('type');
             $table->text('body');
-            $table->string('role')->nullable();
-            $table->string('author');
+            $table->integer('status');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateAnnouncementsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('announcements');
+        Schema::dropIfExists('contacts');
     }
 }
