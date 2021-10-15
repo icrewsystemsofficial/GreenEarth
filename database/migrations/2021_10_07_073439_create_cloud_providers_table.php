@@ -13,7 +13,7 @@ class CreateCloudProvidersTable extends Migration
      */
     public function up()
     {
-        Schema::create('CloudProviders', function (Blueprint $table) {
+        Schema::create('cloudproviders', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('url');
@@ -32,6 +32,6 @@ class CreateCloudProvidersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('CloudProviders');
+        Schema::dropIfExists('cloudproviders');
     }
 }
