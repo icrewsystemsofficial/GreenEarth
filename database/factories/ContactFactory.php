@@ -26,7 +26,7 @@ class ContactFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'type' => Str::random(10),
             'body' => Str::random(10),
-            'status' => random_int(0, 3),
+            'status' => random_int(0, 2),
         ];
     }
 

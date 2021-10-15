@@ -5,6 +5,15 @@ use App\Mail\SendContactMailtoUser;
 use App\Models\Contact;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+
+uses()->group('contactrequests');
+uses(RefreshDatabase::class);
+
+beforeEach(function () {
+    $this->withoutExceptionHandling();
+});
 
 test('Test#1: Check if Frontend Contact Page renders', function () {
     $this->get('/home/contact')->assertStatus(200);
@@ -12,7 +21,8 @@ test('Test#1: Check if Frontend Contact Page renders', function () {
 
 test('Test#2: Check if data is sumbitted from the Contact Page', function () {
     $contact = Contact::factory()->create();
-    $this->post('/portal/admin/contact-requests/4',  array(
+    $user = User::factory()->create();
+    $this->actingAs($user)->post(route('portal.admin.contact-requests.update', $contact->id),  array(
         'email' => $contact->email,
         'type' => $contact->type,
         'body' => $contact->body,
