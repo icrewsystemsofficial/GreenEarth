@@ -397,9 +397,8 @@
       }
     </script>
 
-    <script id="ge-script" code="1234" src="http://127.0.0.1:8000/js/greenearth.js"></script>
-
-
+    <!-- This code is provided by GreenEarth. Place it before the end of your body tag -->
+    <script id="ge-script" site-key="1234" site-style="light" src="{{ asset('/js/greenearth.js') }}"></script>
     @yield('js')
   </body>
 
