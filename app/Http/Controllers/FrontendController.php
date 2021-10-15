@@ -4,14 +4,23 @@ namespace App\Http\Controllers;
 
 use Goutte\Client;
 use App\Helpers\Whois;
+use App\Mail\SendContactMailtoAdmins;
+use App\Mail\SendContactMailtoUser;
+
+use App\Models\Announcement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Cronfig\Sysinfo\System;
+use App\Models\Contact;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use Symfony\Component\HttpFoundation\Response;
 
 class FrontendController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         return view('frontend.index');
     }
 
@@ -39,14 +48,14 @@ class FrontendController extends Controller
      * @param  mixed $url
      * @return void
      */
-    private function getDomainInformation($url) {
+    private function getDomainInformation($url)
+    {
 
         $my_url = parse_url($url);
         $host = $my_url['host'];
         $myHost = ucfirst($host);
 
-        $whois_storage_path = 'public/whois/'.$host.'.json';
-
+        $whois_storage_path = 'public/whois/' . $host . '.json';
 
 
         if(Storage::disk('local')->exists($whois_storage_path)) {
@@ -54,7 +63,7 @@ class FrontendController extends Controller
 
             //TODO Write a job worker to clear files older than 48 hours.
         } else {
-            $whois= new Whois;
+            $whois = new Whois;
             $site = $whois->cleanUrl($host);
             $whois_data = $whois->whoislookup($site);
             $getHostIP = gethostbyname($host);
@@ -82,7 +91,8 @@ class FrontendController extends Controller
         return $carbondata;
     }
 
-    public function otherMethods() {
+    public function otherMethods()
+    {
         $system = new System;
 
         // System can get you the OS you are currently running
@@ -102,7 +112,6 @@ class FrontendController extends Controller
         // dd($res->body());
 
         // $apikey = 'a4880f98a92ce578i094a6b828e05791f';
-
         // $client = new Client();
         // $crawler = $client->request('GET', 'https://check-host.net/ip-info?host=https://icrewsystems.com');
         // // $link = $crawler->selectLink('Retrive whois data')->link();
@@ -119,8 +128,6 @@ class FrontendController extends Controller
 
         // dd('test');
     }
-
-
 
     public function calculate() {
         $url = request('website');
@@ -139,7 +146,8 @@ class FrontendController extends Controller
         }
     }
 
-    public function comingsoon() {
+    public function comingsoon()
+    {
         return view('frontend.comingsoon');
     }
 
@@ -150,4 +158,158 @@ class FrontendController extends Controller
     public function terms_of_service() {
         return view('frontend.legal.termsofservice');
     }
+
+    public function aboutus(){
+        return view('frontend.about');
+    }
+
+    public function partners(){
+        return view('frontend.partners');
+    }
+
+    public function investors(){
+        return view('frontend.comingsoon');
+    }
+
+    /*Contact Module*/
+
+    public function contact(){
+        return view('frontend.contact');
+    }
+
+    public function contact_store(Request $request){
+
+
+        // $request->validate([
+        //         'email' => 'required',
+        //         'body' => 'required',
+        //         'type' => 'required',
+        //         'g-recaptcha-response' => 'recaptcha'
+        // ]);
+
+        $contact= new Contact;
+        $contact->email = $request->email;
+        $contact->type = $request->type;
+        $contact->body = $request->body;
+        $contact->status = 0; // Status: 0 = New, 1 = Contacted, 2 = Resolved, 3 = Spam.
+        $contact -> save();
+
+        $this->contact_mailsend($contact);
+
+        smilify('Yay', 'Your message was sent to us, we\'ll get in touch with you soon');
+        return redirect(route('home.contact.index'));
+
+    }
+
+    public function contact_mailSend($data) {
+
+        $email = $data->email;
+        $type = $data->type;
+        $body = $data->body;
+        $data_for_id = Contact::where([['email',$email],['type',$type],['body',$body]])->first();
+
+        $id = $data_for_id->id;
+        $url= route('portal.admin.contact-requests.view',$id);
+
+
+
+        $admins_emailid = User::role('admin')->get('email');
+
+        $mailInfo = [
+            'title' => 'Greenearth - New message from a User',
+            'email' => $email,
+            'type' => $type,
+            'body' => $body,
+            'url' => $url,
+            'id' => $id,
+            'mails' => $admins_emailid
+        ];
+
+        foreach($admins_emailid as $mail){
+            $emailid=$mail->email;
+            Mail::to($emailid)->send(new SendContactMailtoAdmins($mailInfo));
+        }
+
+        Mail::to($email)->send(new SendContactMailtoUser($mailInfo));
+
+        return response()->json([
+            'message' => 'Mail has sent.'
+        ], Response::HTTP_OK);
+    }
+
+
+
+
+    public function contributors(){
+        $github_api_url = 'https://api.github.com/repos/icrewsystemsofficial/GreenEarth';
+
+        // STARS
+
+        //Check if cache exists...
+        $greenearth_stars = cache('greenearth_stars');
+        //If cache does not exist, fetch from API.
+        if($greenearth_stars == null) {
+            $stars = Http::get($github_api_url.'/stargazers')->json();
+            $greenearth_stars = count($stars);
+            cache(['greenearth_stars' => $greenearth_stars], now()->addHours(2));
+            //Save the data as cache for the next 2 hours.
+        }
+
+        // COMMITS
+        $first_commit_hash_for_the_repo = '431d5d8be1603a9f361f4d42d694826669612dc8'; //This has to be hard-coded.
+
+        //Check if cache exists...
+        $latest_commit_hash = cache('latest_commit_hash');
+
+        //If cache does not exist, fetch from API.
+        if($latest_commit_hash == null) {
+            $latest_commit = Http::get($github_api_url.'/git/refs/heads/master')->json();
+            $latest_commit_hash = $latest_commit['object']['sha'];
+            cache(['latest_commit_hash' => $latest_commit_hash], now()->addHour(1));
+            //Save the data as cache for the next 2 hours.
+        }
+
+        $total_commits = cache('total_commits');
+        //If cache does not exist, fetch from API.
+        if($total_commits == null) {
+            $total_commits = Http::get($github_api_url.'/compare/'.$first_commit_hash_for_the_repo.'...'.$latest_commit_hash)->json();
+            $total_commits = $total_commits['total_commits'] + 1;
+            cache(['total_commits' => $total_commits], now()->addHour(1));
+            //Save the data as cache for the next 2 hours.
+        }
+
+        $commits = cache('commits');
+        if($commits == null) {
+            $commits = Http::get($github_api_url.'/compare/'.$first_commit_hash_for_the_repo.'...'.$latest_commit_hash)->json();
+            cache(['commits' => $commits], now()->addHour(1));
+        }
+
+        // PULL REQUESTS
+
+        return view('frontend.contributors', [
+            'stars' => $greenearth_stars,
+            'commits' => $total_commits,
+            'commits_all' => array_reverse($commits['commits']),
+        ]);
+
+    }
+
+    public function glossary(){
+        return view('frontend.glossary');
+    }
+
+    public function volunteer($username){
+        return view('frontend.volunteer');
+    }
+
+    public function announcements(){
+        $announcements = Announcement::where('status', "1")->orderBy('created_at', 'desc')->get();
+        return view('frontend.announcement', compact('announcements'));
+    }
+
+    public function view($slug){
+        $announcements = Announcement::where('slug', $slug)->first();
+        return view('frontend.view', compact('announcements'));
+    }
+
 }

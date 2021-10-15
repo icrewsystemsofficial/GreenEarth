@@ -4,7 +4,7 @@ class VersionHelper
 {
     const MAJOR = 0;
     const MINOR = 1;
-    const PATCH = 09.30;
+    const PATCH = 10.06;
 
     public static function full()
     {

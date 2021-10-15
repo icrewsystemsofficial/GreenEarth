@@ -41,7 +41,7 @@
     <div class="container-fluid py-4">
         <div class="card">
             <div class="card-header">
-                <div class="text-lg font-weight-bolder"> Manage all announcements in your database </div>
+                <div class="h5"> Manage all announcements in your database </div>
                 <div class="text-secondary text-sm" id="subheading"> </div>
             </div>
 
@@ -70,7 +70,7 @@
                         <tr style="vertical-align: middle;">
                             <td> {{ $announcement->title }} </td> 
                             <td> {{ $announcement->author }} </td>
-                            <td> {{ $announcement->created_at->toDateString() }}</td>
+                            <td> {{ $announcement->created_at->diffForHumans() }}</td>
                             <td class="pb-0">
                                      @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin') || \Illuminate\Support\Facades\Auth::user()->hasRole('superadmin'))
                                     <a href="{{ route('portal.admin.announcements.edit', $announcement->id) }}" class="btn btn-info btn-sm">
@@ -86,9 +86,7 @@
                         @endforeach
                     </tbody>
                 </table>
-            </div>
-
-           
+            </div>  
         </div>
     </div>
 

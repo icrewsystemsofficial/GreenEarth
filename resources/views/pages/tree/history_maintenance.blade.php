@@ -45,11 +45,11 @@
             language: {
                 paginate: {
                     next: '&#8594;', // or '→'
-                    previous: '&#8592;' // or '←' 
-                    
+                    previous: '&#8592;' // or '←'
+
                 }
             },
-             
+
         });
 
         var info = table.page.info();
@@ -61,7 +61,7 @@
             table.search($(this).val()).draw();
          });
 
-        
+
     });
 </script>
 @endsection
@@ -77,8 +77,8 @@
                         <div class="text-secondary text-sm ">{{$tree->name}} planted at {{$tree->location}} on {{$tree->created_at}}</div>
                         <div class="text-secondary text-sm " id="subheading"></div>
                     </div>
-                   
-                    
+
+
                     <div class="card-body mt-0 mb-4">
                         <div class="btn-group flex" role="group" aria-label="Basic example" style="width:120px;" >
                             <button type="button" class="btn bg-gradient-dark text-sm" >Copy</button>
@@ -99,7 +99,7 @@
                                 </thead>
 
                                 <tbody>
-                                @foreach ($maintenance_log as $maintenance_record)    
+                                @foreach ($maintenance_log as $maintenance_record)
                                 <tr>
                                     <td class="text-sm" id="title"> {{$maintenance_record->title}} </td>
                                     <td class="text-sm"> {{$maintenance_record->created_at}} </td>
@@ -119,7 +119,7 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <div>
-                                                        <p>Maintenance number: {{$maintenance_record->id}}</p> 
+                                                        <p>Maintenance number: {{$maintenance_record->id}}</p>
                                                         <br>
                                                         <p>Performed at: {{$maintenance_record->created_at}}</p>
                                                         <br>
@@ -149,7 +149,7 @@
         </div>
     </div>
 
-    
+
 
 @endsection
 
