@@ -10,15 +10,15 @@ use Illuminate\Queue\SerializesModels;
 class SendCertificateMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public  $data;
+    public  $payment;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct($payment)
     {
-        $this->data = $data;
+        $this->payment = $payment;
     }
 
     /**
@@ -28,6 +28,6 @@ class SendCertificateMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails');
+        return $this->markdown('emails.certificate')->with('payment',$this->payment);
     }
 }

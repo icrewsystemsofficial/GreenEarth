@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\PaymentConfirmation;
+use Barryvdh\DomPDF\Facade as PDF;
 use Goutte\Client;
 use App\Helpers\Whois;
 use App\Mail\SendContactMailtoAdmins;
@@ -9,6 +11,8 @@ use App\Mail\SendContactMailtoUser;
 
 use App\Models\Announcement;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Markdown;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Cronfig\Sysinfo\System;
@@ -332,19 +336,55 @@ class FrontendController extends Controller
         return view('frontend.payment_2')
             ->with('email', $request->email)
             ->with('amount', $request->amount)
-            ->with('contact', $request->contact_number);
+            ->with('contact', $request->contact_number)
+            ->with('name',$request->name);
     }
 
-    public function pay(Request $req){
-        // $order  = $client->order->create([
-        // 'receipt'         => 'order_rcptid_11',
-        // 'amount'          => 50000, // amount in the smallest currency unit
-        // 'currency'        => 'INR'// <a href="/docs/international-payments/#supported-currencies"  target="_blank">See the list of supported currencies</a>.)
-        // ]);
-        activity()->causedBy(Auth::user()->log('Payment Succefully completed'));
+    public function pay(Request $request){
+
+        $payment = Payment::where('email','=',$request->email)->first();
+        $payment->razorpay_id = $request->razorpay_payment_id;
+        $payment->save();
+
+        Bus::batch([
+            new PaymentConfirmation($payment),
+        ])->dispatch();
+
+//         $order  = $client->order->create([
+//         'receipt'         => 'order_rcptid_11',
+//         'amount'        => 50000, // amount in the smallest currency unit
+////         'currency'        => 'INR'// <a href="/docs/international-payments/#supported-currencies"  target="_blank">See the list of supported currencies</a>.)
+////         ]);
+////        activity()->causedBy(Auth::user()->log('Payment Succefully completed'));
         return redirect(route('home.index'));
         // MISSIONS MUST BE ADDED FOR THE PAYMENTS DONE
-        
+    }
+
+    public function certificateDownload($payment_id)
+    {
+        $payment = Payment::where('razorpay_id','=',$payment_id)->first();
+        $markdown = new Markdown(view(), config('mail.markdown'));
+
+//    uncomment this line when passing the data to pro
+//    $html = $markdown->render('emails.salary_pdf', ['data' => $data]);
+        $html = $markdown->render('certificate.certificate',['data' => $payment]);
+
+        $file_name = $payment->name.'_certificate_'.date('d_m_Y_H_i_A');
+
+        $file_path = public_path($file_name . '.html');
+
+        if (!file_exists($file_path)) {
+            Storage::disk('public')->put($file_name . '.html', $html);
+        }
+
+        // Create the directory
+        Storage::disk('public')->makeDirectory('certificates' . DIRECTORY_SEPARATOR . date('Y') . DIRECTORY_SEPARATOR . date('M'));
+
+        // Load the content and save the pdf in laravel local storage for downloading all the pdf generated for the month as a zip file
+        return PDF::loadFile(public_path('storage' . DIRECTORY_SEPARATOR . $file_name . '.html'))
+            ->save(public_path('storage' . DIRECTORY_SEPARATOR . 'certificates' . DIRECTORY_SEPARATOR . date('Y') . DIRECTORY_SEPARATOR . date('M') . DIRECTORY_SEPARATOR . $file_name . '.pdf'))
+//         ->setPaper('a4', 'landscape')
+            ->stream($file_name . '.pdf');
     }
 
 }

@@ -10,7 +10,7 @@
        <br><br>
        <span style="font-size:25px"><i>This is to certify that</i></span>
        <br><br>
-       <span style="font-size:30px"><b>(Name)</b></span><br/><br/>
+       <span style="font-size:30px"><b>{{ $data['name'] }}</b></span><br/><br/>
        <span style="font-size:25px"><i>has went carbon neutral with</i></span> <br/><br/>
        <span style="font-size:30px">GreenEarth</span> <br/><br/>
        <span style="font-size:20px">with the organization <b>(Organization)</b></span> <br/><br/><br/><br/>

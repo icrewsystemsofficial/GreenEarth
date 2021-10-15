@@ -27,6 +27,8 @@
             data-theme.color="#98ec2d"
         ></script>
         <input type="hidden" custom="Hidden Element" name="hidden" style="color: brown">
+        <input type="hidden" name="email" value="{{ $email }}">
+        <input type="hidden" name="name" value="{{ $name }}">
     </form>
       </div>
     </div>
