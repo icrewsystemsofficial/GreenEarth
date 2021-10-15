@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Cronfig\Sysinfo\System;
 use App\Models\Contact;
+use App\Models\Payment;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -310,6 +312,39 @@ class FrontendController extends Controller
     public function view($slug){
         $announcements = Announcement::where('slug', $slug)->first();
         return view('frontend.view', compact('announcements'));
+    }
+
+    public function payment(){
+        return view('frontend.payment');
+    }
+
+    public function submit(Request $request){
+        $payment = new Payment;
+        $payment->name = $request->name;
+        $payment->email = $request->email;
+        $payment->contact_number = $request->phone;
+        $payment->amount = $request->amount;
+        $payment->status = 0;
+        $payment->save();
+        // "0" => PROCESSING
+        // "1" => SUCCESS
+        // "2" => FAILURE
+        return view('frontend.payment_2')
+            ->with('email', $request->email)
+            ->with('amount', $request->amount)
+            ->with('contact', $request->contact_number);
+    }
+
+    public function pay(Request $req){
+        // $order  = $client->order->create([
+        // 'receipt'         => 'order_rcptid_11',
+        // 'amount'          => 50000, // amount in the smallest currency unit
+        // 'currency'        => 'INR'// <a href="/docs/international-payments/#supported-currencies"  target="_blank">See the list of supported currencies</a>.)
+        // ]);
+        activity()->causedBy(Auth::user()->log('Payment Succefully completed'));
+        return redirect(route('home.index'));
+        // MISSIONS MUST BE ADDED FOR THE PAYMENTS DONE
+        
     }
 
 }
