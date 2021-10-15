@@ -89,6 +89,11 @@
                                     TrackMyTree
                                 </a>
                             </li>
+                    <li class="nav-item mx-2">
+                        <a href="{{ route('home.contact.index') }}" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center">
+                          Contact
+                        </a>
+                    </li>
 
                             <li class="nav-item mx-2">
                                 <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages" data-bs-toggle="dropdown" aria-expanded="false">
