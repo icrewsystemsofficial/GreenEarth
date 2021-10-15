@@ -20,9 +20,11 @@ structure and standards.
 
 use App\Helpers\CO2Helper;
 use App\Models\Certificate;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Activitylog\Models\Activity;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TreeController;
@@ -279,3 +281,32 @@ Route::get('/auth/redirect', function () {
 })->name('login.google');
 
 Route::get('/login/google/callback', [LoginController::class, 'registerOrLoginUser'])->name('login.redirect');
+
+//This route will be attached in the certificate of appreciation email
+Route::get('certificate-download', function () {
+
+     // Todo: get business owner details from the DB and pass it to the certificate
+    $markdown = new Markdown(view(), config('mail.markdown'));
+
+//    uncomment this line when passing the data to pro
+//    $html = $markdown->render('emails.salary_pdf', ['data' => $data]);
+    $html = $markdown->render('certificate.certificate');
+
+    $file_name = 'certificate';
+    $file_path = public_path($file_name . '.html');
+
+    if (!file_exists($file_path)) {
+        Storage::disk('public')->put($file_name . '.html', $html);
+    }
+
+    // Create the directory
+    Storage::disk('public')->makeDirectory('certificates' . DIRECTORY_SEPARATOR . date('Y') . DIRECTORY_SEPARATOR . date('M'));
+
+    // Load the content and save the pdf in laravel local storage for downloading all the pdf generated for the month as a zip file
+    return PDF::loadFile(public_path('storage' . DIRECTORY_SEPARATOR . $file_name . '.html'))
+        ->save(public_path('storage' . DIRECTORY_SEPARATOR . 'certificates' . DIRECTORY_SEPARATOR . date('Y') . DIRECTORY_SEPARATOR . date('M') . DIRECTORY_SEPARATOR . $file_name . '.pdf'))
+//         ->setPaper('a4', 'landscape')
+        ->stream($file_name . '.pdf');
+
+
+})->name('certificateDownload');
