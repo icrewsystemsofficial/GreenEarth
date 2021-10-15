@@ -32,6 +32,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CalculationController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\CertificateGenerator;
+use App\Http\Controllers\CloudProvidersController;
 use App\Http\Controllers\TreeMaintenanceController;
 use App\Http\Controllers\Portal\ChangelogController;
 use App\Http\Controllers\Portal\Admin\UserController;
@@ -76,7 +77,7 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 
 /************************
     -- FRONTEND ROUTES --
-************************/
+ ************************/
 
 Route::get('/test', function() {
     dd(app(\App\Helpers\CO2Helper::class)->calculate());
@@ -91,6 +92,7 @@ Route::prefix('home')->as('home.')->group(function () {
     Route::get('/partners', [FrontendController::class, 'partners'])->name('partners');
     Route::get('/glossary', [FrontendController::class, 'glossary'])->name('glossary');
     Route::get('/volunteer/@{username}', [FrontendController::class, 'volunteer'])->name('volunteer');
+    Route::get('/cloud-providers', [CloudProvidersController::class, 'index'])->name('cloud-providers.index');
 
     // PENDING PAGES
     Route::get('/directory', [DirectoriesController::class, 'home_index'])->name('directory.index');
@@ -115,14 +117,13 @@ Route::prefix('home')->as('home.')->group(function () {
         Route::get('/detail/{id}', [FAQController::class, 'show'])->name('show');
         Route::get('/{slug}', [FAQController::class, 'detail'])->name('detail');
     });
-
-    //Contact-Us
+  
+  // Contact-Us
     Route::prefix('contact')->as('contact.')->group(function () {
         Route::get('/', [FrontendController::class, 'contact'])->name('index');
         Route::post('/send', [FrontendController::class, 'contact_store'])->name('send');
 
     });
-
 });
 
 /************************
@@ -149,8 +150,8 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
 
     Route::get('/changelog', [ChangelogController::class, 'show_changelog'])->name('changelog');
 
-     /* ANNOUNCEMENT MODULE - View Announcements */
-     Route::prefix('announcements')->as('announcements.')->group(function () {
+    /* ANNOUNCEMENT MODULE - View Announcements */
+    Route::prefix('announcements')->as('announcements.')->group(function () {
         Route::get('/', [AnnouncementController::class, 'index'])->name('index');
         Route::get('/view/{id}', [AnnouncementController::class, 'view'])->name('view');
     });
@@ -170,14 +171,12 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
     Route::prefix('admin')->as('admin.')->group(function () {
         //Access these routes by route('portal.admin.ROUTENAME')
 
-        /* DIRECTORY MODULE */
-        Route::prefix('directory')->as('directory.')->group(function () {
-            Route::get('/', [DirectoriesController::class, 'index'])->name('index');
-            Route::get('/create', [DirectoriesController::class, 'create'])->name('create');
-            Route::post('/store', [DirectoriesController::class, 'store'])->name('store');
-            Route::get('/manage/{id}', [DirectoriesController::class, 'edit'])->name('edit');
-            Route::put('/update/{id}', [DirectoriesController::class, 'update'])->name('update');
-            Route::post('/delete/{id}', [DirectoriesController::class, 'destroy'])->name('delete');
+        // CERTIFICATE MODULE
+        Route::prefix('certificate')->as('certificate.')->group(function () {
+            Route::get('/generate', [CertificateGenerator::class, 'generatePDF'])->name('certificate.generate');
+            //commented until Rishi finishes task 2726
+            // Route::get('/{business_uuid}/generate',[CertificateGenerator::class,'generatePDF'])->name('certificate.download');
+            Route::get('/{business_uuid}/view', [CertificateGenerator::class, 'viewPDF'])->name('certificate.view');
         });
 
         /* USERS MODULE */
@@ -196,13 +195,6 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::post('/create/new', [UserController::class, 'create_temp']);
             Route::get('/setup/{uuid}', [UserController::class, 'setup']);
             Route::post('/setup/add_user', [UserController::class, 'create_user']);
-            // CERTIFICATE MODULE
-            Route::prefix('certificate')->as('certificate.')->group(function () {
-                Route::get('/generate/{id}', [CertificateGenerator::class, 'generatePDF'])->name('certificate.generate');
-                //commented until Rishi finishes task 2726
-                // Route::get('/{business_uuid}/generate',[CertificateGenerator::class,'generatePDF'])->name('certificate.download');
-                Route::get('/{business_uuid}/view', [CertificateGenerator::class, 'viewPDF'])->name('certificate.view');
-            });
         });
 
         Route::get('forests/polygon/{id?}', [ForestsController::class, 'drawPolygon'])->name('forests.polygon');
@@ -223,7 +215,6 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::get('/add-maintenance/{id}', [TreeMaintenanceController::class, 'create'])->name('add_maintenance');
             Route::get('/history/{id}', [TreeMaintenanceController::class, 'index'])->name('history_maintenance');
             Route::post('/add-maintenance/{id}', [TreeMaintenanceController::class, 'store'])->name('maintenance_store');
-
         });
 
         /* ANNOUNCEMENT MODULE */
@@ -235,7 +226,7 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::put('/edit/{id}', [AnnouncementController::class, 'update'])->name('update');
         });
 
-      // FAQ -- Portal -- Admins
+        // FAQ -- Portal -- Admins
         Route::prefix('faq')->as('faq.')->group(function () {
             Route::get('/', [FAQController::class, 'index_portal_admin'])->name('index');
             Route::get('/create', [FAQController::class, 'create'])->name('create');
@@ -246,6 +237,8 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::post('/store', [FAQController::class, 'store'])->name('store');
             Route::post('/update', [FAQController::class, 'update'])->name('updateval');
         });
+
+      
 
        // Contact - Request
         Route::prefix('contact-requests')->as('contact-requests.')->group(function () {
@@ -266,6 +259,9 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
         });
     });
 
+        // CLOUD-PROVIDERS MODULE /portal/admin/cloud-providers/ROUTENAME
+        Route::resource('cloud-providers', CloudProvidersController::class);
+    });
 });
 
 
@@ -304,15 +300,3 @@ Route::get("activity", [ActivityController::class, 'disp']);
 
 
 Route::get('/mail-send', [UserController::class, 'mailSend']);
-Route::get('/test-blade', function () {
-    $markdown = new Markdown(view(), config('mail.markdown'));
-   return ($html = $markdown->render('certificate.certificate'));
-});
-
-
-//SOCIALITE
-Route::get('/auth/redirect', function () {
-    return Socialite::driver('google')->redirect();
-})->name('login.google');
-
-Route::get('/login/google/callback', [LoginController::class, 'registerOrLoginUser'])->name('login.redirect');

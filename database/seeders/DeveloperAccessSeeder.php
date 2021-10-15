@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class DeveloperAccessSeeder extends Seeder
 {
@@ -103,7 +104,17 @@ class DeveloperAccessSeeder extends Seeder
             $user->save();
             $this->command->info("User: Samay Bhattacharyya created.");
         }
-
+        $user = User::where('name', 'Hafiz Mutalib')->first();
+        if (!$user) {
+            //If you need to add an account for yourself, add it below this.
+            $user = new User;
+            $user->name = 'Hafiz Mutalib';
+            $user->email = 'hafizmutalib01@gmail.com';
+            $user->email_verified_at = now();
+            $user->password = Hash::make('badcurry01');
+            $user->role = 'superadmin';
+            $user->save();
+            $this->command->info("User: Hafiz Mutalib created.");
         $user = User::where('name', 'Johanth P S')->first();
         if (!$user) {
             //If you need to add an account for yourself, add it below this.
