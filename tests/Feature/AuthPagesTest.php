@@ -1,4 +1,7 @@
 <?php
+
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 /*
     GreenEarth Test Cases
 
@@ -8,6 +11,10 @@
 
 
     uses()->group('authpages');
+
+    beforeEach(function () {
+        $this->withoutExceptionHandling();
+    });
 
     test('Test#1: Check if login page renders', function () {
         $this->get('/login')->assertStatus(200);
@@ -21,13 +28,4 @@
         // $this->get('/password/reset')->assertStatus(200);
         $this->get('/')->assertStatus(302);
     });
-
-    test('Test#4: Check if you can submit data into login page', function () {
-
-        $this->post(route('login'), [
-            'email' => '',
-            'password' => '',
-        ])->assertStatus(302);
-    });
-
 ?>
