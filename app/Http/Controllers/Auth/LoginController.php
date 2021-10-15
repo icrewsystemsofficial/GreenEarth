@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
+use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -36,5 +40,25 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function registerOrLoginUser()
+    {
+        $data = Socialite::driver('google')->user();
+
+        // Find the user with that Google ID
+        $user = User::where('email', $data->email)->first();
+        if($user) {
+            Auth::login($user);
+            return redirect(route('portal.index'));
+        } else {
+            return view('auth.register')->with([
+                'error' => 'No users associated with that e-mail ID',
+                'oauth' => array(
+                    'name' => $data->name,
+                    'email' => $data->email,
+                ),
+            ]);
+        }
     }
 }

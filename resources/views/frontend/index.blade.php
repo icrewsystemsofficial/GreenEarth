@@ -51,7 +51,7 @@
               <div class="col-md-12">
                 <div class="p-3 text-center">
                     <h1 class="mt-3 h4">
-                        Don't worry, you can get carbon-neutral certified in just <br> <span class="h1 text-success text-gradient font-weight-bolder">3 steps</span>
+                        Don't worry, you can go carbon-neutral in just <br> <span class="h1 text-success text-gradient font-weight-bolder">3 steps</span>
                     </h1>
                     <p class="text-sm">
                         We analyze your carbon footprint, calculate the required
@@ -60,16 +60,38 @@
                 </div>
 
                 <div class="px-6 py-3">
-                    <form action="" class="form">
+                    <form action="{{ route('home.calculate') }}" class="form" method="GET">
                         <div class="row">
                             <div class="col-md-9">
+
+                                @if(session('errors'))
+                                    <div class="alert alert-danger text-white" role="alert">
+                                        <strong>Whoops</strong> {{ session('errors') }}
+                                    </div>
+                                @endif
+
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="website" placeholder="www.yourwebsite.com">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" name="website" placeholder="www.google.com" id="website_inputarea" onfocus="append_https();" />
+                                    </div>
+                                    <p class="mt-1 text-muted text-sm" id="url_suggestion" style="display: none;">
+                                        <i class="fa fa-exclamation-triangle"></i> Make sure to include <strong>https:// or http://</strong> along with your URL.
+                                    </p>
+
+
+                                    <script>
+                                        function append_https() {
+                                            var website_input = document.getElementById('website_input');
+                                            var url_suggestion = document.getElementById('url_suggestion');
+
+                                            url_suggestion.style.display = 'block';
+                                        }
+                                    </script>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <button class="btn btn-dark text-success btn-gradient block">
-                                    GO CO<sub>2</sub> neutral
+                                    Calculate
                                 </button>
                             </div>
                         </div>

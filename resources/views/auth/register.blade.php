@@ -12,16 +12,39 @@
                                 <h3 class="font-weight-bolder text-success text-gradient">
                                     Register
                                 </h3>
-                                <p class="mb-0">
-                                    Create a FREE account at GreenEarth to access the portal
+                                <p class="mb-2">
+                                    Create a FREE account at {{ config('app.name') }} to access the portal
                                 </p>
+
+                                <div class="text-center">
+
+                                    @if(!isset($oauth))
+                                    <a href="{{ route('login.google') }}" type="button" class="btn btn-info btn-icon w-100">
+                                        <span class="btn-inner--icon"><i class="fab fa-google"></i></span>
+                                        <span class="btn-inner--text">Register with Google</span>
+                                    </a>
+
+                                    @else
+
+                                    <div class="alert alert-success bg-gradient shadow-lg text-dark" role="alert">
+                                        <i class="fa fa-check text-success"></i> Registering with your google account.
+                                    </div>
+
+                                    @endif
+
+                                </div>
+                            </div>
+
+
+                            <div class="text-center mb-4">
+                                <hr>
                             </div>
                             <div class="card-body">
                                 <form method="POST" action="{{ route('register') }}">
                                     @csrf
                                     <label>Name</label>
                                     <div class="mb-3">
-                                        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="@if(isset($oauth['name'])) {{ $oauth['name'] }} @else {{ old('name') }} @endif" required autocomplete="name" autofocus>
 
                                         @error('name')
                                         <span class="invalid-feedback" role="alert">
@@ -32,7 +55,7 @@
                                     </div>
                                     <label>Email</label>
                                     <div class="mb-3">
-                                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="@if(isset($oauth['email'])) {{ $oauth['email'] }} @else {{ old('enail') }} @endif" required autocomplete="email">
 
                                         @error('email')
                                         <span class="invalid-feedback" role="alert">
