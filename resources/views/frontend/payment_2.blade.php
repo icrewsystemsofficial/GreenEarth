@@ -16,7 +16,7 @@
         @csrf
         <script
             src="https://checkout.razorpay.com/v1/checkout.js"
-            data-key="{{ env('RazorPay_API_Key') }}" 
+            data-key="{{ config('RAZORPAY_API_KEY') }}" 
             data-amount="{{ $amount*100 }}" 
             data-currency="INR"
             data-buttontext="Pay with Razorpay"
