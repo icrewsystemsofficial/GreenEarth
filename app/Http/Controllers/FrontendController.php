@@ -341,7 +341,7 @@ class FrontendController extends Controller
         // 'amount'          => 50000, // amount in the smallest currency unit
         // 'currency'        => 'INR'// <a href="/docs/international-payments/#supported-currencies"  target="_blank">See the list of supported currencies</a>.)
         // ]);
-        activity()->causedBy(Auth::user()->log('Payment Succefully completed'));
+        activity()->causedBy(Auth::user())->log('Payment Succefully completed');
         return redirect(route('home.index'));
         // MISSIONS MUST BE ADDED FOR THE PAYMENTS DONE
         
