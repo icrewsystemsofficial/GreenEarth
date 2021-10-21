@@ -9,7 +9,9 @@
 
 
     uses()->group('frontend');
-
+    beforeEach(function () {
+        $this->withoutExceptionHandling();
+    });
     /*  Test # 1
         @objective: Checks if the "/" route is redirected to the home.index
         @expected: 302
