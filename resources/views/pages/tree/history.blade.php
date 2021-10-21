@@ -48,7 +48,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="h5"> Tree Maintenance History  </div>
-                <div class="text-secondary text-sm ">Tree #{{$tree->id}} planted at {{$tree->location}} on {{$tree->created_at->diffForHumans()}} ({{ $tree->created_at->format('d/m/Y') }})</div>
+                <div class="text-secondary text-sm ">Tree #{{$tree->id}} planted on {{$tree->created_at->diffForHumans()}} ({{ $tree->created_at->format('d/m/Y') }})</div>
                 <div class="text-secondary text-sm" id="subheading"> </div>
             </div>
 
