@@ -39,6 +39,7 @@ use App\Http\Controllers\Portal\ChangelogController;
 use App\Http\Controllers\Portal\Admin\UserController;
 use App\Http\Controllers\Portal\DirectoriesController;
 use App\Http\Controllers\FAQController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PlantSpecieController;
 use App\Http\Controllers\PlantSpeciesController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -93,6 +94,9 @@ Route::prefix('home')->as('home.')->group(function () {
     Route::get('/partners', [FrontendController::class, 'partners'])->name('partners');
     Route::get('/glossary', [FrontendController::class, 'glossary'])->name('glossary');
     Route::get('/volunteer/@{username}', [FrontendController::class, 'volunteer'])->name('volunteer');
+    Route::get('/payment', [FrontendController::class, 'payment'])->name('payment');
+    Route::post('/payment', [FrontendController::class, 'submit'])->name('submit');
+    Route::post('/submit', [FrontendController::class, 'pay'])->name('pay');
     Route::get('/cloud-providers', [CloudProvidersController::class, 'index'])->name('cloud-providers.index');
 
     // PENDING PAGES
@@ -202,7 +206,6 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
         Route::post('forests/polygon/{id?}/save', [ForestsController::class, 'savePolygon'])->name('forests.polygon.save');
         Route::get('forests/manage/{id}', [ForestsController::class, 'manage'])->name('forests.manage');
         Route::resource('/forests', ForestsController::class);
-
         /* TREES MODULE */
         Route::prefix('tree')->as('tree.')->group(function () {
             Route::get('/', [TreeController::class, 'index'])->name('index');
@@ -214,6 +217,14 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::get('/update/{id}', [TreesUpdatesController::class, 'create'])->name('add_updates');
             Route::post('/update/{id}', [TreesUpdatesController::class, 'store'])->name('store_updates');
             Route::get('/history/{id}', [TreesUpdatesController::class, 'index'])->name('history_maintenance');
+        });
+        /* TREES MODULE */
+        Route::prefix('payments')->as('payments.')->group(function () {
+            Route::get('/', [PaymentController::class, 'index'])->name('index');
+            Route::get('/{id}/manage', [PaymentController::class, 'manage'])->name('edit');
+            Route::post('/{id}/update', [PaymentController::class, 'update'])->name('update');
+
+
         });
 
         /* ANNOUNCEMENT MODULE */
