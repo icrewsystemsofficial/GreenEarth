@@ -14,5 +14,7 @@ class Announcement extends Model
         'body',
         'author',
         'role',
+        'status',
+        'slug'
     ];
 }

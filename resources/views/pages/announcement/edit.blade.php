@@ -23,33 +23,36 @@
                 @csrf
                 @method('PUT')
                 <div class="card-body text-sm">
-                <div class="form-group">
-                <label for="role" class="ps-2 pe-4">Role </label>
-                    <select name="role" id="role">
-                        <option {{ $announcements->role == 'superadmin' ? 'selected':'' }} value="superadmin"> Super Admin </option>
-                        <option {{ $announcements->role == 'admin' ? 'selected':'' }} value="admin"> Admin </option>
-                        <option {{ $announcements->role == 'volunteer' ? 'selected':'' }} value="volunteer"> Volunteer </option>
-                        <option {{ $announcements->role == 'user' ? 'selected':'' }} value="user"> User </option>
-                    </select>
+                    <div class="form-group">
+                        <label for="role" class="ms-3 me-4">Role </label>
+                        <select name="role" id="role" class="bg-white">
+                            @foreach($roles as $role)
+                                <option {{ ($announcements->role == $role) ? 'selected':'' }} value="{{$role}}"> {{$role}} </option>
+                            @endforeach
+                        </select>
+
+                        <label for="status" class="ms-6 me-4"> Status </label>
+                        <select name="status" id="status" class="bg-white">
+                            <option {{ ($announcements->status == "0") ? 'selected':'' }} value="0"> Inactive </option>
+                            <option {{ ($announcements->status == "1") ? 'selected':'' }} value="1"> Active </option>
+                        </select>
+                    </div>
+                    <div class="form-group ms-3">
+                        <label> Title </label>
+                        <input type="text" name="title" placeholder="Announcement Title" class="form-control" value="{{ $announcements->title }}"/>
+                    </div>  
+                    <div class="form-group mb-5 ms-3">
+                        <label> Body </label>
+                        <textarea class="ckeditor form-control" name="body"> {{ $announcements->body }} </textarea>
+                    </div>
                 </div>
-                <div class="form-group ps-2">
-                    <label> Title </label>
-                    <input type="text" name="title" placeholder="Announcement Title" class="form-control" value="{{ $announcements->title }}"/>
-                </div>  
-                <div class="form-group pb-5 ps-2">
-                    <label> Body </label>
-                    <textarea class="ckeditor form-control" name="body"> {{ $announcements->body }} </textarea>
-                </div>
-                </div>
-                <div class="card-footer ms-2">
+                <div class="card-footer ms-3">
                     <button type="submit" class="btn btn-success">Update Announcement</button>
                     <a href="{{ url()->previous() }}" class="btn btn-danger"> 
                         Back
                     </a> 
-                </div>
-                        
-            </form>
-            
+                </div>                        
+            </form>            
         </div>
     </div>
 </div>

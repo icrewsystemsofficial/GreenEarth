@@ -4,10 +4,20 @@ namespace App\Http\Controllers;
 
 use Goutte\Client;
 use App\Helpers\Whois;
+use App\Mail\SendContactMailtoAdmins;
+use App\Mail\SendContactMailtoUser;
+
+use App\Models\Announcement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Cronfig\Sysinfo\System;
+use App\Models\Contact;
+use App\Models\Payment;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Symfony\Component\HttpFoundation\Response;
 
 class FrontendController extends Controller
 {
@@ -104,9 +114,9 @@ class FrontendController extends Controller
         // dd($res->body());
 
         // $apikey = 'a4880f98a92ce578i094a6b828e05791f';
-        // $client = new Client();        
-        // $crawler = $client->request('GET', 'https://check-host.net/ip-info?host=https://icrewsystems.com');        
-        // // $link = $crawler->selectLink('Retrive whois data')->link();                
+        // $client = new Client();
+        // $crawler = $client->request('GET', 'https://check-host.net/ip-info?host=https://icrewsystems.com');
+        // // $link = $crawler->selectLink('Retrive whois data')->link();
         // $link = $crawler->filter('#whois_retrieve')->link();
         // $crawler = $client->click($link);
         // dd($crawler->filter('#whois_result'));
@@ -150,4 +160,191 @@ class FrontendController extends Controller
     public function terms_of_service() {
         return view('frontend.legal.termsofservice');
     }
+
+    public function aboutus(){
+        return view('frontend.about');
+    }
+
+    public function partners(){
+        return view('frontend.partners');
+    }
+
+    public function investors(){
+        return view('frontend.comingsoon');
+    }
+
+    /*Contact Module*/
+
+    public function contact(){
+        return view('frontend.contact');
+    }
+
+    public function contact_store(Request $request){
+
+
+        // $request->validate([
+        //         'email' => 'required',
+        //         'body' => 'required',
+        //         'type' => 'required',
+        //         'g-recaptcha-response' => 'recaptcha'
+        // ]);
+
+        $contact= new Contact;
+        $contact->email = $request->email;
+        $contact->type = $request->type;
+        $contact->body = $request->body;
+        $contact->status = 0; // Status: 0 = New, 1 = Contacted, 2 = Resolved, 3 = Spam.
+        $contact -> save();
+
+        $this->contact_mailsend($contact);
+
+        smilify('Yay', 'Your message was sent to us, we\'ll get in touch with you soon');
+        return redirect(route('home.contact.index'));
+
+    }
+
+    public function contact_mailSend($data) {
+
+        $email = $data->email;
+        $type = $data->type;
+        $body = $data->body;
+        $data_for_id = Contact::where([['email',$email],['type',$type],['body',$body]])->first();
+
+        $id = $data_for_id->id;
+        $url= route('portal.admin.contact-requests.view',$id);
+
+
+
+        $admins_emailid = User::role('admin')->get('email');
+
+        $mailInfo = [
+            'title' => 'Greenearth - New message from a User',
+            'email' => $email,
+            'type' => $type,
+            'body' => $body,
+            'url' => $url,
+            'id' => $id,
+            'mails' => $admins_emailid
+        ];
+
+        foreach($admins_emailid as $mail){
+            $emailid=$mail->email;
+            Mail::to($emailid)->send(new SendContactMailtoAdmins($mailInfo));
+        }
+
+        Mail::to($email)->send(new SendContactMailtoUser($mailInfo));
+
+        return response()->json([
+            'message' => 'Mail has sent.'
+        ], Response::HTTP_OK);
+    }
+
+
+
+
+    public function contributors(){
+        $github_api_url = 'https://api.github.com/repos/icrewsystemsofficial/GreenEarth';
+
+        // STARS
+
+        //Check if cache exists...
+        $greenearth_stars = cache('greenearth_stars');
+        //If cache does not exist, fetch from API.
+        if($greenearth_stars == null) {
+            $stars = Http::get($github_api_url.'/stargazers')->json();
+            $greenearth_stars = count($stars);
+            cache(['greenearth_stars' => $greenearth_stars], now()->addHours(2));
+            //Save the data as cache for the next 2 hours.
+        }
+
+        // COMMITS
+        $first_commit_hash_for_the_repo = '431d5d8be1603a9f361f4d42d694826669612dc8'; //This has to be hard-coded.
+
+        //Check if cache exists...
+        $latest_commit_hash = cache('latest_commit_hash');
+
+        //If cache does not exist, fetch from API.
+        if($latest_commit_hash == null) {
+            $latest_commit = Http::get($github_api_url.'/git/refs/heads/master')->json();
+            $latest_commit_hash = $latest_commit['object']['sha'];
+            cache(['latest_commit_hash' => $latest_commit_hash], now()->addHour(1));
+            //Save the data as cache for the next 2 hours.
+        }
+
+        $total_commits = cache('total_commits');
+        //If cache does not exist, fetch from API.
+        if($total_commits == null) {
+            $total_commits = Http::get($github_api_url.'/compare/'.$first_commit_hash_for_the_repo.'...'.$latest_commit_hash)->json();
+            $total_commits = $total_commits['total_commits'] + 1;
+            cache(['total_commits' => $total_commits], now()->addHour(1));
+            //Save the data as cache for the next 2 hours.
+        }
+
+        $commits = cache('commits');
+        if($commits == null) {
+            $commits = Http::get($github_api_url.'/compare/'.$first_commit_hash_for_the_repo.'...'.$latest_commit_hash)->json();
+            cache(['commits' => $commits], now()->addHour(1));
+        }
+
+        // PULL REQUESTS
+
+        return view('frontend.contributors', [
+            'stars' => $greenearth_stars,
+            'commits' => $total_commits,
+            'commits_all' => array_reverse($commits['commits']),
+        ]);
+
+    }
+
+    public function glossary(){
+        return view('frontend.glossary');
+    }
+
+    public function volunteer($username){
+        return view('frontend.volunteer');
+    }
+
+    public function announcements(){
+        $announcements = Announcement::where('status', "1")->orderBy('created_at', 'desc')->get();
+        return view('frontend.announcement', compact('announcements'));
+    }
+
+    public function view($slug){
+        $announcements = Announcement::where('slug', $slug)->first();
+        return view('frontend.view', compact('announcements'));
+    }
+
+    public function payment(){
+        return view('frontend.payment');
+    }
+
+    public function submit(Request $request){
+        $payment = new Payment;
+        $payment->name = $request->name;
+        $payment->email = $request->email;
+        $payment->contact_number = $request->phone;
+        $payment->amount = $request->amount;
+        $payment->status = 0;
+        $payment->save();
+        // "0" => PROCESSING
+        // "1" => SUCCESS
+        // "2" => FAILURE
+        return view('frontend.payment_2')
+            ->with('email', $request->email)
+            ->with('amount', $request->amount)
+            ->with('contact', $request->contact_number);
+    }
+
+    public function pay(Request $req){
+        // $order  = $client->order->create([
+        // 'receipt'         => 'order_rcptid_11',
+        // 'amount'          => 50000, // amount in the smallest currency unit
+        // 'currency'        => 'INR'// <a href="/docs/international-payments/#supported-currencies"  target="_blank">See the list of supported currencies</a>.)
+        // ]);
+        activity()->causedBy(Auth::user())->log('Payment Succefully completed');
+        return redirect(route('home.index'));
+        // MISSIONS MUST BE ADDED FOR THE PAYMENTS DONE
+        
+    }
+
 }

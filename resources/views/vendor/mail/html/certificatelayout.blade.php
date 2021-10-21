@@ -2,6 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="color-scheme" content="light">
@@ -53,8 +58,14 @@
         p:last-child {
             page-break-after: never;
         }
+
+        .custom-font {
+            font-family: 'Dancing Script', cursive;
+        }
     </style>
     <title>{{ $title ?? '' }}</title>
+
+
 </head>
 
 <body>
@@ -70,7 +81,7 @@
     <footer>
         <div style="font-size: 12px;">
             <center>
-                ICREWSYSTEMS SOFTWRAE ENGINEERING LLP.
+                ICREWSYSTEMS SOFTWARE ENGINEERING LLP.
                 <br>
                 <span style="font-size: 10px;">
                     "The Artisan House", Second Floor, Plot # 98, 3/11, CSI Church Street, Jayanagar, Porur, Chennai, India. 600044.

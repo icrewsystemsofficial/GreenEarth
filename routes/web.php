@@ -18,26 +18,37 @@ structure and standards.
 @repo https://github.com/icrewsystmsofficial/GreenEarth W
 */
 
+use App\Helpers\CO2Helper;
 use App\Models\Certificate;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Spatie\Activitylog\Models\Activity;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\TreeController;
+use App\Http\Controllers\Portal\Admin\TreeController;
+use App\Http\Controllers\Portal\Admin\TreesUpdatesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CalculationController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\CertificateGenerator;
+use App\Http\Controllers\CloudProvidersController;
 use App\Http\Controllers\TreeMaintenanceController;
 use App\Http\Controllers\Portal\ChangelogController;
 use App\Http\Controllers\Portal\Admin\UserController;
 use App\Http\Controllers\Portal\DirectoriesController;
 use App\Http\Controllers\FAQController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PlantSpecieController;
+use App\Http\Controllers\PlantSpeciesController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Portal\Admin\AnnouncementController;
+use App\Http\Controllers\Portal\Admin\ContactRequestController;
+use App\Http\Controllers\Portal\Admin\ForestsController;
 use App\Models\User;
+use FontLib\Table\Type\name;
+use Illuminate\Routing\RouteUri;
 use Laravel\Socialite\Facades\Socialite;
 
 /*
@@ -55,9 +66,8 @@ Route::get('/', function () {
     return redirect(route('home.index'));
 });
 
+
 Auth::routes();
-
-
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
@@ -69,25 +79,37 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 
 /************************
     -- FRONTEND ROUTES --
-************************/
+ ************************/
+
+Route::get('/test', function() {
+    dd(app(\App\Helpers\CO2Helper::class)->calculate());
+});
 
 Route::prefix('home')->as('home.')->group(function () {
     Route::get('/', [FrontendController::class, 'index'])->name('index');
-    Route::get('/calculate', [FrontendController::class, 'calculate'])->name('calculate');
+    Route::get('/calculate', [CalculationController::class, 'frontend'])->name('calculate');
     Route::get('/certificate/{uuid}', [FrontendController::class, 'index']);
+    Route::get('/about', [FrontendController::class, 'aboutus'])->name('about');
+    Route::get('/contributors', [FrontendController::class, 'contributors'])->name('contributors');
+    Route::get('/partners', [FrontendController::class, 'partners'])->name('partners');
+    Route::get('/glossary', [FrontendController::class, 'glossary'])->name('glossary');
+    Route::get('/volunteer/@{username}', [FrontendController::class, 'volunteer'])->name('volunteer');
+    Route::get('/payment', [FrontendController::class, 'payment'])->name('payment');
+    Route::post('/payment', [FrontendController::class, 'submit'])->name('submit');
+    Route::post('/submit', [FrontendController::class, 'pay'])->name('pay');
+    Route::get('/cloud-providers', [CloudProvidersController::class, 'index'])->name('cloud-providers.index');
 
+    // PENDING PAGES
     Route::get('/directory', [DirectoriesController::class, 'home_index'])->name('directory.index');
     Route::get('/directory/{brand_name_slug}', [DirectoriesController::class, 'home_show'])->name('directory.show');
-
     Route::get('/track-my-tree/{uuid}', [FrontendController::class, 'index']);
     Route::get('/statistics', [FrontendController::class, 'index']);
-
-    Route::get('/about', [FrontendController::class, 'index']);
-    Route::get('/contributors', [FrontendController::class, 'index']);
-    Route::get('/investors', [FrontendController::class, 'index']);
-    Route::get('/partners', [FrontendController::class, 'index']);
-    Route::get('/announcements', [FrontendController::class, 'index']);
+    Route::get('/investors', [FrontendController::class, 'comingsoon'])->name('investors');
+    Route::get('/announcements', [FrontendController::class, 'announcements'])->name('announcements');
+    Route::get('/announcements/{slug}', [FrontendController::class, 'view'])->name('announcements.view');
     Route::get('/blog', [FrontendController::class, 'index']);
+    Route::get('/coming-soon', [FrontendController::class, 'comingsoon'])->name('coming-soon');
+    Route::get('/verify/{uuid}', [UserController::class, 'verify'])->name('users.verify');
     Route::get('/legal/privacy-policy', [FrontendController::class, 'privacy_policy'])->name('privacy-policy');
     Route::get('/legal/terms-of-service', [FrontendController::class, 'terms_of_service'])->name('terms-of-service');
     Route::get('/coming-soon', [FrontendController::class, 'comingsoon'])->name('coming-soon');
@@ -100,8 +122,13 @@ Route::prefix('home')->as('home.')->group(function () {
         Route::get('/detail/{id}', [FAQController::class, 'show'])->name('show');
         Route::get('/{slug}', [FAQController::class, 'detail'])->name('detail');
     });
+  
+  // Contact-Us
+    Route::prefix('contact')->as('contact.')->group(function () {
+        Route::get('/', [FrontendController::class, 'contact'])->name('index');
+        Route::post('/send', [FrontendController::class, 'contact_store'])->name('send');
 
-
+    });
 });
 
 /************************
@@ -118,6 +145,9 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
         Route::put('/update/{id}', [DirectoriesController::class, 'owner_update'])->name('update');
     });
 
+    Route::post('upload', [ProfileController::class, 'store_avatar']);
+    Route::post('/uploadavatar/{id}', [ProfileController::class, 'store_avatar_in_database'])->name('store_avatar_db');
+
     Route::get('/my-profile', [ProfileController::class, 'index'])->name('myprofile');
     Route::post('/my-profile/save/{id}', [ProfileController::class, 'save'])->name('myprofile.save');
     Route::post('/my-profile/verify-email', [ProfileController::class, 'resend_email_verification'])->middleware(['throttle:6,1'])->name('myprofile.verify');
@@ -125,8 +155,8 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
 
     Route::get('/changelog', [ChangelogController::class, 'show_changelog'])->name('changelog');
 
-     /* ANNOUNCEMENT MODULE - View Announcements */
-     Route::prefix('announcements')->as('announcements.')->group(function () {
+    /* ANNOUNCEMENT MODULE - View Announcements */
+    Route::prefix('announcements')->as('announcements.')->group(function () {
         Route::get('/', [AnnouncementController::class, 'index'])->name('index');
         Route::get('/view/{id}', [AnnouncementController::class, 'view'])->name('view');
     });
@@ -146,14 +176,12 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
     Route::prefix('admin')->as('admin.')->group(function () {
         //Access these routes by route('portal.admin.ROUTENAME')
 
-        /* DIRECTORY MODULE */
-        Route::prefix('directory')->as('directory.')->group(function () {
-            Route::get('/', [DirectoriesController::class, 'index'])->name('index');
-            Route::get('/create', [DirectoriesController::class, 'create'])->name('create');
-            Route::post('/store', [DirectoriesController::class, 'store'])->name('store');
-            Route::get('/manage/{id}', [DirectoriesController::class, 'edit'])->name('edit');
-            Route::put('/update/{id}', [DirectoriesController::class, 'update'])->name('update');
-            Route::post('/delete/{id}', [DirectoriesController::class, 'destroy'])->name('delete');
+        // CERTIFICATE MODULE
+        Route::prefix('certificate')->as('certificate.')->group(function () {
+            Route::get('/generate', [CertificateGenerator::class, 'generatePDF'])->name('certificate.generate');
+            //commented until Rishi finishes task 2726
+            // Route::get('/{business_uuid}/generate',[CertificateGenerator::class,'generatePDF'])->name('certificate.download');
+            Route::get('/{business_uuid}/view', [CertificateGenerator::class, 'viewPDF'])->name('certificate.view');
         });
 
         /* USERS MODULE */
@@ -172,28 +200,30 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::post('/create/new', [UserController::class, 'create_temp']);
             Route::get('/setup/{uuid}', [UserController::class, 'setup']);
             Route::post('/setup/add_user', [UserController::class, 'create_user']);
-            // CERTIFICATE MODULE
-            Route::prefix('certificate')->as('certificate.')->group(function () {
-                Route::get('/generate/{id}', [CertificateGenerator::class, 'generatePDF'])->name('certificate.generate');
-                //commented until Rishi finishes task 2726
-                // Route::get('/{business_uuid}/generate',[CertificateGenerator::class,'generatePDF'])->name('certificate.download');
-                Route::get('/{business_uuid}/view', [CertificateGenerator::class, 'viewPDF'])->name('certificate.view');
-            });
         });
 
+        Route::get('forests/polygon/{id?}', [ForestsController::class, 'drawPolygon'])->name('forests.polygon');
+        Route::post('forests/polygon/{id?}/save', [ForestsController::class, 'savePolygon'])->name('forests.polygon.save');
+        Route::get('forests/manage/{id}', [ForestsController::class, 'manage'])->name('forests.manage');
+        Route::resource('/forests', ForestsController::class);
         /* TREES MODULE */
         Route::prefix('tree')->as('tree.')->group(function () {
             Route::get('/', [TreeController::class, 'index'])->name('index');
             Route::get('/create', [TreeController::class, 'create'])->name('create');
             Route::post('/create', [TreeController::class, 'storeData'])->name('store');
-            Route::post('/storeimage', [TreeController::class, 'storeImage'])->name('storeimage');
-            Route::get('/edit/{id}', [TreeController::class, 'edit'])->name('edit');
-            Route::put('/edit/{id}', [TreeController::class, 'update'])->name('update');
-            Route::get('/edit/{treeid}/{id}', [TreeController::class, 'deleteImage'])->name('deleteImage');
-            Route::get('/delete/{id}', [TreeController::class, 'destroy'])->name('delete');
-            Route::get('/add-maintenance/{id}', [TreeMaintenanceController::class, 'create'])->name('add_maintenance');
-            Route::get('/history/{id}', [TreeMaintenanceController::class, 'index'])->name('history_maintenance');
-            Route::post('/add-maintenance/{id}', [TreeMaintenanceController::class, 'store'])->name('maintenance_store');
+            Route::get('/manage/{id}', [TreeController::class, 'edit'])->name('manage');
+            Route::put('/manage/{id}', [TreeController::class, 'update'])->name('update');
+            Route::get('/delete/{id}', [TreeController::class, 'destroy'])->name('delete');          
+            Route::get('/update/{id}', [TreesUpdatesController::class, 'create'])->name('add_updates');
+            Route::post('/update/{id}', [TreesUpdatesController::class, 'store'])->name('store_updates');
+            Route::get('/history/{id}', [TreesUpdatesController::class, 'index'])->name('history_maintenance');
+        });
+        /* TREES MODULE */
+        Route::prefix('payments')->as('payments.')->group(function () {
+            Route::get('/', [PaymentController::class, 'index'])->name('index');
+            Route::get('/{id}/manage', [PaymentController::class, 'manage'])->name('edit');
+            Route::post('/{id}/update', [PaymentController::class, 'update'])->name('update');
+
 
         });
 
@@ -218,8 +248,30 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::post('/update', [FAQController::class, 'update'])->name('updateval');
         });
 
+      
+
+       // Contact - Request
+        Route::prefix('contact-requests')->as('contact-requests.')->group(function () {
+            Route::get('/', [ContactRequestController::class, 'index'])->name('index');
+            Route::get('/{id}', [ContactRequestController::class, 'edit'])->name('view');
+            Route::post('/{id}', [ContactRequestController::class, 'update'])->name('update');
+
+        });
+        /* Forest Module*/
+        Route::prefix('forest')->as('forest.')->group(function () {
+            Route::prefix('trees-species')->as('trees-species.')->group(function () {
+                Route::get('/', [PlantSpeciesController::class, 'index'])->name('index');
+                Route::get('/manage/{id}', [PlantSpeciesController::class, 'manage'])->name('manage');
+                Route::get('/create', [PlantSpeciesController::class, 'create'])->name('create');
+                Route::post('/save', [PlantSpeciesController::class, 'save'])->name('save');
+                Route::post('/update/{id}', [PlantSpeciesController::class, 'update'])->name('update');
+            });
+        });
     });
 
+        // CLOUD-PROVIDERS MODULE /portal/admin/cloud-providers/ROUTENAME
+        Route::resource('cloud-providers', CloudProvidersController::class);
+    });
 });
 
 
@@ -258,15 +310,3 @@ Route::get("activity", [ActivityController::class, 'disp']);
 
 
 Route::get('/mail-send', [UserController::class, 'mailSend']);
-Route::get('/test-blade', function () {
-    $markdown = new Markdown(view(), config('mail.markdown'));
-   return ($html = $markdown->render('certificate.certificate'));
-});
-
-
-//SOCIALITE
-Route::get('/auth/redirect', function () {
-    return Socialite::driver('google')->redirect();
-})->name('login.google');
-
-Route::get('/login/google/callback', [LoginController::class, 'registerOrLoginUser'])->name('login.redirect');

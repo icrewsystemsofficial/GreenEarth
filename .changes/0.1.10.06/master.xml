@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature>
+  <change type="feature">User profile picture using UI-AVATAR.com, defaul</change>
+  <change type="feature">A directory to list all businesses that are carbon neutral</change>
+  <change type="feature">Username for all users</change>
+  <change type="feature">FAQ module to dynamically manage FAQs in the application</change>
+  <change type="feature">OAuth Signin with Google</change>
+  <change type="feature">Frontend improvements</change>
+</feature>
