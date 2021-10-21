@@ -115,6 +115,7 @@ class DeveloperAccessSeeder extends Seeder
             $user->role = 'superadmin';
             $user->save();
             $this->command->info("User: Hafiz Mutalib created.");
+        }
         $user = User::where('name', 'Johanth P S')->first();
         if (!$user) {
             //If you need to add an account for yourself, add it below this.
@@ -126,6 +127,7 @@ class DeveloperAccessSeeder extends Seeder
             $user->role = 'superadmin';
             $user->save();
             $this->command->info("User: Johanth P S created.");
+        }
 
         $user = User::where('name', 'Rtr Vijay')->first();
         if (!$user) {
@@ -143,4 +145,3 @@ class DeveloperAccessSeeder extends Seeder
     }
 
 }
-

@@ -197,10 +197,7 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::post('/setup/add_user', [UserController::class, 'create_user']);
         });
 
-        Route::get('forests/polygon/{id?}', [ForestsController::class, 'drawPolygon'])->name('forests.polygon');
-        Route::post('forests/polygon/{id?}/save', [ForestsController::class, 'savePolygon'])->name('forests.polygon.save');
-        Route::get('forests/manage/{id}', [ForestsController::class, 'manage'])->name('forests.manage');
-        Route::resource('/forests', ForestsController::class);
+        
 
         /* TREES MODULE */
         Route::prefix('tree')->as('tree.')->group(function () {
@@ -248,7 +245,11 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
 
         });
         /* Forest Module*/
-        Route::prefix('forest')->as('forest.')->group(function () {
+        Route::prefix('forests')->as('forests.')->group(function () {
+            Route::get('/polygon/{id?}', [ForestsController::class, 'drawPolygon'])->name('forests.polygon');
+            Route::post('/polygon/{id?}/save', [ForestsController::class, 'savePolygon'])->name('forests.polygon.save');
+            Route::get('/manage/{id}', [ForestsController::class, 'manage'])->name('forests.manage');
+            Route::resource('/forests', ForestsController::class);
             Route::prefix('trees-species')->as('trees-species.')->group(function () {
                 Route::get('/', [PlantSpeciesController::class, 'index'])->name('index');
                 Route::get('/manage/{id}', [PlantSpeciesController::class, 'manage'])->name('manage');
@@ -262,7 +263,7 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
         // CLOUD-PROVIDERS MODULE /portal/admin/cloud-providers/ROUTENAME
         Route::resource('cloud-providers', CloudProvidersController::class);
     });
-});
+
 
 
 
