@@ -48,29 +48,26 @@ class TreesUpdatesController extends Controller
      */
     public function store(Request $request, $id)
     {
-        try {
-            $request->validate([
-            'remarks' => 'required',
-            'health' => 'required',
-            'logo' => 'required',
-            ]);
+        $request->validate([
+        'remarks' => 'required',
+        'health' => 'required',
+        'logo' => 'required',
+        ]);
 
-            $user = Auth::user();
-            $update = TreesUpdates::create([
-                'tree_id' => $id,
-                'remarks' => $request->remarks,
-                'health' => $request->health,
-                'image_path' => $request->logo,
-                'updated_by' => $user->name,
-            ]);
+        $user = Auth::user();
+        $update = TreesUpdates::create([
+            'tree_id' => $id,
+            'remarks' => $request->remarks,
+            'health' => $request->health,
+            'image_path' => $request->logo,
+            'updated_by' => $user->name,
+        ]);
 
-            $last_maintained = Carbon::now();
-            Tree::where('id', $id)->update(['health'=> $request->health, 'last_maintained'=>$last_maintained]);
-         } catch (\Exception $e) {
-            return response()->json(['status' => 'exception', 'msg' => $e->getMessage()]);
-         }
-         smilify('success','Updated for tree #'. $id, 'Yay!');
-         return redirect(route('portal.admin.tree.index'));
+        $last_maintained = Carbon::now();
+        Tree::where('id', $id)->update(['health'=> $request->health, 'last_maintained'=>$last_maintained]);
+
+        smilify('success','Updated for tree #'. $id, 'Yay!');
+        return redirect(route('portal.admin.tree.index'));
     }
 
     /**

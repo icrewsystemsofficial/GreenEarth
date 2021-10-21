@@ -5,6 +5,14 @@
 
 @section('css')
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.2/css/dataTables.bootstrap5.min.css">
+<style>
+    .modal-dialog{
+    overflow-y: initial !important
+    }
+    .modal-body{
+        overflow-y: auto;
+    }
+</style>
 @endsection
 
 @section('js')
@@ -40,7 +48,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="h5"> Tree Maintenance History  </div>
-                <div class="text-secondary text-sm ">{{$tree->name}} planted at {{$tree->location}} on {{$tree->created_at->diffForHumans()}} ({{ $tree->created_at->format('d/m/Y') }})</div>
+                <div class="text-secondary text-sm ">Tree #{{$tree->id}} planted at {{$tree->location}} on {{$tree->created_at->diffForHumans()}} ({{ $tree->created_at->format('d/m/Y') }})</div>
                 <div class="text-secondary text-sm" id="subheading"> </div>
             </div>
 
@@ -60,17 +68,17 @@
                         <tr style="vertical-align: middle;">
                             <td> {!! Str::limit($maintenance_record->remarks, 17) !!} </td>
                             <td> 
-                                @if($tree->health == "Healthy")
+                                @if($maintenance_record->health == "Healthy")
                                 <span class="badge bg-success text-white">
-                                {{ $tree->health }}
+                                {{ $maintenance_record->health }}
                                 </span> 
-                                @elseif($tree->health == "Not So Healthy")
+                                @elseif($maintenance_record->health == "Not So Healthy")
                                 <span class="badge bg-warning text-white">
-                                {{ $tree->health }}
+                                {{ $maintenance_record->health }}
                                 </span>
                                 @else
                                 <span class="badge bg-danger text-white">
-                                {{ $tree->health }}
+                                {{ $maintenance_record->health }}
                                 </span>
                                 @endif
                             </td>
@@ -84,34 +92,34 @@
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title h5" id="exampleModalLabel">{{ $tree->name }}</h5>
+                                                <h5 class="modal-title h5" id="exampleModalLabel">Tree #{{ $tree->id }}</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body m-2">
                                                 <div class="row">
-                                                    <div class="col-7">
+                                                    <div class="col-md-7">
                                                         <img src="<?php echo asset("storage/uploads/tree-updates/".$maintenance_record->image_path); ?>" alt="tree image" style="height: 350px; width:400px; object-fit:cover; ">
                                                     </div>
-                                                    <div class="col-3"  style="text-align:left;">
+                                                    <div class="col-md-3"  style="text-align:left;">
                                                         <p>
                                                             <span class="h6"> Date: </span> {{ $maintenance_record->created_at->diffForHumans() }} <br>
                                                             <span class="h6"> Updated By: </span> {{ $maintenance_record->updated_by }} <br>
-                                                            <span class="h6"> Tree Health: </span> <br> 
-                                                            @if($tree->health == "Healthy")
+                                                            @if($maintenance_record->health == "Healthy")
                                                             <span class="badge bg-success text-white">
-                                                            {{ $tree->health }}
+                                                            {{ $maintenance_record->health }}
                                                             </span> 
-                                                            @elseif($tree->health == "Not So Healthy")
+                                                            @elseif($maintenance_record->health == "Not So Healthy")
                                                             <span class="badge bg-warning text-white">
-                                                            {{ $tree->health }}
+                                                            {{ $maintenance_record->health }}
                                                             </span>
                                                             @else
                                                             <span class="badge bg-danger text-white">
-                                                            {{ $tree->health }}
+                                                            {{ $maintenance_record->health }}
                                                             </span>
                                                             @endif
                                                             <br>
-                                                            <span class="h6"> Remarks: </span> {!! $maintenance_record->remarks !!} 
+                                                            <span class="h6"> Remarks: </span>                                                            
+                                                            {!! $maintenance_record->remarks !!}                                                             
                                                         </p>
                                                     </div>
                                                 </div>   

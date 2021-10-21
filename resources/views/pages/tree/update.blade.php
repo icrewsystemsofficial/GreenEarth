@@ -68,6 +68,15 @@
                         <form action="{{ route('portal.admin.tree.store_updates', $tree->id) }}" method="POST">
                         {{ method_field('POST') }}
                             @csrf
+                            @if ($errors->any())
+                                <div class="alert alert-danger text-white">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                             <div class="form-group">
                                 <label class="control-label col-sm2" for="logo"> Image of the tree </label>
                                 <div class="col-sm-12">

@@ -19,7 +19,7 @@ class CreateTreesUpdatesTable extends Migration
             $table->foreign('tree_id')->references('id')->on('trees')->onDelete('cascade');
             $table->string('health');
             $table->text('remarks');
-            $table->string('image_path');
+            $table->text('image_path');
             $table->string('updated_by');
             $table->timestamps();
         });

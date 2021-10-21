@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CalculationController;
+use App\Http\Controllers\Portal\Admin\ForestsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Portal\DirectoriesController;
@@ -28,5 +29,8 @@ Route::as('api.v1.')->prefix('v1')->group(function () {
     Route::post('/calculate', [CalculationController::class, 'calculate'])->name('calulcate.offset');
     Route::get('/calculate/whois/{domain?}', [CalculationController::class, 'get_whois_information'])->name('calculate.lookup_whois');
     Route::get('/calculate/ping/{domain?}', [CalculationController::class, 'ping_domain'])->name('calculate.ping');
+    Route::get('/api/v1/forests/get-tree-species/{id?}', [CalculationController::class, 'tree_data'])->name('tree.data');
 
+
+    Route::get('/forests/geocode/{place?}', [ForestsController::class, 'geocode'])->name('forests.geocode');
 });
