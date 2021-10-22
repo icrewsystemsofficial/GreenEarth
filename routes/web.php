@@ -262,7 +262,7 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
         // CLOUD-PROVIDERS MODULE /portal/admin/cloud-providers/ROUTENAME
         Route::resource('cloud-providers', CloudProvidersController::class);
     });
-});
+
 
 
 
