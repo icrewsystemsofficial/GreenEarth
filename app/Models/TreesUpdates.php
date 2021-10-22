@@ -5,12 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TreeImages extends Model
+class TreesUpdates extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
         'tree_id',
+        'remarks',
+        'health',
+        'image_path',
+        'updated_by'
     ];
 }

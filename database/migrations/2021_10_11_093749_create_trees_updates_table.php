@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTreeImagesTable extends Migration
+class CreateTreesUpdatesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,14 @@ class CreateTreeImagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('tree_images', function (Blueprint $table) {
+        Schema::create('trees_updates', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->unsignedBigInteger('tree_id');
             $table->foreign('tree_id')->references('id')->on('trees')->onDelete('cascade');
+            $table->string('health');
+            $table->text('remarks');
+            $table->text('image_path');
+            $table->string('updated_by');
             $table->timestamps();
         });
     }
@@ -29,6 +32,6 @@ class CreateTreeImagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tree_images');
+        Schema::dropIfExists('trees_updates');
     }
 }
