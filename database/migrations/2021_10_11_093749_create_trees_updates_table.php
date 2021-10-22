@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTreeMSTable extends Migration
+class CreateTreesUpdatesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,17 @@ class CreateTreeMSTable extends Migration
      */
     public function up()
     {
-        Schema::create('tree_m_s', function (Blueprint $table) {
+        Schema::create('trees_updates', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('tree_id');
-            $table->foreign('tree_id')->references('id')->on('trees');
-            $table->text('title');
-            $table->text('description');
+            $table->foreign('tree_id')->references('id')->on('trees')->onDelete('cascade');
             $table->string('health');
-            $table->text('suggestions')->nullable();
+            $table->text('remarks');
+            $table->text('image_path');
+            $table->string('updated_by');
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.
@@ -33,6 +32,6 @@ class CreateTreeMSTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tree_m_s');
+        Schema::dropIfExists('trees_updates');
     }
 }

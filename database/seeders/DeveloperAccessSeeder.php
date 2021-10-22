@@ -104,6 +104,7 @@ class DeveloperAccessSeeder extends Seeder
             $user->save();
             $this->command->info("User: Samay Bhattacharyya created.");
         }
+
         $user = User::where('name', 'Hafiz Mutalib')->first();
         if (!$user) {
             //If you need to add an account for yourself, add it below this.
