@@ -2,11 +2,20 @@
 
 ---
 
+<<<<<<< HEAD
 - [Tree Management](#section-1)
 - [User Management](#section-2)
 - [Activity Management](#section-3)
 - [Announcement Management](#section-4)
 - [Badge Configuration](#section-5)
+=======
+-   [Tree Management](#section-1)
+-   [User Management](#section-2)
+-   [Activity Management](#section-3)
+-   [Announcement Management](#section-4)
+-   [Plant Species](#section-5)
+
+>>>>>>> 0b9192a34c846108525ed5f609e31f214f4d505d
 <a name="section-1"></a>
 
 ## Tree Management
@@ -134,6 +143,7 @@ Here, the Administrator can edit the details of previous announcements.
 
 
 <a name="section-5"></a>
+<<<<<<< HEAD
 
 ## Badge Configuration
 
@@ -168,5 +178,17 @@ This needs after the above html tags
 ```html
 <script src="https://cdn.jsdelivr.net/gh/icrewsystemsofficial/GreenEarth@thirumalai/public/js/badge.js"></script>
 ```
+
+## Plant Species
+In this module administrators can add a new species of plant and assign it into automatic operations, so, when clusters are created, they will create missions with the predefined plants. 
+
+### Viewing all Plants
+
+Here, a table shows all the current plants available and recorded in the system. They can get a quick view on name, price and other specifications of the plant specie. Additionally, there are buttons to add a new plant to the system, or to modify and delete them. 
+
+### Adding a Plant Specie
+
+Once the administrator expresses their intention to add a new plant to the system, they will be prompted to fill out a form. Details such as the name, price per plant, H2O requirement per plant, O2 production and CO2 absorption.
+
 
 
