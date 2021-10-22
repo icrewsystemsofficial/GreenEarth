@@ -27,7 +27,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Activitylog\Models\Activity;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\TreeController;
+use App\Http\Controllers\Portal\Admin\TreeController;
+use App\Http\Controllers\Portal\Admin\TreesUpdatesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\Auth\LoginController;
@@ -40,12 +41,9 @@ use App\Http\Controllers\Portal\ChangelogController;
 use App\Http\Controllers\Portal\Admin\UserController;
 use App\Http\Controllers\Portal\DirectoriesController;
 use App\Http\Controllers\FAQController;
-
 use App\Http\Controllers\PaymentController;
-
 use App\Http\Controllers\PlantSpecieController;
 use App\Http\Controllers\PlantSpeciesController;
-
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Portal\Admin\AnnouncementController;
 use App\Http\Controllers\Portal\Admin\ContactRequestController;
@@ -99,12 +97,16 @@ Route::prefix('home')->as('home.')->group(function () {
     Route::get('/glossary', [FrontendController::class, 'glossary'])->name('glossary');
     Route::get('/volunteer/@{username}', [FrontendController::class, 'volunteer'])->name('volunteer');
 
+
     Route::get('/payment', [FrontendController::class, 'payment'])->name('payment');
     Route::post('/payment', [FrontendController::class, 'submit'])->name('submit');
     Route::post('/submit', [FrontendController::class, 'pay'])->name('pay');
 
     Route::get('/cloud-providers', [CloudProvidersController::class, 'index'])->name('cloud-providers.index');
-
+    Route::get('/payment', [FrontendController::class, 'payment'])->name('payment');
+    Route::post('/payment', [FrontendController::class, 'submit'])->name('submit');
+    Route::post('/submit', [FrontendController::class, 'pay'])->name('pay');
+    Route::get('/cloud-providers', [CloudProvidersController::class, 'index'])->name('cloud-providers.index');
 
     // PENDING PAGES
     Route::get('/directory', [DirectoriesController::class, 'home_index'])->name('directory.index');
@@ -218,14 +220,12 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::get('/', [TreeController::class, 'index'])->name('index');
             Route::get('/create', [TreeController::class, 'create'])->name('create');
             Route::post('/create', [TreeController::class, 'storeData'])->name('store');
-            Route::post('/storeimage', [TreeController::class, 'storeImage'])->name('storeimage');
-            Route::get('/edit/{id}', [TreeController::class, 'edit'])->name('edit');
-            Route::put('/edit/{id}', [TreeController::class, 'update'])->name('update');
-            Route::get('/edit/{treeid}/{id}', [TreeController::class, 'deleteImage'])->name('deleteImage');
-            Route::get('/delete/{id}', [TreeController::class, 'destroy'])->name('delete');
-            Route::get('/add-maintenance/{id}', [TreeMaintenanceController::class, 'create'])->name('add_maintenance');
-            Route::get('/history/{id}', [TreeMaintenanceController::class, 'index'])->name('history_maintenance');
-            Route::post('/add-maintenance/{id}', [TreeMaintenanceController::class, 'store'])->name('maintenance_store');
+            Route::get('/manage/{id}', [TreeController::class, 'edit'])->name('manage');
+            Route::put('/manage/{id}', [TreeController::class, 'update'])->name('update');
+            Route::get('/delete/{id}', [TreeController::class, 'destroy'])->name('delete');          
+            Route::get('/update/{id}', [TreesUpdatesController::class, 'create'])->name('add_updates');
+            Route::post('/update/{id}', [TreesUpdatesController::class, 'store'])->name('store_updates');
+            Route::get('/history/{id}', [TreesUpdatesController::class, 'index'])->name('history_maintenance');
         });
         /* TREES MODULE */
         Route::prefix('payments')->as('payments.')->group(function () {

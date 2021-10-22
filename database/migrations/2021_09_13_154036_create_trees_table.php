@@ -15,10 +15,14 @@ class CreateTreesTable extends Migration
     {
         Schema::create('trees', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description');
+            $table->integer('forest_id');
+            $table->integer('species_id');
+            $table->integer('mission_id')->nullable();
+            $table->integer('cluster_id')->nullable();
+            $table->integer('planted_by');
             $table->string('health')->default('Healthy');
-            $table->string('location')->default('India');
+            $table->string('lat')->nullable();
+            $table->string('long')->nullable();
             $table->timestamp('last_maintained')->nullable();
             $table->timestamps();
         });

@@ -51,7 +51,7 @@ class FrontendController extends Controller
      * 10. Once status is changed on our portal, it should reflect on client site.
      *
      *
-     * @param  mixed $url
+     * @param mixed $url
      * @return void
      */
     private function getDomainInformation($url)
@@ -64,7 +64,7 @@ class FrontendController extends Controller
         $whois_storage_path = 'public/whois/' . $host . '.json';
 
 
-        if(Storage::disk('local')->exists($whois_storage_path)) {
+        if (Storage::disk('local')->exists($whois_storage_path)) {
             $carbondata = json_decode(Storage::disk('local')->get($whois_storage_path), true);
 
             //TODO Write a job worker to clear files older than 48 hours.
@@ -91,7 +91,6 @@ class FrontendController extends Controller
             $carbondata['whois'] = $whois_data[0];
             Storage::disk('local')->put($whois_storage_path, json_encode($carbondata));
         }
-
 
 
         return $carbondata;
@@ -135,10 +134,11 @@ class FrontendController extends Controller
         // dd('test');
     }
 
-    public function calculate() {
+    public function calculate()
+    {
         $url = request('website');
         $url = filter_var($url, FILTER_VALIDATE_URL);
-        if($url) {
+        if ($url) {
             $color = 'bg-danger'; //danger
             $domain = $this->getDomainInformation($url);
             return view('frontend.calculate', [
@@ -157,33 +157,40 @@ class FrontendController extends Controller
         return view('frontend.comingsoon');
     }
 
-    public function privacy_policy() {
+    public function privacy_policy()
+    {
         return view('frontend.legal.privacypolicy');
     }
 
-    public function terms_of_service() {
+    public function terms_of_service()
+    {
         return view('frontend.legal.termsofservice');
     }
 
-    public function aboutus(){
+    public function aboutus()
+    {
         return view('frontend.about');
     }
 
-    public function partners(){
+    public function partners()
+    {
         return view('frontend.partners');
     }
 
-    public function investors(){
+    public function investors()
+    {
         return view('frontend.comingsoon');
     }
 
     /*Contact Module*/
 
-    public function contact(){
+    public function contact()
+    {
         return view('frontend.contact');
     }
 
-    public function contact_store(Request $request){
+    public function contact_store(Request $request)
+    {
 
 
         // $request->validate([
@@ -193,12 +200,12 @@ class FrontendController extends Controller
         //         'g-recaptcha-response' => 'recaptcha'
         // ]);
 
-        $contact= new Contact;
+        $contact = new Contact;
         $contact->email = $request->email;
         $contact->type = $request->type;
         $contact->body = $request->body;
         $contact->status = 0; // Status: 0 = New, 1 = Contacted, 2 = Resolved, 3 = Spam.
-        $contact -> save();
+        $contact->save();
 
         $this->contact_mailsend($contact);
 
@@ -207,16 +214,16 @@ class FrontendController extends Controller
 
     }
 
-    public function contact_mailSend($data) {
+    public function contact_mailSend($data)
+    {
 
         $email = $data->email;
         $type = $data->type;
         $body = $data->body;
-        $data_for_id = Contact::where([['email',$email],['type',$type],['body',$body]])->first();
+        $data_for_id = Contact::where([['email', $email], ['type', $type], ['body', $body]])->first();
 
         $id = $data_for_id->id;
-        $url= route('portal.admin.contact-requests.view',$id);
-
+        $url = route('portal.admin.contact-requests.view', $id);
 
 
         $admins_emailid = User::role('admin')->get('email');
@@ -231,8 +238,8 @@ class FrontendController extends Controller
             'mails' => $admins_emailid
         ];
 
-        foreach($admins_emailid as $mail){
-            $emailid=$mail->email;
+        foreach ($admins_emailid as $mail) {
+            $emailid = $mail->email;
             Mail::to($emailid)->send(new SendContactMailtoAdmins($mailInfo));
         }
 
@@ -244,9 +251,8 @@ class FrontendController extends Controller
     }
 
 
-
-
-    public function contributors(){
+    public function contributors()
+    {
         $github_api_url = 'https://api.github.com/repos/icrewsystemsofficial/GreenEarth';
 
         // STARS
@@ -254,8 +260,8 @@ class FrontendController extends Controller
         //Check if cache exists...
         $greenearth_stars = cache('greenearth_stars');
         //If cache does not exist, fetch from API.
-        if($greenearth_stars == null) {
-            $stars = Http::get($github_api_url.'/stargazers')->json();
+        if ($greenearth_stars == null) {
+            $stars = Http::get($github_api_url . '/stargazers')->json();
             $greenearth_stars = count($stars);
             cache(['greenearth_stars' => $greenearth_stars], now()->addHours(2));
             //Save the data as cache for the next 2 hours.
@@ -268,8 +274,8 @@ class FrontendController extends Controller
         $latest_commit_hash = cache('latest_commit_hash');
 
         //If cache does not exist, fetch from API.
-        if($latest_commit_hash == null) {
-            $latest_commit = Http::get($github_api_url.'/git/refs/heads/master')->json();
+        if ($latest_commit_hash == null) {
+            $latest_commit = Http::get($github_api_url . '/git/refs/heads/master')->json();
             $latest_commit_hash = $latest_commit['object']['sha'];
             cache(['latest_commit_hash' => $latest_commit_hash], now()->addHour(1));
             //Save the data as cache for the next 2 hours.
@@ -277,16 +283,16 @@ class FrontendController extends Controller
 
         $total_commits = cache('total_commits');
         //If cache does not exist, fetch from API.
-        if($total_commits == null) {
-            $total_commits = Http::get($github_api_url.'/compare/'.$first_commit_hash_for_the_repo.'...'.$latest_commit_hash)->json();
+        if ($total_commits == null) {
+            $total_commits = Http::get($github_api_url . '/compare/' . $first_commit_hash_for_the_repo . '...' . $latest_commit_hash)->json();
             $total_commits = $total_commits['total_commits'] + 1;
             cache(['total_commits' => $total_commits], now()->addHour(1));
             //Save the data as cache for the next 2 hours.
         }
 
         $commits = cache('commits');
-        if($commits == null) {
-            $commits = Http::get($github_api_url.'/compare/'.$first_commit_hash_for_the_repo.'...'.$latest_commit_hash)->json();
+        if ($commits == null) {
+            $commits = Http::get($github_api_url . '/compare/' . $first_commit_hash_for_the_repo . '...' . $latest_commit_hash)->json();
             cache(['commits' => $commits], now()->addHour(1));
         }
 
@@ -300,29 +306,35 @@ class FrontendController extends Controller
 
     }
 
-    public function glossary(){
+    public function glossary()
+    {
         return view('frontend.glossary');
     }
 
-    public function volunteer($username){
+    public function volunteer($username)
+    {
         return view('frontend.volunteer');
     }
 
-    public function announcements(){
+    public function announcements()
+    {
         $announcements = Announcement::where('status', "1")->orderBy('created_at', 'desc')->get();
         return view('frontend.announcement', compact('announcements'));
     }
 
-    public function view($slug){
+    public function view($slug)
+    {
         $announcements = Announcement::where('slug', $slug)->first();
         return view('frontend.view', compact('announcements'));
     }
 
-    public function payment(){
+    public function payment()
+    {
         return view('frontend.payment');
     }
 
-    public function submit(Request $request){
+    public function submit(Request $request)
+    {
         $payment = new Payment;
         $payment->name = $request->name;
         $payment->email = $request->email;
@@ -337,12 +349,14 @@ class FrontendController extends Controller
             ->with('email', $request->email)
             ->with('amount', $request->amount)
             ->with('contact', $request->contact_number)
-            ->with('name',$request->name);
+            ->with('name', $request->name);
     }
 
-    public function pay(Request $request){
 
-        $payment = Payment::where('email','=',$request->email)->first();
+    public function pay(Request $request)
+    {
+
+        $payment = Payment::where('email', '=', $request->email)->first();
         $payment->razorpay_id = $request->razorpay_payment_id;
         $payment->save();
 
@@ -356,20 +370,19 @@ class FrontendController extends Controller
 ////         'currency'        => 'INR'// <a href="/docs/international-payments/#supported-currencies"  target="_blank">See the list of supported currencies</a>.)
 ////         ]);
 ////        activity()->causedBy(Auth::user()->log('Payment Succefully completed'));
-        return redirect(route('home.index'));
-        // MISSIONS MUST BE ADDED FOR THE PAYMENTS DONE
     }
 
-    public function certificateDownload($payment_id)
+    public
+    function certificateDownload($payment_id)
     {
-        $payment = Payment::where('razorpay_id','=',$payment_id)->first();
+        $payment = Payment::where('razorpay_id', '=', $payment_id)->first();
         $markdown = new Markdown(view(), config('mail.markdown'));
 
 //    uncomment this line when passing the data to pro
 //    $html = $markdown->render('emails.salary_pdf', ['data' => $data]);
-        $html = $markdown->render('certificate.certificate',['data' => $payment]);
+        $html = $markdown->render('certificate.certificate', ['data' => $payment]);
 
-        $file_name = $payment->name.'_certificate_'.date('d_m_Y_H_i_A');
+        $file_name = $payment->name . '_certificate_' . date('d_m_Y_H_i_A');
 
         $file_path = public_path($file_name . '.html');
 
@@ -388,3 +401,5 @@ class FrontendController extends Controller
     }
 
 }
+
+
