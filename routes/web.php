@@ -41,7 +41,6 @@ use App\Http\Controllers\Portal\DirectoriesController;
 use App\Http\Controllers\FAQController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PlantSpecieController;
-use App\Http\Controllers\PlantSpeciesController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Portal\Admin\AnnouncementController;
 use App\Http\Controllers\Portal\Admin\ContactRequestController;
