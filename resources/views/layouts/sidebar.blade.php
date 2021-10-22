@@ -33,7 +33,7 @@
                 </a>
             </li>
 
-             <div class="mx-3 mt-3 mb-3">
+            <div class="mx-3 mt-3 mb-3">
                 <div class="card card-background shadow-none card-background-mask-success" id="sidenavCard">
                     <div class="full-background" style="background-image: url('{{ asset('img/curved-images/white-curved.jpeg') }}')"></div>
                     <div class="card-body text-start p-3 w-100">
@@ -44,7 +44,7 @@
                         </div>
                     </div>
                 </div>
-            </div> 
+            </div>
 
 
             <li class="nav-item mt-3">

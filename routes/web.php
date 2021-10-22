@@ -122,7 +122,7 @@ Route::prefix('home')->as('home.')->group(function () {
         Route::get('/detail/{id}', [FAQController::class, 'show'])->name('show');
         Route::get('/{slug}', [FAQController::class, 'detail'])->name('detail');
     });
-  
+
   // Contact-Us
     Route::prefix('contact')->as('contact.')->group(function () {
         Route::get('/', [FrontendController::class, 'contact'])->name('index');
@@ -213,7 +213,7 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::post('/create', [TreeController::class, 'storeData'])->name('store');
             Route::get('/manage/{id}', [TreeController::class, 'edit'])->name('manage');
             Route::put('/manage/{id}', [TreeController::class, 'update'])->name('update');
-            Route::get('/delete/{id}', [TreeController::class, 'destroy'])->name('delete');          
+            Route::get('/delete/{id}', [TreeController::class, 'destroy'])->name('delete');
             Route::get('/update/{id}', [TreesUpdatesController::class, 'create'])->name('add_updates');
             Route::post('/update/{id}', [TreesUpdatesController::class, 'store'])->name('store_updates');
             Route::get('/history/{id}', [TreesUpdatesController::class, 'index'])->name('history_maintenance');
@@ -248,7 +248,7 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::post('/update', [FAQController::class, 'update'])->name('updateval');
         });
 
-      
+
 
        // Contact - Request
         Route::prefix('contact-requests')->as('contact-requests.')->group(function () {
@@ -272,7 +272,7 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
         // CLOUD-PROVIDERS MODULE /portal/admin/cloud-providers/ROUTENAME
         Route::resource('cloud-providers', CloudProvidersController::class);
     });
-});
+
 
 
 
