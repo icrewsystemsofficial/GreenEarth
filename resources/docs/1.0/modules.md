@@ -15,21 +15,29 @@ The GreenEarth initiative, as the name suggests, is very much related to the pla
 
 ### Viewing all Trees
 
-![A table of trees planted.](path)
+![A table of trees planted.](/screenshots/trees_index.PNG)
 
-Here, the Administrator is greeted to a table showing all of the current trees recorded in the system. They can get a quick glance of the name of the tree alongside vital details such as its current health and when it was last maintained by a volunteer. Furthermore, there are buttons to add a new tree to the system, or to modify and delete them.  
-Volunteers (users without Administrator privileges) are able to add or view maintenance records pertaining to a particular tree.
+
+Here, the Administrator is greeted to a table showing all of the current trees recorded in the system. They can get a quick glance of the id of the tree alongside vital details such as its date of planting, when it was last maintained by a volunteer and current health. Furthermore, there are buttons to add a new tree to the system and to manage the existing trees. Search option is provided to facilitate the user to find desired tree.
+Volunteers (users without Administrator privileges) are able to add or manage records pertaining to a particular tree. 
 
 ### Adding a Tree
 
-![A form to add a new tree.](path)
+![A form to add a new tree.](/screenshots/trees_add.PNG)
 
-Once the user expresses their intention to add a new tree to the system, they will be prompted to fill out a form. Details such as the name, description, health and location are to be entered. Images can also be uploaded.
 
-### Updating & Deleting a Tree
+Once the user expresses their intention to add a new tree to the system, they will be prompted to fill out a form. Details such as the forest id, species id, mission id, health and location (in latitudes and logitudes) are to be entered. 
 
-Updating information about a tree is made simple. In order to maintain familiarity and increase efficiency, the user is greeted to an almost-identical form to the one for adding new trees to the system. Here, they are able to replace outdated details with current information.
-Deleting a tree is as simple as clicking a button and confirming the decision to do so.
+### Managing a Tree
+
+![A form to manage an existing tree.](/screenshots/trees_manage.PNG)
+
+
+Updating information about a tree is made simple. In order to maintain familiarity and increase efficiency, the user is greeted to an almost-identical form to the one for adding new trees to the system. Here, they are able to replace outdated details with current information. 
+
+Basic information like date of planting and last updation date are provided. Buttons are provided to add maintenance to the respective tree and to delete the tree. In addition to these, few buttons are provided to view linked forest linked plant species and linked mission. 
+
+Deleting a tree is as simple as clicking a button and confirming the  decision to do so.
 
 ### Viewing the Maintenance History of a Tree
 
