@@ -16,7 +16,7 @@ class CreatePlantSpeciesTable extends Migration
         Schema::create('plant_species', function (Blueprint $table) {
             $table->id();
             $table->string('common_name');
-            $table->string('scientific_name');
+            // $table->string('scientific_name');
             $table->string('price_per_plant');
             $table->string('h2o_requirement_per_plant');
             $table->string('o2_production');

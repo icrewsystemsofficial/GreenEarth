@@ -26,7 +26,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="position-relative">
-                    <a type="button" class="btn btn-success" href="{{ route('portal.admin.forest.trees-species.create') }}">
+                    <a type="button" class="btn btn-success" href="{{ route('portal.admin.forests.trees-species.create') }}">
                         Add a new species
                     </a>
                 </div>
@@ -34,7 +34,6 @@
                     <thead>
                         <tr>
                             <th>Common name</th>
-                            <th>Scientific name</th>
                             <th>price per plant</th>
                             <th>h2o requirement per plant</th>
                             <th>o2 production</th>
@@ -46,14 +45,13 @@
                         @foreach ($plantspecies as $plantspecie)
                         <tr>
                             <td class="text-center">{{$plantspecie->common_name}}</td>
-                            <td class="text-center">{{$plantspecie->scientific_name}}</td>
                             <td class="text-center">{{$plantspecie->price_per_plant}}</td>
                             <td class="text-center">{{$plantspecie->h2o_requirement_per_plant}}</td>
                             <td class="text-center">{{$plantspecie->o2_production}}</td>
                             <td class="text-center">{{$plantspecie->co2_absorption}}</td>
                             <td>
                                 <div>
-                                    <a href="{{ route('portal.admin.forest.trees-species.manage', $plantspecie->id) }}" class="btn btn-xs btn-info">
+                                    <a href="{{ route('portal.admin.forests.trees-species.manage', $plantspecie->id) }}" class="btn btn-xs btn-info">
                                         Manage
                                     </a>
                                 </div>

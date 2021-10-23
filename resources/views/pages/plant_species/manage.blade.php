@@ -100,7 +100,7 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <form action="{{ route('portal.admin.forest.trees-species.update', $plantspecie->id) }}" method="POST">
+                        <form action="{{ route('portal.admin.forests.trees-species.update', $plantspecie->id) }}" method="POST">
                             @csrf
 
                             <div class="form-group">
@@ -110,15 +110,7 @@
                                         required>
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm2" for="scname">Scientific name</label>
-                                <div class="col-sm-12">
-                                    <input type="text" class="form-control" id="scname" name="scname"
-                                        value="{{ $plantspecie->scientific_name }}" required />
-                                </div>
-                            </div>
-
+                            
                             <div class="form-group">
                                 <label class="control-label col-sm2" for="ppplant">Price per plant</label>
                                 <div class="col-sm-12">
@@ -153,7 +145,7 @@
                             <button class="btn btn-success" type="submit" id="create_button" onclick="loadingButton();">
                                 <i class="fa fa-pen"></i> UPDATE
                             </button>
-                            <a href="{{ route('portal.admin.forest.trees-species.index') }}" class="btn btn-warning">
+                            <a href="{{ route('portal.admin.forests.trees-species.index') }}" class="btn btn-warning">
                                 <i class="fa fa-arrow-left"></i> Back
                             </a>
                     </div>
@@ -162,7 +154,7 @@
             </form>
 
             {{-- Modal to create a new business --}}
-            <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalSignTitle"
+            {{-- <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalSignTitle"
                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-" role="document">
                     <div class="modal-content">
@@ -256,7 +248,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
         </div>
     </div>

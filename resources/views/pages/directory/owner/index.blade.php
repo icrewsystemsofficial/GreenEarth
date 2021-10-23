@@ -126,8 +126,8 @@
                     <p class="text-md mb-0 text-capitalize"><span class="font-weight-bolder">Business HQ: </span>{{$business->location}}</p>
                     <p class="text-md mb-0 text-capitalize"><span class="font-weight-bolder">Employee Count: </span>{{$business->employee_count}}</p>
                     <p class="text-md mb-0 text-capitalize"><span class="font-weight-bolder">Business Founding Date: </span>{{$business->business_founding_date}}</p>
-                    <br>
-                    <p class="text-md mb-0"><span class="font-weight-bolder">Website Link: </span>{{$business->website_link}}</p>
+
+                    <p class="text-md mt-2"><span class="font-weight-bolder">Website Link: </span>{{$business->website_link}}</p>
                     <p class="text-md mb-0"><span class="font-weight-bolder">Facebook Profile: </span>{{$business->facebook_link}}</p>
                     <p class="text-md mb-0"><span class="font-weight-bolder">Instagram Profile: </span>{{$business->instagram_link}}</p>
                     <p class="text-md mb-0"><span class="font-weight-bolder">LinkedIn Profile: </span>{{$business->linkedin_link}}</p>
