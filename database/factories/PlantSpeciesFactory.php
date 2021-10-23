@@ -24,8 +24,8 @@ class PlantSpeciesFactory extends Factory
     {
         return [
             'common_name' => Str::random(50),
-            'price_per_plant' => random_int(0,1000),
-            'h2o_requirement_per_plant' => random_int(0,100),
+            'price_per_plant' => random_int(0, 100),
+            'h2o_requirement_per_plant' => random_int(0, 100),
             'o2_production' => random_int(0, 100),
             'co2_absorption' => random_int(0, 100),
         ];
