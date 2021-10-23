@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Tree;
+use App\Models\User;
+use App\Helpers\TreesHealthHelper;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TreeFactory extends Factory
@@ -21,11 +23,17 @@ class TreeFactory extends Factory
      */
     public function definition()
     {
+        $treeHealth = TreesHealthHelper::health();
+        $users = User::pluck('id');
         return [
-            'name' => $this->faker->lastName,
-            'description' => $this->faker->text,
-            'location' => $this->faker->address,
-            'created_at' => $this->faker->dateTimeThisYear,
+            'forest_id' => $this->faker->randomDigit,
+            'species_id' => $this->faker->randomDigit,
+            'mission_id' => $this->faker->randomDigit,
+            //'cluster_id' => $this->faker->randomDigit,
+            'planted_by' => $this->faker->randomElement($users),
+            'health' => $treeHealth[rand(0, count($treeHealth) - 1)],
+            'lat' => $this->faker->latitude,
+            'long' => $this->faker->longitude,
         ];
     }
 }
