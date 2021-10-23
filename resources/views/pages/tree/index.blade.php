@@ -17,12 +17,13 @@
         var table = $('#all-trees').DataTable({
             "sDom": 'ftirp',
             language: {
-                paginate: {
-                    next: '&#8594;', // or '→'
-                    previous: '&#8592;' // or '←'
-
-                }
-            },
+                    paginate: {
+                        // remove previous & next text from pagination
+                        previous: '<i class="fas fa-chevron-left"></i>',
+                        next: '<i class="fas fa-chevron-right"></i>'
+                    }
+                },
+                responsive: true
 
         });
 
