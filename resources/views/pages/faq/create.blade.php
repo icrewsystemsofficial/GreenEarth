@@ -46,10 +46,10 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-sm2" for="name">Author's name</label>
+                                <label class="control-label col-sm2" for="created_by">Author's name</label>
                                 <div class="col-sm-12">
                                     <input type="text" class="form-control" placeholder="{{ auth()->user()->name }}" disabled>
-                                    <input type="hidden" name="name" value="{{ auth()->user()->name }}">
+                                    <input type="hidden" name="created_by" value="{{ auth()->user()->name }}">
                                 </div>
                             </div>
 

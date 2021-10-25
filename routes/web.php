@@ -239,12 +239,10 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
         Route::prefix('faq')->as('faq.')->group(function () {
             Route::get('/', [FAQController::class, 'index_portal_admin'])->name('index');
             Route::get('/create', [FAQController::class, 'create'])->name('create');
-            Route::get('/update', [FAQController::class, 'update_disp'])->name('update');
-            Route::get('/edit/{id}', [FAQController::class, 'edit'])->name('edit');
-            Route::get('/delete', [FAQController::class, 'delete_disp'])->name('delete');
-            Route::get('/delete/{id}', [FAQController::class, 'destroy'])->name('destroy');
             Route::post('/store', [FAQController::class, 'store'])->name('store');
-            Route::post('/update', [FAQController::class, 'update'])->name('updateval');
+            Route::get('/edit/{id}', [FAQController::class, 'edit'])->name('edit');
+            Route::post('/update/{id}', [FAQController::class, 'update'])->name('update');
+            Route::get('/delete/{id}', [FAQController::class, 'delete'])->name('delete');
         });
 
 

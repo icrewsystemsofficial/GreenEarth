@@ -35,7 +35,7 @@ class FAQController extends Controller
      */
     public function index_portal_admin()
     {
-        $faqs = FAQ::where('status', '1')->orderBy('updated_at')->get();
+        $faqs = FAQ::orderBy('updated_at')->get();
         return view('pages.faq.index_admin', compact('faqs'));
     }
 
@@ -61,7 +61,7 @@ class FAQController extends Controller
         $faq = new Faq;
         $faq->title = $request->title;
         $faq->body = $request->body;
-        $faq->created_by = $request->name;
+        $faq->created_by = $request->created_by;
         if (!empty($request->status)) {
             $faq->status = 1;
         } else {
@@ -94,14 +94,6 @@ class FAQController extends Controller
         return view('pages.faq.detail', compact('faq'));
     }
 
-    public function update_disp()
-    {
-        $faqs = FAQ::all();
-        $enabled_faqs = FAQ::where('status', '1')->get();
-        $disabled_faqs = FAQ::where('status', '0')->get();
-        return view('pages.faq.updatelist', compact('faqs', 'enabled_faqs', 'disabled_faqs'));
-    }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -121,10 +113,10 @@ class FAQController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-
-        $faq = FAQ::find($request->id);
+        
+        $faq = FAQ::find($id);
         $faq->title = $request->title;
         $faq->body = $request->body;
         if (!empty($request->status)) {
@@ -135,7 +127,7 @@ class FAQController extends Controller
         $faq->save();
 
         smilify('success', 'FAQ updated successfully');
-        return redirect(route('portal.admin.faq'));
+        return redirect(route('portal.admin.faq.index'));
     }
 
 
@@ -146,15 +138,8 @@ class FAQController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function delete_disp()
-    {
-        $faqs = FAQ::all();
-        $enabled_faqs = FAQ::where('status', '1')->get();
-        $disabled_faqs = FAQ::where('status', '0')->get();
-        return view('pages.faq.deletelist', compact('faqs', 'enabled_faqs', 'disabled_faqs'));
-    }
 
-    public function destroy($id)
+    public function delete($id)
     {
         $faq = FAQ::find($id);
         $faq->delete();

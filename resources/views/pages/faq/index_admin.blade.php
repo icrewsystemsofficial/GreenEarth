@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('pagetitle')
-FAQs
+    FAQs
 @endsection
 
 @section('css')
@@ -15,53 +15,82 @@ FAQs
     <script src="https://cdn.datatables.net/1.11.2/js/dataTables.bootstrap5.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#table_id').DataTable();
-        } );
+            var table = $('#table_id').DataTable();
+
+            var info = table.page.info();
+            var count = info.recordsTotal;
+            var subheading = document.getElementById('subheading');
+            subheading.innerHTML = "There are a total of " + count + " FAQs in your database";
+        });
+    </script>
+    <script>
+        let clname = document.getElementById("faq-active-tag");
+        clname.className += " active";
     </script>
 @endsection
 
+@section('breadcrumb')
+    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
+        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">FAQs</li>
+    </ol>
+    <h6 class="font-weight-bolder mb-0">FAQs</h6>
+@endsection
 
 @section('content')
     <div class="container-fluid py-4">
-        <h3 class="h5 text-muted">Manage FAQs</h3>
-        <br>
         <div class="container-fluid">
             <div class="card">
-                <div class="card-body">
+                <div class="card-header d-flex justify-content-between">
+                    <div>
+                        <div class="h5"> Manage all FAQs in your database </div>
+                    <div class="text-secondary text-sm" id="subheading"> </div>
+                    </div>
                     <div class="position-relative">
                         <a type="button" class="btn bg-gradient-success" href="{{ route('portal.admin.faq.create') }}">
                             Create new FAQ
                         </a>
                     </div>
+                </div>
+                <div class="card-body text-sm">
                     <table id="table_id" class="table">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>TITLE</th>
-                                <th>AUTHOR</th>
-                                <th>LAST UPDATED</th>
-                                <th>ACTIONS</th>
+                                <th class="text-center">ID</th>
+                                <th class="text-center">TITLE</th>
+                                <th class="text-center">AUTHOR</th>
+                                <th class="text-center">LAST UPDATED</th>
+                                <th class="text-center">STATUS</th>
+                                <th class="text-center">ACTIONS</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($faqs as $faq)
-                            <tr>
-                                <td>{{ $faq->id }}</td>
-                                <td>
-                                    <span class="text-sm">
-                                        {{ Str::limit($faq->title, 29, '...') }}
-                                    </span>
-                                </td>
-                                <td>{{ $faq->created_by }}</td>
-                                <td>{{ $faq->updated_at->diffForHumans()}}</td>
-                                <td>
-                                    <div>
-                                        <a href="{{ route('portal.admin.faq.edit', $faq->id) }}" class="btn btn-sm btn-info">
-                                            Manage
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
+                                <tr class="align-items-center">
+                                    <td class="text-center">{{ $faq->id }}</td>
+                                    <td class="text-center">
+                                        <span class="text-sm">
+                                            {{ Str::limit($faq->title, 29, '...') }}
+                                        </span>
+                                    </td>
+                                    <td class="text-center">{{ $faq->created_by }}</td>
+                                    <td class="text-center">{{ $faq->updated_at->diffForHumans() }}</td>
+                                    <td class="text-center">
+                                        @if ($faq->status == 1)
+                                            <span class="badge bg-success">Enabled</span>
+                                        @else
+                                            <span class="badge bg-danger">Disabled</span>
+                                        @endif
+                                    </td>
+                                    <td class="text-center">
+                                        <div>
+                                            <a href="{{ route('portal.admin.faq.edit', $faq->id) }}"
+                                                class="btn btn-sm btn-info">
+                                                Manage
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -76,4 +105,4 @@ FAQs
 
 
 
-@endsection
+    @endsection
