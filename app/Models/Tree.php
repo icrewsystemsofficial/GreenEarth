@@ -21,5 +21,4 @@ class Tree extends Model
     {
         return $this->belongsTo(User::class, 'planted_by', 'id');
     }
-
 }

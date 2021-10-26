@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Profile;
 use App\Models\TemporaryFile;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Prophecy\Promise\ReturnPromise;
 
 class ProfileController extends Controller
 {
@@ -45,6 +42,7 @@ class ProfileController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -65,6 +63,7 @@ class ProfileController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Profile  $profile
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(User $user)
@@ -76,6 +75,7 @@ class ProfileController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Profile  $profile
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
@@ -88,6 +88,7 @@ class ProfileController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Profile  $profile
+     *
      * @return \Illuminate\Http\Response
      */
     public function save(Request $request, $id)
@@ -114,6 +115,7 @@ class ProfileController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Profile  $profile
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)

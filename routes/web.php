@@ -55,7 +55,6 @@ Route::get('/', function () {
     return redirect(route('home.index'));
 });
 
-
 Auth::routes();
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
@@ -66,11 +65,11 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     return redirect('/home');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
-/************************
+/*
     -- FRONTEND ROUTES --
- ************************/
+ */
 
-Route::get('/test', function() {
+Route::get('/test', function () {
     dd(app(\App\Helpers\CO2Helper::class)->calculate());
 });
 
@@ -112,17 +111,16 @@ Route::prefix('home')->as('home.')->group(function () {
         Route::get('/{slug}', [FAQController::class, 'detail'])->name('detail');
     });
 
-  // Contact-Us
+    // Contact-Us
     Route::prefix('contact')->as('contact.')->group(function () {
         Route::get('/', [FrontendController::class, 'contact'])->name('index');
         Route::post('/send', [FrontendController::class, 'contact_store'])->name('send');
-
     });
 });
 
-/************************
+/*
         -- PORTAL ROUTES --
- ************************/
+ */
 
 //Route group for the dashboard
 Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () {
@@ -157,10 +155,9 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
         Route::get('/{slug}', [FAQController::class, 'detail'])->name('detail');
     });
 
-
-    /************************
+    /*
         -- ADMIN ROUTES --
-     ************************/
+     */
 
     Route::prefix('admin')->as('admin.')->group(function () {
         //Access these routes by route('portal.admin.ROUTENAME')
@@ -212,8 +209,6 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::get('/', [PaymentController::class, 'index'])->name('index');
             Route::get('/{id}/manage', [PaymentController::class, 'manage'])->name('edit');
             Route::post('/{id}/update', [PaymentController::class, 'update'])->name('update');
-
-
         });
 
         /* ANNOUNCEMENT MODULE */
@@ -235,38 +230,33 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::get('/delete/{id}', [FAQController::class, 'delete'])->name('delete');
         });
 
-
-
-       // Contact - Request
+        // Contact - Request
         Route::prefix('contact-requests')->as('contact-requests.')->group(function () {
             Route::get('/', [ContactRequestController::class, 'index'])->name('index');
             Route::get('/{id}', [ContactRequestController::class, 'edit'])->name('view');
             Route::post('/{id}', [ContactRequestController::class, 'update'])->name('update');
-
         });
 
         /* Forest Module*/
-            Route::prefix('forests/trees-species')->as('forests.trees-species.')->group(function () {
-                Route::get('/', [PlantSpeciesController::class, 'index'])->name('index');
-                Route::get('/manage/{id}', [PlantSpeciesController::class, 'manage'])->name('manage');
-                Route::get('/create', [PlantSpeciesController::class, 'create'])->name('create');
-                Route::post('/save', [PlantSpeciesController::class, 'save'])->name('save');
-                Route::post('/update/{id}', [PlantSpeciesController::class, 'update'])->name('update');
-            });
-        
+        Route::prefix('forests/trees-species')->as('forests.trees-species.')->group(function () {
+            Route::get('/', [PlantSpeciesController::class, 'index'])->name('index');
+            Route::get('/manage/{id}', [PlantSpeciesController::class, 'manage'])->name('manage');
+            Route::get('/create', [PlantSpeciesController::class, 'create'])->name('create');
+            Route::post('/save', [PlantSpeciesController::class, 'save'])->name('save');
+            Route::post('/update/{id}', [PlantSpeciesController::class, 'update'])->name('update');
+        });
 
-            Route::get('forests/polygon/{id?}', [ForestsController::class, 'drawPolygon'])->name('forests.polygon');
-            Route::post('forests/polygon/{id?}/save', [ForestsController::class, 'savePolygon'])->name('forests.polygon.save');
-            Route::get('forests/manage/{id}', [ForestsController::class, 'manage'])->name('forests.manage');
-            Route::resource('/forests', ForestsController::class);
+        Route::get('forests/polygon/{id?}', [ForestsController::class, 'drawPolygon'])->name('forests.polygon');
+        Route::post('forests/polygon/{id?}/save', [ForestsController::class, 'savePolygon'])->name('forests.polygon.save');
+        Route::get('forests/manage/{id}', [ForestsController::class, 'manage'])->name('forests.manage');
+        Route::resource('/forests', ForestsController::class);
+
+        Route::get('activity', [ActivityController::class, 'disp']);
     });
 
-        // CLOUD-PROVIDERS MODULE /portal/admin/cloud-providers/ROUTENAME
-        Route::resource('cloud-providers', CloudProvidersController::class);
-    });
-
-
-
+    // CLOUD-PROVIDERS MODULE /portal/admin/cloud-providers/ROUTENAME
+    Route::resource('cloud-providers', CloudProvidersController::class);
+});
 
 //Trees Module - Before cleaning. Kept for refernce if there is any need of edit.
 
@@ -279,9 +269,6 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
     Route::get('/tree/{treeid}/edit/{id}', [TreeController::class, 'deleteImage'])->name('tree.deleteImage');
     Route::get('/tree/{id}/delete', [TreeController::class, 'destroy'])->name('tree.delete'); */
 
-
-
-
 // I have added a dummy route so I can easily view the tree maintenance form.
 /* Route::get('/tree/{id}/add-maintenance', [TreeMaintenanceController::class, 'create'])->name('pages.tree.add_maintenance');
 Route::get('/tree/{id}/history', [TreeMaintenanceController::class, 'index'])->name('pages.tree.history_maintenance');
@@ -291,14 +278,5 @@ Route::post('/tree/{id}/add-maintenance', [TreeMaintenanceController::class, 'st
 /* Route::get('/activity', function () {
     return view('welcome');
 }); */
-
-
-
-
-
-
-Route::get('activity', [ActivityController::class, 'disp']);
-
-
 
 Route::get('/mail-send', [UserController::class, 'mailSend']);

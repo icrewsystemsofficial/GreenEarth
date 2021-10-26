@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers\Portal\Admin;
 
+use App\Helpers\UserHelper;
+use App\Http\Controllers\Controller;
+use App\Models\Announcement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
-use App\Models\Announcement;
-use App\Http\Controllers\Controller;
-use App\Helpers\UserHelper;
-use DB;
-use DataTables;
-
 
 class AnnouncementController extends Controller
 {
@@ -51,7 +48,7 @@ class AnnouncementController extends Controller
         $body = $request->body;
         $role = $request->role;
         $status = $request->status;
-        Announcement::where('id', $id)->update(['title'=>$title, 'body'=>$body, 'role'=>$role, 'status'=>$status, 'slug'=>$slug]);
+        Announcement::where('id', $id)->update(['title' => $title, 'body' => $body, 'role' => $role, 'status' => $status, 'slug' => $slug]);
         notify()->success('Announcement updated successfully!');
         return redirect(route('portal.admin.announcements.index'));
     }
@@ -89,6 +86,5 @@ class AnnouncementController extends Controller
 
     public function destroy()
     {
-
     }
 }

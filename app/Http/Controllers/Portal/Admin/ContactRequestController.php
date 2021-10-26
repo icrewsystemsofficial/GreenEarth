@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\portal\admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Contact;
+use Illuminate\Http\Request;
 
 class ContactRequestController extends Controller
 {
@@ -18,9 +18,6 @@ class ContactRequestController extends Controller
         $contact_requests = Contact::all();
         return view('pages.contacts.index', compact('contact_requests'));
     }
-
-
-
 
     /**
      * Show the form for creating a new resource.
@@ -36,30 +33,31 @@ class ContactRequestController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        
     }
-
-
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -73,12 +71,12 @@ class ContactRequestController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-
-        if($id == '') {
+        if ($id === '') {
             throw new \Exception('ID must be provided to update user records');
         }
 
@@ -98,10 +96,11 @@ class ContactRequestController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy()
     {
-        //
+        
     }
 }

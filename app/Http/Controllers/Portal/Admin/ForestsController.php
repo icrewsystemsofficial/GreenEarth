@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Portal\Admin;
 
-use Exception;
-use App\Models\User;
-use App\Models\Forest;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Forest;
+use App\Models\User;
+use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class ForestsController extends Controller
@@ -33,21 +33,22 @@ class ForestsController extends Controller
         return view('pages.forests.create');
     }
 
-    public function drawPolygon($id = '') {
-
-        if($id == '') {
+    public function drawPolygon($id = '')
+    {
+        if ($id === '') {
             throw new Exception('Forest ID must be provided');
         }
 
         $forest = Forest::find($id);
 
         return view('pages.forests.polygon', [
-            'forest' => $forest
+            'forest' => $forest,
         ]);
     }
 
-    public function savePolygon($id) {
-        if($id == '') {
+    public function savePolygon($id)
+    {
+        if ($id === '') {
             throw new Exception('Forest ID must be provided');
         }
 
@@ -63,8 +64,9 @@ class ForestsController extends Controller
         return redirect(route('portal.admin.forests.manage', $forest->id));
     }
 
-    public function manage($id) {
-        if($id == '') {
+    public function manage($id)
+    {
+        if ($id === '') {
             throw new Exception('Forest ID must be provided');
         }
 
@@ -82,11 +84,11 @@ class ForestsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-
         $validated = $request->validate([
             'lat' => 'numeric|required',
             'long' => 'numeric|required',
@@ -107,22 +109,24 @@ class ForestsController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show()
     {
-        //
+        
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit()
     {
-        //
+        
     }
 
     /**
@@ -130,6 +134,7 @@ class ForestsController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -154,6 +159,7 @@ class ForestsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -165,22 +171,23 @@ class ForestsController extends Controller
         return redirect(route('portal.admin.forests.index'));
     }
 
-
     /**
      * geocode - API method, used to fetch reverse location data from API server.
      *
      * @param  mixed $place
+     *
      * @return void
      */
-    public function geocode($place) {
-        $response = array();
-        if(!$place) {
+    public function geocode($place)
+    {
+        $response = [];
+        if (! $place) {
             $response['code'] = '500';
             $response['message'] = 'Area must be provided';
         } else {
             $request = Http::get('https://api.opencagedata.com/geocode/v1/json?key=c9c8fa0a795646bab2d41d8c60fdc341&q='.$place.'&pretty=1&no_annotations=1');
             $total = count($request->json()['results']);
-            if($total == 0) {
+            if ($total === 0) {
                 $response['code'] = 404;
                 $response['message'] = $total . ' results loaded for '.$place.'. Try another location';
             } else {

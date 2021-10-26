@@ -13,12 +13,14 @@ class PlantSpeciesController extends Controller
         return view('pages.plant_species.index', compact('plantspecies'));
     }
 
-    public function create(){
+    public function create()
+    {
         return view('pages.plant_species.create');
     }
 
-    public function save(Request $request){
-        $plantspecie= new PlantSpecies();
+    public function save(Request $request)
+    {
+        $plantspecie = new PlantSpecies();
         $plantspecie->common_name = $request->name;
         $plantspecie->price_per_plant = $request->ppplant;
         $plantspecie->h2o_requirement_per_plant = $request->h2oreq;
@@ -30,12 +32,14 @@ class PlantSpeciesController extends Controller
         return redirect()->route('portal.admin.forests.trees-species.index');
     }
 
-    public function manage($id){
+    public function manage($id)
+    {
         $plantspecie = PlantSpecies::where('id', $id)->first();
         return view('pages.plant_species.manage', compact('plantspecie'));
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $common_name = $request->name;
         // $scientific_name = $request->scname;
         $price_per_plant = $request->ppplant;
@@ -43,13 +47,13 @@ class PlantSpeciesController extends Controller
         $o2_production = $request->o2pro;
         $co2_absorption = $request->co2abs;
         PlantSpecies::where('id', $id)
-        ->update([
-            'common_name'=>$common_name, 
-            // 'scientific_name'=>$scientific_name, 
-            'price_per_plant'=> $price_per_plant, 
-            'h2o_requirement_per_plant'=>$h2o_requirement_per_plant, 
-            'o2_production'=>$o2_production, 
-            'co2_absorption'=>$co2_absorption
+            ->update([
+            'common_name' => $common_name,
+            // 'scientific_name'=>$scientific_name,
+            'price_per_plant' => $price_per_plant,
+            'h2o_requirement_per_plant' => $h2o_requirement_per_plant,
+            'o2_production' => $o2_production,
+            'co2_absorption' => $co2_absorption,
         ]);
         return redirect()->route('portal.admin.forests.trees-species.index');
     }

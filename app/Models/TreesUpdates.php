@@ -14,6 +14,6 @@ class TreesUpdates extends Model
         'remarks',
         'health',
         'image_path',
-        'updated_by'
+        'updated_by',
     ];
 }

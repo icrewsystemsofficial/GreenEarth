@@ -2,16 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Whois;
-use App\Helpers\PHPWhois;
 use App\Helpers\CO2Helper;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Helpers\PHPWhois;
 
 class CalculationController extends Controller
 {
-
-
     /*
      * LOGIC:
      *
@@ -36,9 +31,15 @@ class CalculationController extends Controller
         $url = request('website');
         $url = filter_var($url, FILTER_VALIDATE_URL);
         $domain = trim($url);
-        if (substr(strtolower($domain), 0, 8) == "https://") $domain = substr($domain, 8);
-        if (substr(strtolower($domain), 0, 7) == "http://") $domain = substr($domain, 7);
-        if (substr(strtolower($domain), 0, 4) == "www.") $domain = substr($domain, 4);
+        if (substr(strtolower($domain), 0, 8) === 'https://') {
+            $domain = substr($domain, 8);
+        }
+        if (substr(strtolower($domain), 0, 7) === 'http://') {
+            $domain = substr($domain, 7);
+        }
+        if (substr(strtolower($domain), 0, 4) === 'www.') {
+            $domain = substr($domain, 4);
+        }
 
         $domain = $this->get_whois_information($domain);
 
@@ -54,7 +55,6 @@ class CalculationController extends Controller
         return back()->with('errors', 'Please enter a valid URL');
     }
 
-
     /**
      * get_whois_information - Get's the WHOIS information
      * from WHOIS Servers, and decodes it. To server response time, it
@@ -65,12 +65,12 @@ class CalculationController extends Controller
      *  Clears all WHOIS entries in public/whois/*
      *
      * @param  string $domain
+     *
      * @return void
      */
     public function get_whois_information($domain = '')
     {
-
-        if ($domain == '') {
+        if ($domain === '') {
             throw new \Exception('Domain name must be provided');
         }
 
@@ -92,7 +92,7 @@ class CalculationController extends Controller
 
     public function ping_domain($domain = '')
     {
-        if ($domain == '') {
+        if ($domain === '') {
             throw new \Exception('Domain name must be provided');
         }
 
@@ -103,20 +103,19 @@ class CalculationController extends Controller
         $latency = $ping->ping();
 
         if ($latency !== false) {
-            $response = array(
+            $response = [
                 'code' => 200,
                 'message' => 'Able to resolve host, ' . $latency . ' ms',
-            );
+            ];
         } else {
-            $response = array(
+            $response = [
                 'code' => 404,
                 'message' => 'Unable to resolve <a class="text-danger" href="' . $domain . '" target="_blank">' . $domain . '</a>',
-            );
+            ];
         }
 
         return $response;
     }
-
 
     public function calculate()
     {

@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
 {
@@ -54,10 +53,10 @@ class LoginController extends Controller
         }
         return view('auth.register')->with([
             'error' => 'No users associated with that e-mail ID',
-            'oauth' => array(
+            'oauth' => [
                 'name' => $data->name,
                 'email' => $data->email,
-            ),
+            ],
         ]);
 
         Auth::login($user);

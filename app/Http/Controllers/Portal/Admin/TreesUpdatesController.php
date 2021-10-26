@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Portal\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\TreesUpdates;
-use App\Models\Tree;
-use App\Models\User;
 use App\Helpers\TreesHealthHelper;
+use App\Http\Controllers\Controller;
+use App\Models\Tree;
+use App\Models\TreesUpdates;
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Request;
-use \Carbon\Carbon;
 
 class TreesUpdatesController extends Controller
 {
@@ -44,6 +44,7 @@ class TreesUpdatesController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $id)
@@ -74,22 +75,24 @@ class TreesUpdatesController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\TreesUpdates  $treesUpdates
+     *
      * @return \Illuminate\Http\Response
      */
     public function show()
     {
-        //
+        
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\TreesUpdates  $treesUpdates
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit()
     {
-        //
+        
     }
 
     /**
@@ -97,22 +100,24 @@ class TreesUpdatesController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\TreesUpdates  $treesUpdates
+     *
      * @return \Illuminate\Http\Response
      */
     public function update()
     {
-        //
+        
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\TreesUpdates  $treesUpdates
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy()
     {
-        //
+        
     }
 
     public function upload_image(Request $request)
@@ -121,7 +126,7 @@ class TreesUpdatesController extends Controller
             $image = $request->file('logo');
             $imageName = 'update' . strtotime(now()) . rand(11111, 99999) . '.' . $image->getClientOriginalExtension();
 
-            if (!is_dir(storage_path('app/public/uploads/tree-updates/'))) {
+            if (! is_dir(storage_path('app/public/uploads/tree-updates/'))) {
                 Storage::makeDirectory(storage_path('app/public/uploads/tree-updates/'));
             }
 

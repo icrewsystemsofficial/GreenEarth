@@ -27,7 +27,7 @@ class Directory extends Model
         'business_founding_date',
         'business_name_slug',
         'logo',
-        'organization_name'
+        'organization_name',
     ];
 
     /**
@@ -45,15 +45,15 @@ class Directory extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function business_logo() {
+    public function business_logo()
+    {
         // if($business_id == null) {
         //     throw new \Exception('Business ID must be provided to fetch logo');
         // }
 
         $business = self::find($this->id);
-        if(!is_null($business->logo)) {
-
-            if(Storage::exists('public/uploads/logos/'.$business->logo)) {
+        if (! is_null($business->logo)) {
+            if (Storage::exists('public/uploads/logos/'.$business->logo)) {
                 $image_link = asset(Storage::url('public/uploads/logos/'.$business->logo));
             } else {
                 $image_link = asset('img/logo_placeholder.png');
@@ -65,7 +65,8 @@ class Directory extends Model
         return $image_link;
     }
 
-    public function getUsers() {
+    public function getUsers()
+    {
         return $this->hasMany(User::class, 'organization', 'organization_name');
     }
 }

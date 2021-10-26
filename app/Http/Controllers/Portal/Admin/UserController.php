@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Portal\Admin;
 
-use App\Models\User;
-use App\Mail\User_invite;
-use App\Models\temp_user;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use App\Mail\SendWelcomeMail;
-use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use App\Mail\SendWelcomeMail;
+use App\Mail\User_invite;
 use App\Models\Directory;
+use App\Models\temp_user;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
@@ -27,7 +27,7 @@ class UserController extends Controller
         $data = temp_user::where('unique_id', $id)->first();
         return view('pages.user.setup', compact('data'));
     }
-    
+
     public function index()
     {
         $users = User::all();
@@ -46,14 +46,12 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-
     public function create()
     {
         return view('pages.user.create', [
-            'roles' => Role::all(), 'organisations' => Directory::all(), 'count_org' => count(Directory::all())
+            'roles' => Role::all(), 'organisations' => Directory::all(), 'count_org' => count(Directory::all()),
         ]);
     }
-
 
     public function mailSend($data)
     {
@@ -61,24 +59,23 @@ class UserController extends Controller
         $uuid = $data->unique_id;
         $name = $data->name;
 
-        $url = "http://127.0.0.1:8000/users/setup/" . $uuid;
+        $url = 'http://127.0.0.1:8000/users/setup/' . $uuid;
 
         $mailInfo = [
             'title' => 'Welcome to Project GreenEarth..!',
             'name' => $name,
-            'url' => $url
+            'url' => $url,
         ];
 
         Mail::to($email)->send(new User_invite($mailInfo));
 
         return response()->json([
-            'message' => 'Mail has sent.'
+            'message' => 'Mail has sent.',
         ], Response::HTTP_OK);
     }
 
     public function create_temp(Request $request)
     {
-
         $tempuser = new temp_user();
         #$tempuser->uuid('id');
 
@@ -96,9 +93,8 @@ class UserController extends Controller
     public function create_user(Request $req)
     {
         $req->validate([
-            'password' => 'confirmed'
+            'password' => 'confirmed',
         ]);
-
 
         $user = new User();
         $user->name = $req->input('name');
@@ -115,7 +111,6 @@ class UserController extends Controller
 
         return view('/home');
 
-
         # Codes for Reference and upgradation:
 
         /* $pass = $req->input('password')
@@ -124,12 +119,10 @@ class UserController extends Controller
         /*  $delete_user_temp = temp_user::find($req->input('email'));
         return($delete_user_temp); */
 
-
         /* activity()
         ->causedBy($user)
         ->log('Created a new user called '.$user->name.''); */
         // notify()->success("Successfully Created","created");
-
 
         /* $user= new user;
         #$tempuser->uuid('id');
@@ -143,11 +136,11 @@ class UserController extends Controller
         return(redirect('/users/create')); */
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -162,8 +155,8 @@ class UserController extends Controller
         $user->email = request('email');
         $user->password = Str::uuid();
         $user->temporary = 1; // Setting the account as temporary account
-        $user->organization = (request('organization') != null) ? request('organization') : null;
-        $user->phone = (request('phone') != null) ? request('phone') : null;
+        $user->organization = request('organization') !== null ? request('organization') : null;
+        $user->phone = request('phone') !== null ? request('phone') : null;
 
         $user->save();
 
@@ -171,11 +164,11 @@ class UserController extends Controller
         $newrole = Role::findByName($request->input('role'));
         $user->assignRole($newrole->name);
 
-        if (request('send_welcome_email') == null) {
-            $data = array(
+        if (request('send_welcome_email') === null) {
+            $data = [
                 'name' => request('name'),
                 'url' => route('home.users.verify', $user->password),
-            );
+            ];
 
             Mail::to(request('email'))->send(new SendWelcomeMail($data));
         }
@@ -187,8 +180,7 @@ class UserController extends Controller
 
     public function verify($uuid)
     {
-
-        if ($uuid == '') {
+        if ($uuid === '') {
             throw new \Exception('UUID is required');
         }
 
@@ -203,7 +195,7 @@ class UserController extends Controller
 
     public function process(Request $request, $id)
     {
-        if ($id == '') {
+        if ($id === '') {
             throw new \Exception('ID must be provided to update user records');
         }
 
@@ -214,7 +206,6 @@ class UserController extends Controller
             'organization' => 'string|max:255',
             'phone' => 'string|max:15',
         ]);
-
 
         $user->password = Hash::make(request('password'));
         $user->organization = request('organization');
@@ -233,6 +224,7 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id = null)
@@ -243,8 +235,7 @@ class UserController extends Controller
         }
         $user = User::find($id);
 
-        if (!$user) {
-
+        if (! $user) {
             return redirect()->back();
         }
 
@@ -258,11 +249,12 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit()
     {
-        //
+        
     }
 
     /**
@@ -270,11 +262,11 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-
         if ($id === '') {
             throw new \Exception('ID must be provided to update user records');
         }
@@ -303,6 +295,7 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

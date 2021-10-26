@@ -22,7 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
 Route::as('api.v1.')->prefix('v1')->group(function () {
     Route::post('/admin/directories/upload-logo', [DirectoriesController::class, 'upload_logo'])->name('upload_business_logo');
     Route::post('/tree/upload-image', [TreesUpdatesController::class, 'upload_image'])->name('upload_tree_updates');
@@ -30,7 +29,6 @@ Route::as('api.v1.')->prefix('v1')->group(function () {
     Route::get('/calculate/whois/{domain?}', [CalculationController::class, 'get_whois_information'])->name('calculate.lookup_whois');
     Route::get('/calculate/ping/{domain?}', [CalculationController::class, 'ping_domain'])->name('calculate.ping');
     Route::get('/api/v1/forests/get-tree-species/{id?}', [CalculationController::class, 'tree_data'])->name('tree.data');
-
 
     Route::get('/forests/geocode/{place?}', [ForestsController::class, 'geocode'])->name('forests.geocode');
 });

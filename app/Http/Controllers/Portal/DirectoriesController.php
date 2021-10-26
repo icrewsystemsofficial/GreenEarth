@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Portal;
 
-use App\Models\Directory;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Directory;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
-
+use Illuminate\Support\Str;
 
 class DirectoriesController extends Controller
 {
@@ -50,6 +48,7 @@ class DirectoriesController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -75,17 +74,17 @@ class DirectoriesController extends Controller
             ]);
             Directory::create([
                 'business_name_slug' => Str::slug($request->business_name, '-'),
-                'business_name' =>  $request->business_name,
-                'business_owner' =>  $request->business_owner,
-                'brand_name' =>  $request->brand_name,
-                'business_about' =>  $request->business_about,
-                'location' =>  $request->location,
-                'facebook_link' =>  $request->facebook_link,
-                'instagram_link' =>  $request->instagram_link,
-                'linkedin_link' =>  $request->linkedin_link,
-                'website_link' =>  $request->website_link,
-                'employee_count' =>  $request->employee_count,
-                'business_founding_date' =>  $request->business_founding_date,
+                'business_name' => $request->business_name,
+                'business_owner' => $request->business_owner,
+                'brand_name' => $request->brand_name,
+                'business_about' => $request->business_about,
+                'location' => $request->location,
+                'facebook_link' => $request->facebook_link,
+                'instagram_link' => $request->instagram_link,
+                'linkedin_link' => $request->linkedin_link,
+                'website_link' => $request->website_link,
+                'employee_count' => $request->employee_count,
+                'business_founding_date' => $request->business_founding_date,
                 'logo' => $request->logo,
                 'organization_name' => $request->business_name . ' ' . $request->brand_name,
             ]);
@@ -104,6 +103,7 @@ class DirectoriesController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function home_show($business_name_slug)
@@ -117,6 +117,7 @@ class DirectoriesController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id = null)
@@ -127,8 +128,7 @@ class DirectoriesController extends Controller
         }
         $business = Directory::find($id);
 
-        if (!$business) {
-
+        if (! $business) {
             return redirect()->back();
         }
 
@@ -140,6 +140,7 @@ class DirectoriesController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -179,17 +180,17 @@ class DirectoriesController extends Controller
 
             Directory::where('id', $id)->update([
                 'business_name_slug' => $name_slug,
-                'business_name' =>  $request->business_name,
-                'business_owner' =>  $request->business_owner,
-                'brand_name' =>  $request->brand_name,
-                'business_about' =>  $request->business_about,
-                'location' =>  $request->location,
-                'facebook_link' =>  $request->facebook_link,
-                'instagram_link' =>  $request->instagram_link,
-                'linkedin_link' =>  $request->linkedin_link,
-                'website_link' =>  $request->website_link,
-                'employee_count' =>  $request->employee_count,
-                'business_founding_date' =>  $request->business_founding_date,
+                'business_name' => $request->business_name,
+                'business_owner' => $request->business_owner,
+                'brand_name' => $request->brand_name,
+                'business_about' => $request->business_about,
+                'location' => $request->location,
+                'facebook_link' => $request->facebook_link,
+                'instagram_link' => $request->instagram_link,
+                'linkedin_link' => $request->linkedin_link,
+                'website_link' => $request->website_link,
+                'employee_count' => $request->employee_count,
+                'business_founding_date' => $request->business_founding_date,
                 'logo' => $current_logo,
             ]);
         } catch (\Exception $e) {
@@ -238,17 +239,17 @@ class DirectoriesController extends Controller
 
             Directory::where('id', $id)->update([
                 'business_name_slug' => $name_slug,
-                'business_name' =>  $request->business_name,
-                'business_owner' =>  $request->business_owner,
-                'brand_name' =>  $request->brand_name,
-                'business_about' =>  $request->business_about,
-                'location' =>  $request->location,
-                'facebook_link' =>  $request->facebook_link,
-                'instagram_link' =>  $request->instagram_link,
-                'linkedin_link' =>  $request->linkedin_link,
-                'website_link' =>  $request->website_link,
-                'employee_count' =>  $request->employee_count,
-                'business_founding_date' =>  $request->business_founding_date,
+                'business_name' => $request->business_name,
+                'business_owner' => $request->business_owner,
+                'brand_name' => $request->brand_name,
+                'business_about' => $request->business_about,
+                'location' => $request->location,
+                'facebook_link' => $request->facebook_link,
+                'instagram_link' => $request->instagram_link,
+                'linkedin_link' => $request->linkedin_link,
+                'website_link' => $request->website_link,
+                'employee_count' => $request->employee_count,
+                'business_founding_date' => $request->business_founding_date,
                 'logo' => $current_logo,
             ]);
         } catch (\Exception $e) {
@@ -264,6 +265,7 @@ class DirectoriesController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -291,7 +293,7 @@ class DirectoriesController extends Controller
         $business = Directory::where('business_owner', auth()->user()->name)->get();
         // $business = $business[0];
 
-        if (!$business) {
+        if (! $business) {
             smilify('error', 'You do not own a partnered business.');
             return redirect()->back();
         }
@@ -307,7 +309,7 @@ class DirectoriesController extends Controller
         }
         $business = Directory::find($id);
 
-        if (!$business) {
+        if (! $business) {
             return redirect()->back();
         }
 
@@ -321,7 +323,7 @@ class DirectoriesController extends Controller
 
             $imageName = strtotime(now()) . rand(11111, 99999) . '.' . $image->getClientOriginalExtension();
 
-            if (!is_dir(storage_path('app/public/uploads/logos/'))) {
+            if (! is_dir(storage_path('app/public/uploads/logos/'))) {
                 Storage::makeDirectory(storage_path('app/public/uploads/logos/'));
                 // mkdir(public_path() . '/uploads/logos/', 0777, true);
             }
