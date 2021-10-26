@@ -62,7 +62,7 @@ class ContactRequestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
+    public function edit($id)
     {
         $contact_requests = contact::find($id);
         return view('pages.contacts.detail', compact('contact_requests'));
@@ -100,7 +100,7 @@ class ContactRequestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy()
     {
         //
     }

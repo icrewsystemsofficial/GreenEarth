@@ -69,7 +69,7 @@ class AnnouncementController extends Controller
         $slug = str_replace(' ', '-', $slug);
 
         $user = Auth::user();
-        $announcement = new Announcement;
+        $announcement = new Announcement();
         $announcement->title = $request->title;
         $announcement->body = $request->body;
         $announcement->role = $request->role;

@@ -31,27 +31,27 @@ class CalculationController extends Controller
      *
     */
 
-    public function frontend() {
+    public function frontend()
+    {
         $url = request('website');
         $url = filter_var($url, FILTER_VALIDATE_URL);
         $domain = trim($url);
-        if(substr(strtolower($domain), 0, 8) == "https://") $domain = substr($domain, 8);
-        if(substr(strtolower($domain), 0, 7) == "http://") $domain = substr($domain, 7);
-        if(substr(strtolower($domain), 0, 4) == "www.") $domain = substr($domain, 4);
+        if (substr(strtolower($domain), 0, 8) == "https://") $domain = substr($domain, 8);
+        if (substr(strtolower($domain), 0, 7) == "http://") $domain = substr($domain, 7);
+        if (substr(strtolower($domain), 0, 4) == "www.") $domain = substr($domain, 4);
 
         $domain = $this->get_whois_information($domain);
 
-        if($url) {
+        if ($url) {
             $color = 'bg-danger'; //danger
             return view('frontend.calculate', [
                 'url' => $url,
                 'color' => $color,
                 'domain' => (object) $domain,
             ]);
-        } else {
-            smilify('error', 'Please enter a valid URL with scheme (http / https)', 'Whooops');
-            return back()->with('errors', 'Please enter a valid URL');
         }
+        smilify('error', 'Please enter a valid URL with scheme (http / https)', 'Whooops');
+        return back()->with('errors', 'Please enter a valid URL');
     }
 
 
@@ -67,9 +67,10 @@ class CalculationController extends Controller
      * @param  string $domain
      * @return void
      */
-    public function get_whois_information($domain = '') {
+    public function get_whois_information($domain = '')
+    {
 
-        if($domain == '') {
+        if ($domain == '') {
             throw new \Exception('Domain name must be provided');
         }
 
@@ -89,8 +90,9 @@ class CalculationController extends Controller
         return $data;
     }
 
-    public function ping_domain($domain = '') {
-        if($domain == '') {
+    public function ping_domain($domain = '')
+    {
+        if ($domain == '') {
             throw new \Exception('Domain name must be provided');
         }
 
@@ -105,11 +107,10 @@ class CalculationController extends Controller
                 'code' => 200,
                 'message' => 'Able to resolve host, ' . $latency . ' ms',
             );
-        }
-        else {
+        } else {
             $response = array(
                 'code' => 404,
-                'message' => 'Unable to resolve <a class="text-danger" href="'.$domain.'" target="_blank">'.$domain.'</a>',
+                'message' => 'Unable to resolve <a class="text-danger" href="' . $domain . '" target="_blank">' . $domain . '</a>',
             );
         }
 
@@ -117,7 +118,8 @@ class CalculationController extends Controller
     }
 
 
-    public function calculate() {
+    public function calculate()
+    {
 
         // Data comes in as POST Request.
 
@@ -130,5 +132,4 @@ class CalculationController extends Controller
         );
         return response()->json($response);
     }
-
 }

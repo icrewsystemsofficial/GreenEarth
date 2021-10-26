@@ -62,7 +62,7 @@ class FAQController extends Controller
         $faq->title = $request->title;
         $faq->body = $request->body;
         $faq->created_by = $request->created_by;
-        if (!empty($request->status)) {
+        if ($request->status == NULL) {
             $faq->status = 1;
         } else {
             $faq->status = 0;

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Portal\Admin;
 use Exception;
 use App\Models\User;
 use App\Models\Forest;
-use App\Models\Country;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
@@ -31,9 +30,7 @@ class ForestsController extends Controller
      */
     public function create()
     {
-        return view('pages.forests.create', [
-
-        ]);
+        return view('pages.forests.create');
     }
 
     public function drawPolygon($id = '') {
@@ -112,7 +109,7 @@ class ForestsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
         //
     }
@@ -123,7 +120,7 @@ class ForestsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit()
     {
         //
     }
@@ -147,7 +144,7 @@ class ForestsController extends Controller
             'status' => 'required',
         ]);
 
-        $forest = Forest::find($id)->update($validated);
+        Forest::find($id)->update($validated);
         activity()->log(''. request('name') . ' was updated');
         smilify('success', 'Forest updated successfully');
         return redirect(route('portal.admin.forests.index'));

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class PaymentController extends Controller
 {
     public function index(){
-        $payments = Payment::orderBy('created_at','desc')->get()->all();
+        $payments = Payment::orderBy('created_at', 'desc')->get()->all();
         return view('pages.payments.index')
             ->with('payments', $payments);
     }

@@ -18,37 +18,27 @@ structure and standards.
 @repo https://github.com/icrewsystmsofficial/GreenEarth W
 */
 
-use App\Helpers\CO2Helper;
-use App\Models\Certificate;
-use Illuminate\Mail\Markdown;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-use Spatie\Activitylog\Models\Activity;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Portal\Admin\TreeController;
-use App\Http\Controllers\Portal\Admin\TreesUpdatesController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ActivityController;
-use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CalculationController;
-use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\CertificateGenerator;
 use App\Http\Controllers\CloudProvidersController;
-use App\Http\Controllers\TreeMaintenanceController;
-use App\Http\Controllers\Portal\ChangelogController;
-use App\Http\Controllers\Portal\Admin\UserController;
-use App\Http\Controllers\Portal\DirectoriesController;
 use App\Http\Controllers\FAQController;
+use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PlantSpeciesController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Portal\Admin\AnnouncementController;
 use App\Http\Controllers\Portal\Admin\ContactRequestController;
 use App\Http\Controllers\Portal\Admin\ForestsController;
-use App\Models\User;
-use FontLib\Table\Type\name;
-use Illuminate\Routing\RouteUri;
-use Laravel\Socialite\Facades\Socialite;
+use App\Http\Controllers\Portal\Admin\TreeController;
+use App\Http\Controllers\Portal\Admin\TreesUpdatesController;
+use App\Http\Controllers\Portal\Admin\UserController;
+use App\Http\Controllers\Portal\ChangelogController;
+use App\Http\Controllers\Portal\DirectoriesController;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -307,7 +297,7 @@ Route::post('/tree/{id}/add-maintenance', [TreeMaintenanceController::class, 'st
 
 
 
-Route::get("activity", [ActivityController::class, 'disp']);
+Route::get('activity', [ActivityController::class, 'disp']);
 
 
 

@@ -10,7 +10,7 @@ use App\Helpers\TreesHealthHelper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
-Use \Carbon\Carbon;
+use \Carbon\Carbon;
 
 class TreesUpdatesController extends Controller
 {
@@ -49,13 +49,13 @@ class TreesUpdatesController extends Controller
     public function store(Request $request, $id)
     {
         $request->validate([
-        'remarks' => 'required',
-        'health' => 'required',
-        'logo' => 'required',
+            'remarks' => 'required',
+            'health' => 'required',
+            'logo' => 'required',
         ]);
 
         $user = Auth::user();
-        $update = TreesUpdates::create([
+        TreesUpdates::create([
             'tree_id' => $id,
             'remarks' => $request->remarks,
             'health' => $request->health,
@@ -64,9 +64,9 @@ class TreesUpdatesController extends Controller
         ]);
 
         $last_maintained = Carbon::now();
-        Tree::where('id', $id)->update(['health'=> $request->health, 'last_maintained'=>$last_maintained]);
+        Tree::where('id', $id)->update(['health' => $request->health, 'last_maintained' => $last_maintained]);
 
-        smilify('success','Updated for tree #'. $id, 'Yay!');
+        smilify('success', 'Updated for tree #' . $id, 'Yay!');
         return redirect(route('portal.admin.tree.index'));
     }
 
@@ -76,7 +76,7 @@ class TreesUpdatesController extends Controller
      * @param  \App\Models\TreesUpdates  $treesUpdates
      * @return \Illuminate\Http\Response
      */
-    public function show(TreesUpdates $treesUpdates)
+    public function show()
     {
         //
     }
@@ -87,7 +87,7 @@ class TreesUpdatesController extends Controller
      * @param  \App\Models\TreesUpdates  $treesUpdates
      * @return \Illuminate\Http\Response
      */
-    public function edit(TreesUpdates $treesUpdates)
+    public function edit()
     {
         //
     }
@@ -99,7 +99,7 @@ class TreesUpdatesController extends Controller
      * @param  \App\Models\TreesUpdates  $treesUpdates
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TreesUpdates $treesUpdates)
+    public function update()
     {
         //
     }
@@ -110,7 +110,7 @@ class TreesUpdatesController extends Controller
      * @param  \App\Models\TreesUpdates  $treesUpdates
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TreesUpdates $treesUpdates)
+    public function destroy()
     {
         //
     }
@@ -119,7 +119,7 @@ class TreesUpdatesController extends Controller
     {
         if ($request->hasFile('logo')) {
             $image = $request->file('logo');
-            $imageName = 'update'.strtotime(now()) . rand(11111, 99999) . '.' . $image->getClientOriginalExtension();
+            $imageName = 'update' . strtotime(now()) . rand(11111, 99999) . '.' . $image->getClientOriginalExtension();
 
             if (!is_dir(storage_path('app/public/uploads/tree-updates/'))) {
                 Storage::makeDirectory(storage_path('app/public/uploads/tree-updates/'));

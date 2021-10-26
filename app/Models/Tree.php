@@ -19,7 +19,7 @@ class Tree extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class,'planted_by','id');
+        return $this->belongsTo(User::class, 'planted_by', 'id');
     }
 
 }

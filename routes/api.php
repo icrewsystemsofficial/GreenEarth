@@ -2,10 +2,10 @@
 
 use App\Http\Controllers\CalculationController;
 use App\Http\Controllers\Portal\Admin\ForestsController;
+use App\Http\Controllers\Portal\Admin\TreesUpdatesController;
+use App\Http\Controllers\Portal\DirectoriesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Portal\DirectoriesController;
-use App\Http\Controllers\Portal\Admin\TreesUpdatesController;
 
 /*
 |--------------------------------------------------------------------------

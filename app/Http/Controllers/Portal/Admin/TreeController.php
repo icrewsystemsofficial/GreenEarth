@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Portal\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helpers\TreesHealthHelper;
-use http\Env\Response;
 use App\Models\Tree;
 use App\Models\User;
 use DB;
@@ -64,7 +63,7 @@ class TreeController extends Controller
             'health' => 'required'
         ]);
 
-        $tree = new Tree;
+        $tree = new Tree();
         $tree->forest_id = $request->forest_id;
         $tree->species_id = $request->species_id;
         $tree->mission_id = $request->mission_id;
@@ -84,7 +83,7 @@ class TreeController extends Controller
     {
         Tree::where('id', $id)->delete();
         activity()->log('Deleting tree '. $id);
-        smilify('success','Tree deleted successfully!');
+        smilify('success', 'Tree deleted successfully!');
         return redirect(route('portal.admin.tree.index'));
     }
 

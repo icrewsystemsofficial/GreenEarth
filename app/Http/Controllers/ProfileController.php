@@ -21,10 +21,7 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $user = Auth::user(); //this will return the auth user data
-        //TODO The logged in user can be accessed directly via auth()->user() helper on the blade. No need
-        //to pass it as a variable.
-        return view('pages.profile.index', compact('user'));
+        return view('pages.profile.index');
     }
 
     /**
@@ -95,7 +92,7 @@ class ProfileController extends Controller
      */
     public function save(Request $request, $id)
     {
-        if ($id == '') {
+        if ($id === '') {
             throw new \Exception('ID must be provided to update user records');
         }
 

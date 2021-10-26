@@ -18,13 +18,13 @@ class PlantSpeciesController extends Controller
     }
 
     public function save(Request $request){
-        $plantspecie= new PlantSpecies;
+        $plantspecie= new PlantSpecies();
         $plantspecie->common_name = $request->name;
         $plantspecie->price_per_plant = $request->ppplant;
         $plantspecie->h2o_requirement_per_plant = $request->h2oreq;
         $plantspecie->o2_production = $request->o2pro;
         $plantspecie->co2_absorption = $request->co2abs;
-        $plantspecie-> save();
+        $plantspecie->save();
 
         smilify('Yay', 'We have created a new plant specie, Happy GreenEarth');
         return redirect()->route('portal.admin.forests.trees-species.index');
