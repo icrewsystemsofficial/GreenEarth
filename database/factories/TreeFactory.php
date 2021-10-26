@@ -29,7 +29,7 @@ class TreeFactory extends Factory
             'forest_id' => $this->faker->randomDigit,
             'species_id' => $this->faker->randomDigit,
             'mission_id' => $this->faker->randomDigit,
-            //'cluster_id' => $this->faker->randomDigit,
+            'cluster_id' => $this->faker->randomDigit,
             'planted_by' => $this->faker->randomElement($users),
             'health' => $treeHealth[rand(0, count($treeHealth) - 1)],
             'lat' => $this->faker->latitude,
