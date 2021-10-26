@@ -15,7 +15,16 @@
     <script src="https://cdn.datatables.net/1.11.2/js/dataTables.bootstrap5.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#table_id').DataTable();
+            $('#table_id').DataTable({
+                language: {
+                    paginate: {
+                        // remove previous & next text from pagination
+                        previous: '<i class="fas fa-chevron-left"></i>',
+                        next: '<i class="fas fa-chevron-right"></i>'
+                    }
+                },
+                responsive: true
+            });
         } );
     </script>
 @endsection
@@ -26,15 +35,15 @@
         <div class="card">
             <div class="card-body">
                 <div class="position-relative">
-                    <a type="button" class="btn btn-success" href="{{ route('portal.admin.forest.trees-species.create') }}">
+                    <a type="button" class="btn btn-success" href="{{ route('portal.admin.forests.trees-species.create') }}">
                         Add a new species
                     </a>
                 </div>
+            <div class="table-responsive">
                 <table id="table_id" class="table">
                     <thead>
                         <tr>
                             <th>Common name</th>
-                            <th>Scientific name</th>
                             <th>price per plant</th>
                             <th>h2o requirement per plant</th>
                             <th>o2 production</th>
@@ -46,22 +55,22 @@
                         @foreach ($plantspecies as $plantspecie)
                         <tr>
                             <td class="text-center">{{$plantspecie->common_name}}</td>
-                            <td class="text-center">{{$plantspecie->scientific_name}}</td>
                             <td class="text-center">{{$plantspecie->price_per_plant}}</td>
                             <td class="text-center">{{$plantspecie->h2o_requirement_per_plant}}</td>
                             <td class="text-center">{{$plantspecie->o2_production}}</td>
                             <td class="text-center">{{$plantspecie->co2_absorption}}</td>
                             <td>
                                 <div>
-                                    <a href="{{ route('portal.admin.forest.trees-species.manage', $plantspecie->id) }}" class="btn btn-xs btn-info">
+                                    <a href="{{ route('portal.admin.forests.trees-species.manage', $plantspecie->id) }}" class="btn btn-xs btn-info">
                                         Manage
                                     </a>
                                 </div>
                             </td>
                         </tr>
                         @endforeach
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div class="card-footer">
