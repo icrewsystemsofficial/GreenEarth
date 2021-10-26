@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Faq;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class FAQController extends Controller
@@ -66,7 +67,10 @@ class FAQController extends Controller
         }
         $faq->save();
         smilify('success', 'FAQ Created successfully');
-
+        activity()
+        ->causedBy(Auth::user())
+        ->log('FAQ ID: ' .$faq->id . ' was created');
+        smilify('success', 'ID: '.$request->input('id') .' was updated', 'Yay!');
         return redirect()->route('portal.admin.faq.index');
     }
 
@@ -124,7 +128,10 @@ class FAQController extends Controller
             $faq->status = 0;
         }
         $faq->save();
-
+        activity()
+        ->causedBy(Auth::user())
+        ->log('FAQ ID: ' .$id . ' status was updated');
+        smilify('success', 'ID: '.$request->input('id') .' was updated', 'Yay!');
         smilify('success', 'FAQ updated successfully');
         return redirect(route('portal.admin.faq.index'));
     }
@@ -141,6 +148,9 @@ class FAQController extends Controller
     {
         $faq = FAQ::find($id);
         $faq->delete();
+        activity()
+        ->causedBy(Auth::user())
+        ->log('FAQ ID: ' .$id . ' was deleted');
         smilify('success', 'FAQ deleted successfully');
         return redirect(route('portal.admin.faq.index'));
     }

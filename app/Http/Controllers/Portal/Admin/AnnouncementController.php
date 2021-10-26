@@ -49,6 +49,9 @@ class AnnouncementController extends Controller
         $role = $request->role;
         $status = $request->status;
         Announcement::where('id', $id)->update(['title' => $title, 'body' => $body, 'role' => $role, 'status' => $status, 'slug' => $slug]);
+        activity()
+        ->causedBy(Auth::user())
+        ->log('Announcement ID: ' . $announcement->id . ' was updated');
         notify()->success('Announcement updated successfully!');
         return redirect(route('portal.admin.announcements.index'));
     }
@@ -74,6 +77,9 @@ class AnnouncementController extends Controller
         $announcement->slug = $slug;
         $announcement->author = $user->name;
         $announcement->save();
+        activity()
+            ->causedBy(Auth::user())
+            ->log('Announcement ID: ' . $announcement->id . ' was created');
         notify()->success('Announcement created successfully!');
         return redirect(route('portal.admin.announcements.index'));
     }

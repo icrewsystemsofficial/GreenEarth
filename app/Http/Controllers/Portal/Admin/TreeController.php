@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Tree;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TreeController extends Controller
 {
@@ -48,7 +49,9 @@ class TreeController extends Controller
 
         Tree::where('id', $id)->update(['forest_id' => $forest_id, 'species_id' => $species_id, 'mission_id' => $mission_id, 'lat' => $lat, 'long' => $long, 'health' => $health]);
 
-        activity()->log('Updating tree id: '. $id);
+        activity()
+            ->causedBy(Auth::user())
+            ->log('Tree ' . $id . ' details were updated');
         smilify('success', 'Tree updated successfully!');
         return redirect(route('portal.admin.tree.index'));
     }
@@ -72,7 +75,9 @@ class TreeController extends Controller
         $tree->planted_by = $request->planted_by;
         $tree->save();
 
-        activity()->log('Creating tree id: '. $tree->id);
+        activity()
+        ->causedBy(Auth::user())
+        ->log('Tree ' . $tree->id . ' was created');
         smilify('success', 'Tree added successfully!');
         return redirect(route('portal.admin.tree.index'));
     }
@@ -80,7 +85,9 @@ class TreeController extends Controller
     public function destroy($id)
     {
         Tree::where('id', $id)->delete();
-        activity()->log('Deleting tree '. $id);
+        activity()
+        ->causedBy(Auth::user())
+        ->log('Tree ' . $id . ' was deleted');
         smilify('success', 'Tree deleted successfully!');
         return redirect(route('portal.admin.tree.index'));
     }

@@ -40,9 +40,17 @@
 <div class="container-fluid py-4">
     <div class="container-fluid py-4">
         <div class="card">
-            <div class="card-header">
-                <div class="h5"> Manage all trees in your database </div>
+            <div class="card-header  d-flex justify-content-between">
+                <div>
+                    <div class="h5"> Manage all trees in your database </div>
                 <div class="text-secondary text-sm" id="subheading"> </div>
+                </div>
+                <div class="position-relative">
+                    <a type="button" class="btn btn-success"
+                        href="{{ route('portal.admin.tree.create') }}">
+                        Add a new tree
+                    </a>
+                </div>
             </div>
             <div class="card-body text-sm">
                 <div class="table-responsive">

@@ -162,6 +162,9 @@ class ProfileController extends Controller
         Storage::copy($path_from, $path_to);
         $files = Storage::allFiles('avatars');
         Storage::delete($files);
+        activity()
+        ->causedBy(Auth::user())
+        ->log($user->name . "'s profile photo was updated");
         return redirect()->back();
     }
 }

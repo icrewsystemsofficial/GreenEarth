@@ -9,6 +9,7 @@ use App\Models\Directory;
 use App\Models\temp_user;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -215,7 +216,10 @@ class UserController extends Controller
 
         $user->save();
         //Logging the activity.
-        activity()->log('User: ' . $request->input('name') . '\'s account was activated');
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($user)
+            ->log('User: ' . $request->input('name') . '\'s account was activated');
         smilify('success', $request->input('name') . '\'s profile was updated', 'Yay!');
         return redirect(route('login'));
     }
@@ -235,7 +239,7 @@ class UserController extends Controller
         }
         $user = User::find($id);
 
-        if (! $user) {
+        if (!$user) {
             return redirect()->back();
         }
 
@@ -254,7 +258,6 @@ class UserController extends Controller
      */
     public function edit()
     {
-        
     }
 
     /**

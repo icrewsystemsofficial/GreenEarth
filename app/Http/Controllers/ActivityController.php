@@ -8,8 +8,7 @@ class ActivityController extends Controller
 {
     public function disp()
     {
-        $activities = Activity::all();
-
+        $activities = Activity::orderBy('updated_at', 'DESC')->get();
         return view('pages.activity.index', compact('activities'));
     }
 }

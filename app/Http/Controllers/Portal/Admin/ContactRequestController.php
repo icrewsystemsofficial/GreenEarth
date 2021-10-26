@@ -5,6 +5,7 @@ namespace App\Http\Controllers\portal\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ContactRequestController extends Controller
 {
@@ -87,7 +88,9 @@ class ContactRequestController extends Controller
         $contact->save();
 
         //Logging the activity.
-        activity()->log('Contact-Request: ID: ' .$request->input('id') . ' was updated');
+        activity()
+        ->causedBy(Auth::user())
+        ->log('Contact-Request ID: ' .$request->input('id') . ' status was updated');
         smilify('success', 'ID: '.$request->input('id') .' was updated', 'Yay!');
         return redirect(route('portal.admin.contact-requests.index'));
     }
