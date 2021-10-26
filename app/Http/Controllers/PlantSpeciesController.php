@@ -18,6 +18,15 @@ class PlantSpeciesController extends Controller
     }
 
     public function save(Request $request){
+
+        $request->validate([
+            'name' => 'required',
+            'ppplant' => 'required',
+            'h2oreq' => 'required',
+            'o2pro' => 'required',
+            'co2abs' => 'required',
+        ]);
+
         $plantspecie= new PlantSpecies;
         $plantspecie->common_name = $request->name;
         $plantspecie->price_per_plant = $request->ppplant;
@@ -36,6 +45,16 @@ class PlantSpeciesController extends Controller
     }
 
     public function update(Request $request, $id){
+
+        $request->validate([
+            'name' => 'required',
+            'ppplant' => 'required',
+            'h2oreq' => 'required',
+            'o2pro' => 'required',
+            'co2abs' => 'required',
+        ]);
+
+
         $common_name = $request->name;
         // $scientific_name = $request->scname;
         $price_per_plant = $request->ppplant;
@@ -44,11 +63,11 @@ class PlantSpeciesController extends Controller
         $co2_absorption = $request->co2abs;
         PlantSpecies::where('id', $id)
         ->update([
-            'common_name'=>$common_name, 
-            // 'scientific_name'=>$scientific_name, 
-            'price_per_plant'=> $price_per_plant, 
-            'h2o_requirement_per_plant'=>$h2o_requirement_per_plant, 
-            'o2_production'=>$o2_production, 
+            'common_name'=>$common_name,
+            // 'scientific_name'=>$scientific_name,
+            'price_per_plant'=> $price_per_plant,
+            'h2o_requirement_per_plant'=>$h2o_requirement_per_plant,
+            'o2_production'=>$o2_production,
             'co2_absorption'=>$co2_absorption
         ]);
         return redirect()->route('portal.admin.forests.trees-species.index');
