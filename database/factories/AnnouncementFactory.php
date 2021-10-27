@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Announcement;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class AnnouncementFactory extends Factory
 {
@@ -24,7 +25,10 @@ class AnnouncementFactory extends Factory
         return [
             'title' => $this->faker->sentence,
             'body' => $this->faker->text,
-            'created_at' => $this->faker->dateTimeThisYear,
+            'author' => $this->faker->name(),
+            'status' => random_int(0, 1),
+            'slug' => Str::random(40),
+            'role' => Str::random(10)
         ];
     }
 }
