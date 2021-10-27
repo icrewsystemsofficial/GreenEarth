@@ -78,14 +78,15 @@ test('Test#6: Check if trees manage page renders', function () {
 test('Test#7: Check if user can edit details of a tree', function () {
     $user = User::factory()->create();
     $tree = Tree::factory()->create();
+    $updatedTree = Tree::factory()->raw();
     $this->actingAs($user)->put('portal/admin/tree/manage/'.$tree->id,  array(
-        'forest_id' => $tree->forest_id,
-        'species_id' => $tree->species_id,
-        'mission_id' => $tree->mission_id,
-        'cluster_id' => $tree->cluster_id,
-        'health' => $tree->health,
-        'lat' => $tree->lat,
-        'long' => $tree->long,
+        'forest_id' => $updatedTree['forest_id'],
+        'species_id' => $updatedTree['species_id'],
+        'mission_id' => $updatedTree['mission_id'],
+        'cluster_id' => $updatedTree['cluster_id'],
+        'health' => $updatedTree['health'],
+        'lat' => $updatedTree['lat'],
+        'long' => $updatedTree['long'],
     ))->assertStatus(302);
 });
 
@@ -98,6 +99,7 @@ test('Test#8: Check if add updates (maintenance) page renders', function () {
 test('Test#9: Check if user can add updates (maintenance) for a tree', function () {
     $user = User::factory()->create();
     $tree = Tree::factory()->create();
+    $update = TreesUpdates::factory()->raw();
     $this->actingAs($user);
     $file = UploadedFile::fake()->image('logo.jpg');
     $response = $this->json('POST', route('api.v1.upload_tree_updates'), [
@@ -105,8 +107,8 @@ test('Test#9: Check if user can add updates (maintenance) for a tree', function 
     ])->content();
     $this->post('portal/admin/tree/update/'.$tree->id,  array(
         'logo' => $response,
-        'remarks' => 'okay',
-        'health' => 'Healthy',
+        'remarks' => $update['remarks'],
+        'health' => $update['health'],
     ))->assertStatus(302);
 });
 
@@ -115,18 +117,19 @@ test('Test#10: Check if user can add updates (maintenance) for a tree without ad
     $tree = Tree::factory()->create();
     $update = TreesUpdates::factory()->raw();
     $this->expectException('Illuminate\Validation\ValidationException');
-    $this->actingAs($user)->post('portal/admin/tree/update/'.$tree->id,  array(
-        //missing fields - logo and remarks
-        'tree_id' => $tree['id'],
-        'health' => $update['health'],
-        'updated_by' => $user['name'],
+    $this->actingAs($user);
+    $file = UploadedFile::fake()->image('logo.jpg');
+    $response = $this->json('POST', route('api.v1.upload_tree_updates'), [
+        'logo' => $file
+    ])->content();
+    $this->post('portal/admin/tree/update/'.$tree->id,  array(
+        'logo' => $response, //missing fields - remarks and health
     ));
 });
 
 test('Test#11: Check if user can add updates (maintenance) for a tree with an empty model', function () {
     $user = User::factory()->create();
     $tree = Tree::factory()->create();
-    $update = TreesUpdates::factory()->raw();
     $this->expectException('Illuminate\Validation\ValidationException');
     $this->actingAs($user)->post('portal/admin/tree/update/'.$tree->id, []);
 });
