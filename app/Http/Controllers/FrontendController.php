@@ -17,7 +17,12 @@ use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Config;
 use Symfony\Component\HttpFoundation\Response;
+use Razorpay\Api\Api;
+
+use Session;
+use Exception;
 
 class FrontendController extends Controller
 {
@@ -329,18 +334,50 @@ class FrontendController extends Controller
         // "0" => PROCESSING
         // "1" => SUCCESS
         // "2" => FAILURE
+        //$email = $request->email;
+        //$amount = $request->amount;
+        //$contact = $request->contact_number;
+
         return view('frontend.payment_2')
-            ->with('email', $request->email)
-            ->with('amount', $request->amount)
-            ->with('contact', $request->contact_number);
+           ->with('email', $request->email)
+           ->with('amount', $request->amount)
+           ->with('contact', $request->contact_number);
     }
 
-    public function pay(Request $req){
+    public function pay(Request $request){
         // $order  = $client->order->create([
         // 'receipt'         => 'order_rcptid_11',
         // 'amount'          => 50000, // amount in the smallest currency unit
         // 'currency'        => 'INR'// <a href="/docs/international-payments/#supported-currencies"  target="_blank">See the list of supported currencies</a>.)
         // ]);
+
+        $input = $request->all();
+        //dump($input);
+        $api = new Api(config('app.RAZORPAY_API_KEY'), config('app.RAZORPAY_SECRET'));
+  
+        $payment = $api->payment->fetch($input['razorpay_payment_id']);
+        //dump($payment);
+        $paymentInfo = Payment::where('email', $payment['email'])->latest('updated_at')->first();
+       // Payment::where('id', $paymentt['id'])->update(['razorpay_id'=>$payment['id']]);
+  
+        if(count($input)  && !empty($input['razorpay_payment_id'])) {
+            try {
+                $response = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount'=>$payment['amount'], 'currency' => 'INR')); 
+                //dd($response);
+                if ($response['status'] = 'captured'){
+                    //$paymentt = Payment::where('email', $response['email'])->last();
+                    Payment::where('id', $paymentInfo['id'])->update(['razorpay_id'=>$payment['id'],'status' => 1]);
+                }
+            } catch (Exception $e) {
+                return  $e->getMessage();
+                Session::put('error',$e->getMessage());
+                return redirect()->back();
+            }
+        }
+
+            
+
+
         activity()->causedBy(Auth::user())->log('Payment Succefully completed');
         return redirect(route('home.index'));
         // MISSIONS MUST BE ADDED FOR THE PAYMENTS DONE

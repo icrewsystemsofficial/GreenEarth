@@ -16,7 +16,7 @@
         @csrf
         <script
             src="https://checkout.razorpay.com/v1/checkout.js"
-            data-key="{{ config('RAZORPAY_API_KEY') }}" 
+            data-key="{{ config('app.RAZORPAY_API_KEY') }}" 
             data-amount="{{ $amount*100 }}" 
             data-currency="INR"
             data-buttontext="Pay with Razorpay"
@@ -24,9 +24,9 @@
             data-description="An initiative towards sustainable internet"
             data-prefill.email="{{ $email }}"
             data-image="{{asset('img/favicon.png')}}"
-            data-theme.color="#98ec2d"
+            data-theme.color="#98ec2d" 
         ></script>
-        <input type="hidden" custom="Hidden Element" name="hidden" style="color: brown">
+        <input type="hidden" custom="Hidden Element" name="hidden" style="color: brown">      
     </form>
       </div>
     </div>
