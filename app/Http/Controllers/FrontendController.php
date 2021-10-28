@@ -6,6 +6,7 @@ use Goutte\Client;
 use App\Helpers\Whois;
 use App\Mail\SendContactMailtoAdmins;
 use App\Mail\SendContactMailtoUser;
+use App\Mail\SendTransactionDetailMail;
 
 use App\Models\Announcement;
 use Illuminate\Http\Request;
@@ -324,6 +325,7 @@ class FrontendController extends Controller
     }
 
     public function submit(Request $request){
+        //dd($request);
         $payment = new Payment;
         $payment->name = $request->name;
         $payment->email = $request->email;
@@ -352,20 +354,16 @@ class FrontendController extends Controller
         // ]);
 
         $input = $request->all();
-        //dump($input);
         $api = new Api(config('app.RAZORPAY_API_KEY'), config('app.RAZORPAY_SECRET'));
   
         $payment = $api->payment->fetch($input['razorpay_payment_id']);
-        //dump($payment);
         $paymentInfo = Payment::where('email', $payment['email'])->latest('updated_at')->first();
        // Payment::where('id', $paymentt['id'])->update(['razorpay_id'=>$payment['id']]);
   
         if(count($input)  && !empty($input['razorpay_payment_id'])) {
             try {
                 $response = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount'=>$payment['amount'], 'currency' => 'INR')); 
-                //dd($response);
                 if ($response['status'] = 'captured'){
-                    //$paymentt = Payment::where('email', $response['email'])->last();
                     Payment::where('id', $paymentInfo['id'])->update(['razorpay_id'=>$payment['id'],'status' => 1]);
                 }
             } catch (Exception $e) {
@@ -375,13 +373,37 @@ class FrontendController extends Controller
             }
         }
 
-            
+        $updatedPayment = Payment::where('id', $paymentInfo['id'])->first();
+        $this->transaction_mailsend($updatedPayment);
 
-
-        activity()->causedBy(Auth::user())->log('Payment Succefully completed');
+        activity()->causedBy(Auth::user())->log('Payment Successfully completed');
         return redirect(route('home.index'));
         // MISSIONS MUST BE ADDED FOR THE PAYMENTS DONE
         
+    }
+
+    public function transaction_mailSend($data) {
+        $email = $data->email;
+        $name = $data->name;
+        $amount = $data->amount;
+        $created_at = $data->created_at;
+
+        $temp = explode(' ',$created_at);
+
+        $mailInfo = [
+            'title' => 'Greenearth - New message from a User',
+            'email' => $email,
+            'name' => $name,
+            'amount' => $amount,
+            'date' => $temp[0],
+            'time' => $temp[1],
+        ];
+
+        Mail::to($email)->send(new SendTransactionDetailMail($mailInfo));
+
+        return response()->json([
+            'message' => 'Mail has sent.'
+        ], Response::HTTP_OK);
     }
 
 }

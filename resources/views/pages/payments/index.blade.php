@@ -64,11 +64,11 @@
                         <tbody>
                             @foreach($payments as $payment)
                             <tr>
-                                <td class="text-sm text-center" id="title"> {{ $payment->name }} </td>
-                                <td class="text-sm text-center"> {{ $payment->email }} </td>
-                                <td class="text-sm text-center"> {{ $payment->amount }} </td>
+                                <td id="title"> {{ $payment->name }} </td>
+                                <td> {{ $payment->email }} </td>
+                                <td> {{ $payment->amount }} </td>
 
-                                <td class="text-sm text-center">
+                                <td>
                                     @if ($payment->status == 1)
                                         <span class="badge bg-gradient-success">Success</span>
                                     @endif
@@ -87,7 +87,7 @@
                                     @endif
                                 </td>
                                 <td class="text-sm text-center"> 
-                                    <a href="{{ route('portal.admin.payments.edit',$payment->id) }}" class="btn bg-gradient-secondary m-auto">
+                                    <a href="{{ route('portal.admin.payments.edit',$payment->id) }}" class="btn btn-sm bg-gradient-info m-auto">
                                         Manage
                                     </a>    
                                 </td>
