@@ -198,7 +198,7 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             // });
             Route::post('/create/new', [UserController::class, 'create_temp']);
             Route::get('/setup/{uuid}', [UserController::class, 'setup']);
-            Route::post('/setup/add_user', [UserController::class, 'create_user']);
+            Route::post('/setup/add_user', [UserController::class, 'create_user'])->name('add_user');
         });
 
         // Route::get('forests/polygon/{id?}', [ForestsController::class, 'drawPolygon'])->name('forests.polygon');
