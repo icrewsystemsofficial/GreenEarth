@@ -204,7 +204,7 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::post('/update/{id}', [TreesUpdatesController::class, 'store'])->name('store_updates');
             Route::get('/history/{id}', [TreesUpdatesController::class, 'index'])->name('history_maintenance');
         });
-        /* TREES MODULE */
+        /* PAYMENTS MODULE */
         Route::prefix('payments')->as('payments.')->group(function () {
             Route::get('/', [PaymentController::class, 'index'])->name('index');
             Route::get('/{id}/manage', [PaymentController::class, 'manage'])->name('edit');

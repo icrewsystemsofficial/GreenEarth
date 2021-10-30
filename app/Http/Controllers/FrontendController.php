@@ -5,17 +5,23 @@ namespace App\Http\Controllers;
 use App\Helpers\Whois;
 use App\Mail\SendContactMailtoAdmins;
 use App\Mail\SendContactMailtoUser;
+use App\Mail\SendTransactionDetailMail;
+
 use App\Models\Announcement;
 use App\Models\Contact;
 use App\Models\Payment;
 use App\Models\User;
+use Carbon\Carbon;
 use Cronfig\Sysinfo\System;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
+use Razorpay\Api\Api;
+
+use Session;
+use Exception;
 
 class FrontendController extends Controller
 {
@@ -251,9 +257,9 @@ class FrontendController extends Controller
         return view('frontend.payment');
     }
 
-    public function submit(Request $request)
-    {
-        $payment = new Payment();
+    public function submit(Request $request){
+        //dd($request);
+        $payment = new Payment;
         $payment->name = $request->name;
         $payment->email = $request->email;
         $payment->contact_number = $request->phone;
@@ -263,83 +269,74 @@ class FrontendController extends Controller
         // "0" => PROCESSING
         // "1" => SUCCESS
         // "2" => FAILURE
+        //$email = $request->email;
+        //$amount = $request->amount;
+        //$contact = $request->contact_number;
+
         return view('frontend.payment_2')
-            ->with('email', $request->email)
-            ->with('amount', $request->amount)
-            ->with('contact', $request->contact_number);
+           ->with('email', $request->email)
+           ->with('amount', $request->amount)
+           ->with('contact', $request->contact_number);
     }
 
-    public function pay(Request $req)
-    {
+    public function pay(Request $request){
         // $order  = $client->order->create([
         // 'receipt'         => 'order_rcptid_11',
         // 'amount'          => 50000, // amount in the smallest currency unit
         // 'currency'        => 'INR'// <a href="/docs/international-payments/#supported-currencies"  target="_blank">See the list of supported currencies</a>.)
         // ]);
-        activity()->causedBy(Auth::user())->log('Payment Succefully completed');
+
+        $input = $request->all();
+        $api = new Api(config('app.RAZORPAY_API_KEY'), config('app.RAZORPAY_SECRET'));
+  
+        $payment = $api->payment->fetch($input['razorpay_payment_id']);
+        $paymentInfo = Payment::where('email', $payment['email'])->latest('updated_at')->first();
+       // Payment::where('id', $paymentt['id'])->update(['razorpay_id'=>$payment['id']]);
+  
+        if(count($input)  && !empty($input['razorpay_payment_id'])) {
+            try {
+                $response = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount'=>$payment['amount'], 'currency' => 'INR')); 
+                if ($response['status'] = 'captured'){
+                    Payment::where('id', $paymentInfo['id'])->update(['razorpay_id'=>$payment['id'],'status' => 1]);
+                }
+            } catch (Exception $e) {
+                return  $e->getMessage();
+                Session::put('error',$e->getMessage());
+                return redirect()->back();
+            }
+        }
+
+        $updatedPayment = Payment::where('id', $paymentInfo['id'])->first();
+        $this->transaction_mailsend($updatedPayment);
+
+        activity()->causedBy(Auth::user())->log('Payment Successfully completed');
         return redirect(route('home.index'));
         // MISSIONS MUST BE ADDED FOR THE PAYMENTS DONE
     }
 
-    /**
-     * calculateCarbon - Calcaulate carbon for a website
-     *
-     * LOGIC:
-     *
-     * 1. Get Domain AGE via DNS lookup + Get basic data from WHOIS
-     * 2. Check if Server is whitelisted for GreenEnergy, if yes, just proceed
-     * to certification.
-     * 3. If no, calculate the average power consumption per day by the server
-     * 4. Based on site viewers (See if we can get this data online), calculate the
-     *  CO2 emission.
-     * 5. Show them how much they need to pay for going carbon neutral.
-     * 6. Once they pay, generate PDF certificate
-     * 7. Add JS library to the website.
-     * 8. This JS library should send back analytics report to our API so that
-     *  if the number of users go up, we can automatically alert them and charge accordingly.
-     * 9. The superadmins should have control over the status of the website.
-     * 10. Once status is changed on our portal, it should reflect on client site.
-     *
-     * @param  mixed $url
-     *
-     * @return void
-     */
-    private function getDomainInformation($url)
-    {
-        $my_url = parse_url($url);
-        $host = $my_url['host'];
-        $myHost = ucfirst($host);
+    public function transaction_mailSend($data) {
+        $transaction_id = $data->id;
+        $email = $data->email;
+        $name = $data->name;
+        $amount = $data->amount;
+        $date = Carbon::now()->isoFormat('DD/MM/YYYY');
 
-        $whois_storage_path = 'public/whois/' . $host . '.json';
+        // $temp = explode(' ',$created_at);
 
-        if (Storage::disk('local')->exists($whois_storage_path)) {
-            $carbondata = json_decode(Storage::disk('local')->get($whois_storage_path), true);
+        $mailInfo = [
+            'title' => 'Greenearth - New message from a User',
+            'transaction_id' => $transaction_id,
+            'email' => $email,
+            'name' => $name,
+            'amount' => $amount,
+            'date' => $date,
+        ];
 
-        //TODO Write a job worker to clear files older than 48 hours.
-        } else {
-            $whois = new Whois();
-            $site = $whois->cleanUrl($host);
-            $whois_data = $whois->whoislookup($site);
-            $getHostIP = gethostbyname($host);
-            $data_list = Whois::host_info($host);
-            $whoisData = $whois_data[0];
-            $domainAge = $whois_data[1];
-            $createdDate = $whois_data[2];
-            $updatedDate = $whois_data[3];
-            $expiredDate = $whois_data[4];
+        Mail::to($email)->send(new SendTransactionDetailMail($mailInfo));
 
-            $carbondata = [];
-            $carbondata['domain_age'] = $domainAge;
-            $carbondata['domain_created'] = $createdDate;
-            $carbondata['domain_updated'] = $updatedDate;
-            $carbondata['domain_expired'] = $expiredDate;
-            $carbondata['domain_ip'] = $data_list[0];
-            $carbondata['domain_country'] = $data_list[1];
-            $carbondata['domain_isp'] = $data_list[2];
-            $carbondata['whois'] = $whois_data[0];
-            Storage::disk('local')->put($whois_storage_path, json_encode($carbondata));
-        }
-
-        return $carbondata;
+        return response()->json([
+            'message' => 'Mail has sent.'
+        ], Response::HTTP_OK);
     }
+
 }
