@@ -8,9 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class CloudProviders extends Model
 {
     use HasFactory;
-
-    protected $table = 'cloudproviders';
     public $timestamps = true;
+    protected $table = 'cloudproviders';
 
     protected $fillable = [
         'name',

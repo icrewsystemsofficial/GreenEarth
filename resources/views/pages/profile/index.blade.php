@@ -104,7 +104,7 @@
                 <div class="row gx-4">
                     <div class="col-auto">
                         <div class="avatar avatar-xl position-relative">
-                            <img src="{{  asset($user->profile_picture()) }}" alt="{{ $user->name }}'s avatar"
+                            <img src="{{ asset(auth()->user()->profile_picture())}}" alt="{{ auth()->user()->name }}'s avatar"
                                     class="w-100 border-radius-lg shadow-sm display-block">
                             <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
                                     class="fas fa-upload position-absolute bottom-7 end-7 text-dark" id="edit"></i></button>
@@ -113,9 +113,9 @@
                     <div class="col-auto my-auto">
                         <div class="h-100">
                             <h5 class="mb-1">
-                                {{ $user->name }}
+                                {{ auth()->user()->name }}
                             </h5>
-                            @if ($user->email_verified_at != null)
+                            @if (auth()->user()->email_verified_at != null)
                                 <span class="badge bg-success mb-3">
                                     <i class="fa fa-check-circle"></i> Account Verified
                                 </span>
@@ -132,8 +132,8 @@
                             @endif
 
                             <p class="mb-0 font-weight-bold text-sm">
-                                @if ($user->organization != null)
-                                    {{ $user->organization }}
+                                @if (auth()->user()->organization != null)
+                                    {{ auth()->user()->organization }}
                                 @else
                                     <span class="text-danger">
                                         Your account is not linked to any organization
@@ -160,14 +160,14 @@
                                         <div class="form-group">
                                             <label class="form-label">Name</label>
                                             <input type="name" name="name" class="form-control"
-                                                id="exampleFormControlInput1" value="{{ $user->name }}">
+                                                id="exampleFormControlInput1" value="{{ auth()->user()->name }}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label">Email</label>
                                             <input type="email" name="email" class="form-control"
-                                                id="exampleFormControlInput1" value="{{ $user->email }}">
+                                                id="exampleFormControlInput1" value="{{ auth()->user()->email }}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -175,7 +175,7 @@
                                             <label class="form-label">Organization</label>
                                             <input type="text" name="organization" class="form-control"
                                                 id="exampleFormControlInput1" placeholder="Enter organization "
-                                                value="{{ $user->organization }}">
+                                                value="{{ auth()->user()->organization }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -183,7 +183,7 @@
                                             <label class="form-label">Phone</label>
                                             <input type="text" name="phone" class="form-control"
                                                 id="exampleFormControlInput1" placeholder="Enter phone number "
-                                                value="{{ $user->phone }}">
+                                                value="{{ auth()->user()->phone }}">
                                         </div>
                                     </div>
                                 </div>

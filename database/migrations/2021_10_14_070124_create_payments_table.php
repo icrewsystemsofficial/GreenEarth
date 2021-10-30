@@ -20,7 +20,7 @@ class CreatePaymentsTable extends Migration
             $table->string('contact_number');
             $table->integer('business_id')->nullable();
             $table->integer('amount');
-            $table->integer('razorpay_id')->nullable();
+            $table->string('razorpay_id')->nullable();
             $table->text('admin_remarks')->nullable();
             $table->integer('status');
             $table->timestamps();

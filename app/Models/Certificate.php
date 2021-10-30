@@ -16,6 +16,6 @@ class Certificate extends Model
         'storage_path',
         'valid_till',
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 }
