@@ -258,19 +258,19 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
         });
 
         /* Forest Module*/
-            Route::prefix('forests/trees-species')->as('forests.trees-species.')->group(function () {
-                Route::get('/', [PlantSpeciesController::class, 'index'])->name('index');
-                Route::get('/manage/{id}', [PlantSpeciesController::class, 'manage'])->name('manage');
-                Route::get('/create', [PlantSpeciesController::class, 'create'])->name('create');
-                Route::post('/save', [PlantSpeciesController::class, 'save'])->name('save');
-                Route::post('/update/{id}', [PlantSpeciesController::class, 'update'])->name('update');
-            });
-        
+        Route::prefix('forests/trees-species')->as('forests.trees-species.')->group(function () {
+            Route::get('/', [PlantSpeciesController::class, 'index'])->name('index');
+            Route::get('/manage/{id}', [PlantSpeciesController::class, 'manage'])->name('manage');
+            Route::get('/create', [PlantSpeciesController::class, 'create'])->name('create');
+            Route::post('/save', [PlantSpeciesController::class, 'save'])->name('save');
+            Route::post('/update/{id}', [PlantSpeciesController::class, 'update'])->name('update');
+        });
+    
 
-            Route::get('forests/polygon/{id?}', [ForestsController::class, 'drawPolygon'])->name('forests.polygon');
-            Route::post('forests/polygon/{id?}/save', [ForestsController::class, 'savePolygon'])->name('forests.polygon.save');
-            Route::get('forests/manage/{id}', [ForestsController::class, 'manage'])->name('forests.manage');
-            Route::resource('/forests', ForestsController::class);
+        Route::get('forests/polygon/{id?}', [ForestsController::class, 'drawPolygon'])->name('forests.polygon');
+        Route::post('forests/polygon/{id?}/save', [ForestsController::class, 'savePolygon'])->name('forests.polygon.save');
+        Route::get('forests/manage/{id}', [ForestsController::class, 'manage'])->name('forests.manage');
+        Route::resource('/forests', ForestsController::class);
     });
 
         // CLOUD-PROVIDERS MODULE /portal/admin/cloud-providers/ROUTENAME

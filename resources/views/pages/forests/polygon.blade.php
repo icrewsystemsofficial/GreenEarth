@@ -27,7 +27,8 @@
             center: mapCenter,
             zoom : 15
         });
-
+        
+        var marker = new L.marker([{{ $forest->lat }}, {{ $forest->long }}]).addTo(mapTwo);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'OpenStreetMap, {{ config('app.name') }}',
             noWrap : true
