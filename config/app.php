@@ -181,6 +181,9 @@ return [
 
     ],
 
+    'RAZORPAY_API_KEY' => 'rzp_test_Lg62YGwUWXQzj5',
+    'RAZORPAY_SECRET' => 'g4QxBEq2O5tVb9eQHs2gyBK8',
+
     /*
     |--------------------------------------------------------------------------
     | Class Aliases

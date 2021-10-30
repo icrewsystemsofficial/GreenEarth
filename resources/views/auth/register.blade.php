@@ -19,6 +19,7 @@
                                 <div class="text-center">
 
                                     @if(!isset($oauth))
+
                                     <a href="{{ route('login.google') }}" type="button" class="btn btn-info btn-icon w-100">
                                         <span class="btn-inner--icon"><i class="fab fa-google"></i></span>
                                         <span class="btn-inner--text">Register with Google</span>
@@ -96,15 +97,15 @@
                     <div class="col-md-6">
                         <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
                             <?php
-                                // $imgurl = asset('img/curved-images/curved6.jpg');
-                                $imgurl = 'https://images.unsplash.com/photo-1541855951501-fc42a85d86d3?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZGFyayUyMGdyZWVufGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1';
+                            // $imgurl = asset('img/curved-images/curved6.jpg');
+                            $imgurl = 'https://images.unsplash.com/photo-1541855951501-fc42a85d86d3?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZGFyayUyMGdyZWVufGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1';
                             ?>
                             <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6" style="background-image:url('{{$imgurl}}')"></div>
                         </div>
                     </div>
-                    </div>
                 </div>
             </div>
+        </div>
         </div>
     </section>
 </main>
