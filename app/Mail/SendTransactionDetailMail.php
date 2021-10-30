@@ -7,19 +7,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class SendAcknowledgementMail extends Mailable
+class SendTransactionDetailMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $certificate;
+    public $data;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($certificate)
+    public function __construct($data)
     {
-        $this->certificate = $certificate;
+        $this->data = $data;
     }
 
     /**
@@ -29,6 +30,7 @@ class SendAcknowledgementMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.send-acknowledgement')->with('certificate', $this->certificate);
+        //return $this->view('view.name');
+        return $this->subject('['.config('app.name').'] [IMPORTANT] Transaction Acknowledgement')->markdown('emails.transaction_email', $this->data);
     }
 }

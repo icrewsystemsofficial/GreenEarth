@@ -360,7 +360,7 @@ public static function LookupDomain($domain){
     $DNS = self::getWebsiteCountry($domain);
 
 
-    $response = array(
+    return array(
         'code' => $code,
         'message' => $message,
         'domain' => $domain,
@@ -374,8 +374,6 @@ public static function LookupDomain($domain){
         'data_filtered' => $filtered,
         'data' => $result,
     );
-
-    return $response;
 }
 
 public static function LookupIP($ip) {

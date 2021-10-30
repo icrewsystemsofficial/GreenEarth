@@ -27,35 +27,43 @@
 
         });
 
-        var info = table.page.info();
-        var count = info.recordsTotal;
-        var subheading = document.getElementById('subheading');
-        subheading.innerHTML = "There are a total of " + count +" trees in your database";
-    });
+            var info = table.page.info();
+            var count = info.recordsTotal;
+            var subheading = document.getElementById('subheading');
+            subheading.innerHTML = "There are a total of " + count + " trees in your database";
+        });
     </script>
+    <script>
+        let clname = document.getElementById("trees-active-tag");
+        clname.className += " active";
+    </script>
+@endsection
+
+@section('breadcrumb')
+<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
+    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Trees</li>
+</ol>
+<h6 class="font-weight-bolder mb-0">Trees</h6>
 @endsection
 
 @section('content')
 <div class="container-fluid py-4">
     <div class="container-fluid py-4">
         <div class="card">
-            <div class="card-header pb-1">
-                <div class="row justify-content-between  ">
-                    <div class="col-md-5 ">
-                        <div class="h5 "> Manage all trees in your database </div>
-                    </div>
-                    <div class="col-md-3 ">
-                        <div class="position-relative">
-                            <a href="{{ route('portal.admin.tree.create') }}" class="btn btn-success btn-sm">
-                                Add Tree
-                            </a>
-                        </div>
-                    </div>
+            <div class="card-header  d-flex justify-content-between">
+                <div>
+                    <div class="h5"> Manage all trees in your database </div>
+                <div class="text-secondary text-sm" id="subheading"> </div>
                 </div>
-                <div class="text-secondary text-sm " id="subheading"> </div>
+                <div class="position-relative">
+                    <a type="button" class="btn btn-success"
+                        href="{{ route('portal.admin.tree.create') }}">
+                        Add a new tree
+                    </a>
+                </div>
             </div>
             <div class="card-body text-sm">
-
                 <div class="table-responsive">
                     <table id="all-trees" class="table text-center table-responsive">
                         <thead>
