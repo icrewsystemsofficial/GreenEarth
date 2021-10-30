@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6d2221e665effbfc413463b128b89475",
+    "content-hash": "780dea565b9b73dfc868da4efe8d7d6a",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2483,8 +2483,9 @@
                 "shasum": ""
             },
             "require": {
-                "laravel/framework": "~6.20|~7.29|~8.12",
-                "php": "~7.4|8.*"
+                "illuminate/contracts": "6.*|7.*|8.*",
+                "illuminate/support": "6.*|7.*|8.*",
+                "php": "^7.2 | ^8.0"
             },
             "require-dev": {
                 "orchestra/testbench": "~4.13|~5.12|~6.7",
@@ -7666,7 +7667,7 @@
             },
             "require": {
                 "php": "^7.1|^8",
-                "psr/log": "^1|^2|^3",
+                "psr/log": "^1.0 | ^2.0",
                 "symfony/var-dumper": "^2.6|^3|^4|^5"
             },
             "require-dev": {

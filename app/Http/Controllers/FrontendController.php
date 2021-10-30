@@ -6,6 +6,7 @@ use Goutte\Client;
 use App\Helpers\Whois;
 use App\Mail\SendContactMailtoAdmins;
 use App\Mail\SendContactMailtoUser;
+use App\Mail\SendTransactionDetailMail;
 
 use App\Models\Announcement;
 use Illuminate\Http\Request;
@@ -17,11 +18,12 @@ use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Config;
 use Symfony\Component\HttpFoundation\Response;
-
 use Razorpay\Api\Api;
 
-
+use Session;
+use Exception;
 
 class FrontendController extends Controller
 {
@@ -335,8 +337,8 @@ class FrontendController extends Controller
         return view('frontend.payment');
     }
 
-    public function submit(Request $request)
-    {
+    public function submit(Request $request){
+        //dd($request);
         $payment = new Payment;
         $payment->name = $request->name;
         $payment->email = $request->email;
@@ -347,30 +349,72 @@ class FrontendController extends Controller
         // "0" => PROCESSING
         // "1" => SUCCESS
         // "2" => FAILURE
+        //$email = $request->email;
+        //$amount = $request->amount;
+        //$contact = $request->contact_number;
+
         return view('frontend.payment_2')
-            ->with('email', $request->email)
-            ->with('amount', $request->amount)
-            ->with('contact', $request->contact_number);
+           ->with('email', $request->email)
+           ->with('amount', $request->amount)
+           ->with('contact', $request->contact_number);
     }
 
-    public function pay(Request $req)
-    {
+    public function pay(Request $request){
         // $order  = $client->order->create([
         // 'receipt'         => 'order_rcptid_11',
         // 'amount'          => 50000, // amount in the smallest currency unit
         // 'currency'        => 'INR'// <a href="/docs/international-payments/#supported-currencies"  target="_blank">See the list of supported currencies</a>.)
         // ]);
-        activity()->causedBy(Auth::user())->log('Payment Succefully completed');
-        dd($req);
+
+        $input = $request->all();
         $api = new Api(config('app.RAZORPAY_API_KEY'), config('app.RAZORPAY_SECRET'));
+  
+        $payment = $api->payment->fetch($input['razorpay_payment_id']);
+        $paymentInfo = Payment::where('email', $payment['email'])->latest('updated_at')->first();
+       // Payment::where('id', $paymentt['id'])->update(['razorpay_id'=>$payment['id']]);
+  
+        if(count($input)  && !empty($input['razorpay_payment_id'])) {
+            try {
+                $response = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount'=>$payment['amount'], 'currency' => 'INR')); 
+                if ($response['status'] = 'captured'){
+                    Payment::where('id', $paymentInfo['id'])->update(['razorpay_id'=>$payment['id'],'status' => 1]);
+                }
+            } catch (Exception $e) {
+                return  $e->getMessage();
+                Session::put('error',$e->getMessage());
+                return redirect()->back();
+            }
+        }
 
-        $payment = $api->payment->fetch($req->razorpay_payment_id);
+        $updatedPayment = Payment::where('id', $paymentInfo['id'])->first();
+        $this->transaction_mailsend($updatedPayment);
 
-        dd($payment);
-
-
-        //return redirect(route('home.index'));
+        activity()->causedBy(Auth::user())->log('Payment Successfully completed');
+        return redirect(route('home.index'));
         // MISSIONS MUST BE ADDED FOR THE PAYMENTS DONE
 
+    public function transaction_mailSend($data) {
+        $email = $data->email;
+        $name = $data->name;
+        $amount = $data->amount;
+        $created_at = $data->created_at;
+
+        $temp = explode(' ',$created_at);
+
+        $mailInfo = [
+            'title' => 'Greenearth - New message from a User',
+            'email' => $email,
+            'name' => $name,
+            'amount' => $amount,
+            'date' => $temp[0],
+            'time' => $temp[1],
+        ];
+
+        Mail::to($email)->send(new SendTransactionDetailMail($mailInfo));
+
+        return response()->json([
+            'message' => 'Mail has sent.'
+        ], Response::HTTP_OK);
     }
+
 }

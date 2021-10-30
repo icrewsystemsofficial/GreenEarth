@@ -24,7 +24,7 @@
         "laravel/ui": "^3.3",
         "markwalet/laravel-changelog": "^1.4",
         "mckenziearts/laravel-notify": "^2.2",
-        "razorpay/razorpay": "^2.8",
+        "razorpay/razorpay": "2.*",
         "spatie/laravel-activitylog": "^3.14.13",
         "spatie/laravel-permission": "^5.1"
     },
