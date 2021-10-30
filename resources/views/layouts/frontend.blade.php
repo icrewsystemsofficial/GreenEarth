@@ -68,11 +68,11 @@
                         </a>
                     </li>
 
-                    <li class="nav-item mx-2">
+                    {{--  <li class="nav-item mx-2">
                         <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages" data-bs-toggle="dropdown" aria-expanded="false">
                           TrackMyTree
                         </a>
-                    </li>
+                    </li>  --}}
 
                     <li class="nav-item mx-2">
                         <a href="{{ route('home.contact.index') }}" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center">
@@ -80,7 +80,7 @@
                         </a>
                     </li>
 
-                  <li class="nav-item dropdown dropdown-hover mx-2">
+                  {{--  <li class="nav-item dropdown dropdown-hover mx-2">
                     <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages" data-bs-toggle="dropdown" aria-expanded="false">
                       About
                       <i class="fa fa-angle-down arrow ms-1"></i>
@@ -196,7 +196,7 @@
                         </a>
                       </div>
                     </div>
-                  </li>
+                  </li>  --}}
                   <li class="nav-item ms-lg-auto">
                     <a class="nav-link nav-link-icon me-2" href="https://github.com/icrewsystemsofficial/GreenEarth" target="_blank">
                       <i class="fa fa-github me-1"></i>
