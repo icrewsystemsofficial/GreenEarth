@@ -3,7 +3,7 @@
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
         <a class="navbar-brand m-0" href="{{ route('portal.index') }}">
             <span class="ms-1 font-weight-bold ">
-                 GreenEarth
+                GreenEarth
             </span>
         </a>
     </div>
@@ -62,7 +62,7 @@
             <li class="nav-item">
                 <a class="nav-link" id="forests-active-tag" href="{{ route('portal.admin.forests.index') }}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="fas fa-users text-dark"></i>
+                        <i class="fas fa-tree text-dark"></i>
                     </div>
                     <span class="nav-link-text ms-1">Forests</span>
                 </a>
@@ -71,7 +71,7 @@
             <li class="nav-item">
                 <a class="nav-link" id="trees-active-tag" href="{{ route('portal.admin.tree.index') }}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="fas fa-users text-dark"></i>
+                        <i class="fas fa-seedling text-dark"></i>
                     </div>
                     <span class="nav-link-text ms-1">Trees</span>
                 </a>
@@ -80,7 +80,7 @@
             <li class="nav-item">
                 <a class="nav-link" id="plantspecies-active-tag" href="{{ route('portal.admin.forests.trees-species.index') }}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="fas fa-users text-dark"></i>
+                        <i class="fas fa-dna text-dark"></i>
                     </div>
                     <span class="nav-link-text ms-1">Plant Species</span>
                 </a>
@@ -89,7 +89,7 @@
             <li class="nav-item">
                 <a class="nav-link" id="payments-active-tag" href="{{ route('portal.admin.payments.index') }}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="fas fa-users text-dark"></i>
+                        <i class="fas fa-file-invoice-dollar text-dark"></i>
                     </div>
                     <span class="nav-link-text ms-1">Payments</span>
                 </a>
@@ -98,7 +98,7 @@
             <li class="nav-item">
                 <a class="nav-link" id="faq-active-tag" href="{{ route('portal.admin.faq.index') }}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="fas fa-users text-dark"></i>
+                        <i class="fas fa-question text-dark"></i>
                     </div>
                     <span class="nav-link-text ms-1">FAQs</span>
                 </a>
@@ -107,7 +107,7 @@
             <li class="nav-item">
                 <a class="nav-link" id="contactreq-active-tag" href="{{ route('portal.admin.contact-requests.index') }}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="fas fa-users text-dark"></i>
+                        <i class="fas fa-id-card text-dark"></i>
                     </div>
                     <span class="nav-link-text ms-1">Contact Requests</span>
                 </a>
@@ -125,11 +125,11 @@
             {{-- Can be used for future Expansion ( if any new modules or links needed ) --}}
             {{-- <li class="nav-item">
                 <a class="nav-link " href="{{ route('portal.admin.users.index') }}">
-                    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="fas fa-users text-dark"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Badges</span>
-                </a>
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="fas fa-users text-dark"></i>
+            </div>
+            <span class="nav-link-text ms-1">Badges</span>
+            </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link " href="{{ route('portal.myprofile') }}">
