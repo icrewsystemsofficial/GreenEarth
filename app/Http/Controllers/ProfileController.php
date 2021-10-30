@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Profile;
 use App\Models\TemporaryFile;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Prophecy\Promise\ReturnPromise;
 
 class ProfileController extends Controller
 {
@@ -21,10 +18,7 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $user = Auth::user(); //this will return the auth user data
-        //TODO The logged in user can be accessed directly via auth()->user() helper on the blade. No need
-        //to pass it as a variable.
-        return view('pages.profile.index', compact('user'));
+        return view('pages.profile.index');
     }
 
     /**
@@ -48,6 +42,7 @@ class ProfileController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -68,6 +63,7 @@ class ProfileController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Profile  $profile
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(User $user)
@@ -79,6 +75,7 @@ class ProfileController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Profile  $profile
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
@@ -91,11 +88,12 @@ class ProfileController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Profile  $profile
+     *
      * @return \Illuminate\Http\Response
      */
     public function save(Request $request, $id)
     {
-        if ($id == '') {
+        if ($id === '') {
             throw new \Exception('ID must be provided to update user records');
         }
 
@@ -117,6 +115,7 @@ class ProfileController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Profile  $profile
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)
@@ -163,6 +162,9 @@ class ProfileController extends Controller
         Storage::copy($path_from, $path_to);
         $files = Storage::allFiles('avatars');
         Storage::delete($files);
+        activity()
+        ->causedBy(Auth::user())
+        ->log($user->name . "'s profile photo was updated");
         return redirect()->back();
     }
 }

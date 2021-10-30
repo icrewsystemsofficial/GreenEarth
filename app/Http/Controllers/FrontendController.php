@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Goutte\Client;
 use App\Helpers\Whois;
 use App\Mail\SendContactMailtoAdmins;
 use App\Mail\SendContactMailtoUser;
 use App\Mail\SendTransactionDetailMail;
 
 use App\Models\Announcement;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
-use Cronfig\Sysinfo\System;
 use App\Models\Contact;
 use App\Models\Payment;
 use App\Models\User;
+use Carbon\Carbon;
+use Cronfig\Sysinfo\System;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Config;
 use Symfony\Component\HttpFoundation\Response;
 use Razorpay\Api\Api;
 
@@ -31,7 +29,6 @@ class FrontendController extends Controller
     {
         return view('frontend.index');
     }
-
 
     /**
      * calculateCarbon - Calcaulate carbon for a website
@@ -101,16 +98,13 @@ class FrontendController extends Controller
 
     public function otherMethods()
     {
-        $system = new System;
+        $system = new System();
 
         // System can get you the OS you are currently running
         $os = $system->getOs();
         // OS NAME = $os->getCurrentOsName()
-        dd($os->getCurrentMemoryUsage());
         // Get some metrics like free disk space
         $freeSpace = $os->getCurrentMemoryUsage();
-
-        dd($this->calculateCarbon($url));
 
         // $res = Http::post('https://check-host.net/ip-info/whois', [
         //     'host' => 'icrewsystems.com',
@@ -149,10 +143,9 @@ class FrontendController extends Controller
                 'color' => $color,
                 'domain' => $domain,
             ]);
-        } else {
-            smilify('error', 'Please enter a valid URL with scheme (http / https)', 'Whooops');
-            return back()->with('errors', 'Please enter a valid URL');
         }
+        smilify('error', 'Please enter a valid URL with scheme (http / https)', 'Whooops');
+        return back()->with('errors', 'Please enter a valid URL');
     }
 
     public function comingsoon()
@@ -195,7 +188,6 @@ class FrontendController extends Controller
     public function contact_store(Request $request)
     {
 
-
         // $request->validate([
         //         'email' => 'required',
         //         'body' => 'required',
@@ -203,7 +195,8 @@ class FrontendController extends Controller
         //         'g-recaptcha-response' => 'recaptcha'
         // ]);
 
-        $contact = new Contact;
+
+        $contact = new Contact();
         $contact->email = $request->email;
         $contact->type = $request->type;
         $contact->body = $request->body;
@@ -228,7 +221,6 @@ class FrontendController extends Controller
         $url = route('portal.admin.contact-requests.view', $id);
 
 
-
         //$admins_emailid = User::role('admin')->get('email');
 
         $mailInfo = [
@@ -249,12 +241,9 @@ class FrontendController extends Controller
         Mail::to($email)->send(new SendContactMailtoUser($mailInfo));
 
         return response()->json([
-            'message' => 'Mail has sent.'
+            'message' => 'Mail has sent.',
         ], Response::HTTP_OK);
     }
-
-
-
 
     public function contributors()
     {
@@ -265,6 +254,7 @@ class FrontendController extends Controller
         //Check if cache exists...
         $greenearth_stars = cache('greenearth_stars');
         //If cache does not exist, fetch from API.
+
         if ($greenearth_stars == null) {
             $stars = Http::get($github_api_url . '/stargazers')->json();
             $greenearth_stars = count($stars);
@@ -279,6 +269,7 @@ class FrontendController extends Controller
         $latest_commit_hash = cache('latest_commit_hash');
 
         //If cache does not exist, fetch from API.
+
         if ($latest_commit_hash == null) {
             $latest_commit = Http::get($github_api_url . '/git/refs/heads/master')->json();
             $latest_commit_hash = $latest_commit['object']['sha'];
@@ -288,6 +279,7 @@ class FrontendController extends Controller
 
         $total_commits = cache('total_commits');
         //If cache does not exist, fetch from API.
+
         if ($total_commits == null) {
             $total_commits = Http::get($github_api_url . '/compare/' . $first_commit_hash_for_the_repo . '...' . $latest_commit_hash)->json();
             $total_commits = $total_commits['total_commits'] + 1;
@@ -296,6 +288,7 @@ class FrontendController extends Controller
         }
 
         $commits = cache('commits');
+
         if ($commits == null) {
             $commits = Http::get($github_api_url . '/compare/' . $first_commit_hash_for_the_repo . '...' . $latest_commit_hash)->json();
             cache(['commits' => $commits], now()->addHour(1));
@@ -396,22 +389,25 @@ class FrontendController extends Controller
     }
     // MISSIONS MUST BE ADDED FOR THE PAYMENTS DONE
 
+
     public function transaction_mailSend($data)
     {
+        $transaction_id = $data->id;
         $email = $data->email;
         $name = $data->name;
         $amount = $data->amount;
-        $created_at = $data->created_at;
+        $date = Carbon::now()->isoFormat('DD/MM/YYYY');
+
 
         $temp = explode(' ', $created_at);
 
         $mailInfo = [
             'title' => 'Greenearth - New message from a User',
+            'transaction_id' => $transaction_id,
             'email' => $email,
             'name' => $name,
             'amount' => $amount,
-            'date' => $temp[0],
-            'time' => $temp[1],
+            'date' => $date,
         ];
 
         Mail::to($email)->send(new SendTransactionDetailMail($mailInfo));

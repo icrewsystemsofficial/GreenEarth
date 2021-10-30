@@ -6,7 +6,13 @@
 ## Hello {{ $data['name'] }} 
 
 @component('mail::panel')
-Your payment of ₹{{ $data['amount'] }} has been received on {{ $data['date'] }} at {{ $data['time'] }}.
+<b>DETAILS</b>
+<ul>
+    <li>Transaction ID: <b>{{ $data['transaction_id'] }}</b></li>
+    <li>Amount: <b>₹{{ $data['amount'] }}.00</b></li>
+    <li>Paid On: <b>{{ $data['date'] }}</b></li>
+    {{-- <li>Payment Method: <b></b></li> --}}
+</ul>
 @endcomponent
 <br>
 Thank you for choosing {{ config('app.name') }}!

@@ -14,7 +14,6 @@ class Faq extends Model
         'title',
         'body',
         'created_by',
-        'status'
+        'status',
     ];
-
 }

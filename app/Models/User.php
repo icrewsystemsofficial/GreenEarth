@@ -2,33 +2,25 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
-use Spatie\Activitylog\LogOptions;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var string[]
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
         'role',
         'organization',
-        'phone'
+        'phone',
     ];
 
     /**
@@ -52,8 +44,8 @@ class User extends Authenticatable
 
     public function profile_picture()
     {
-        if (Auth::user()->avatar == null) {
-            $url = "https://ui-avatars.com/api/?background=4dc242&color=ffffff&name=" . auth()->user()->name[0];
+        if (Auth::user()->avatar === null) {
+            $url = 'https://ui-avatars.com/api/?background=4dc242&color=ffffff&name=' . auth()->user()->name[0];
             $contents = file_get_contents($url);
             $name = uniqid() . '-' . now()->timestamp . '.png';
             Storage::put('public/avatars/' . $name, $contents);
@@ -61,9 +53,7 @@ class User extends Authenticatable
             $user->avatar = 'storage/avatars/' . $name;
             $user->save();
             return $url;
-        } else {
-            $img_path = Auth::user()->avatar;
-            return  $img_path;
         }
+        return Auth::user()->avatar;
     }
 }

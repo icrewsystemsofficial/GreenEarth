@@ -13,7 +13,7 @@
     <div class="collapse navbar-collapse  w-auto  max-height-vh-100 h-100" id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link active" href="{{ route('home.index') }}">
+                <a class="nav-link" id="dashboard-active-tag" href="{{ route('home.index') }}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>shop </title>
@@ -51,7 +51,7 @@
                 <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Administration</h6>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="{{ route('portal.admin.users.index') }}">
+                <a class="nav-link" id="users-active-tag" href="{{ route('portal.admin.users.index') }}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-users text-dark"></i>
                     </div>
@@ -60,7 +60,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " href="{{ route('portal.admin.forests.index') }}">
+                <a class="nav-link" id="forests-active-tag" href="{{ route('portal.admin.forests.index') }}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-tree text-dark"></i>
                     </div>
@@ -69,7 +69,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " href="{{ route('portal.admin.tree.index') }}">
+                <a class="nav-link" id="trees-active-tag" href="{{ route('portal.admin.tree.index') }}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-seedling text-dark"></i>
                     </div>
@@ -78,16 +78,16 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " href="{{ route('portal.admin.forests.trees-species.index') }}">
+                <a class="nav-link" id="plantspecies-active-tag" href="{{ route('portal.admin.forests.trees-species.index') }}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-dna text-dark"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Trees Species</span>
+                    <span class="nav-link-text ms-1">Plant Species</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " href="{{ route('portal.admin.payments.index') }}">
+                <a class="nav-link" id="payments-active-tag" href="{{ route('portal.admin.payments.index') }}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-file-invoice-dollar text-dark"></i>
                     </div>
@@ -96,7 +96,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " href="{{ route('portal.admin.faq.index') }}">
+                <a class="nav-link" id="faq-active-tag" href="{{ route('portal.admin.faq.index') }}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-question text-dark"></i>
                     </div>
@@ -105,11 +105,20 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " href="{{ route('portal.admin.contact-requests.index') }}">
+                <a class="nav-link" id="contactreq-active-tag" href="{{ route('portal.admin.contact-requests.index') }}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-id-card text-dark"></i>
                     </div>
                     <span class="nav-link-text ms-1">Contact Requests</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="announcements-active-tag" href="{{ route('portal.admin.announcements.index') }}">
+                    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fas fa-users text-dark"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Announcements</span>
                 </a>
             </li>
 

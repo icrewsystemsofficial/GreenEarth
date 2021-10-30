@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Portal\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Helpers\TreesHealthHelper;
-use http\Env\Response;
+use App\Http\Controllers\Controller;
 use App\Models\Tree;
 use App\Models\User;
-use DB;
-use DataTables;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TreeController extends Controller
 {
@@ -39,7 +37,7 @@ class TreeController extends Controller
         $request->validate([
             'forest_id' => 'required',
             'species_id' => 'required',
-            'health' => 'required'
+            'health' => 'required',
         ]);
 
         $forest_id = $request->forest_id;
@@ -49,22 +47,24 @@ class TreeController extends Controller
         $long = $request->long;
         $health = $request->health;
 
-        Tree::where('id', $id)->update(['forest_id'=>$forest_id, 'species_id'=>$species_id, 'mission_id'=>$mission_id, 'lat'=>$lat, 'long'=>$long, 'health'=> $health]);
+        Tree::where('id', $id)->update(['forest_id' => $forest_id, 'species_id' => $species_id, 'mission_id' => $mission_id, 'lat' => $lat, 'long' => $long, 'health' => $health]);
 
-        activity()->log('Updating tree id: '. $id);
+        activity()
+            ->causedBy(Auth::user())
+            ->log('Tree ' . $id . ' details were updated');
         smilify('success', 'Tree updated successfully!');
         return redirect(route('portal.admin.tree.index'));
     }
 
     public function storeData(Request $request)
-	{
+    {
         $request->validate([
             'forest_id' => 'required',
             'species_id' => 'required',
-            'health' => 'required'
+            'health' => 'required',
         ]);
 
-        $tree = new Tree;
+        $tree = new Tree();
         $tree->forest_id = $request->forest_id;
         $tree->species_id = $request->species_id;
         $tree->mission_id = $request->mission_id;
@@ -75,17 +75,20 @@ class TreeController extends Controller
         $tree->planted_by = $request->planted_by;
         $tree->save();
 
-        activity()->log('Creating tree id: '. $tree->id);
+        activity()
+        ->causedBy(Auth::user())
+        ->log('Tree ' . $tree->id . ' was created');
         smilify('success', 'Tree added successfully!');
         return redirect(route('portal.admin.tree.index'));
-	}
+    }
 
     public function destroy($id)
     {
         Tree::where('id', $id)->delete();
-        activity()->log('Deleting tree '. $id);
-        smilify('success','Tree deleted successfully!');
+        activity()
+        ->causedBy(Auth::user())
+        ->log('Tree ' . $id . ' was deleted');
+        smilify('success', 'Tree deleted successfully!');
         return redirect(route('portal.admin.tree.index'));
     }
-
 }

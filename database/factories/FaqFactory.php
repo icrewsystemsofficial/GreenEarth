@@ -2,18 +2,18 @@
 
 namespace Database\Factories;
 
-use App\Models\Announcement;
+use App\Models\Faq;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-class AnnouncementFactory extends Factory
+class FaqFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Announcement::class;
+    protected $model = Faq::class;
 
     /**
      * Define the model's default state.
@@ -23,12 +23,10 @@ class AnnouncementFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->sentence,
-            'body' => $this->faker->text,
-            'author' => $this->faker->name(),
+            'title' => Str::random(40),
+            'body' => Str::random(100),
             'status' => random_int(0, 1),
-            'slug' => Str::random(40),
-            'role' => Str::random(10)
+            'created_by' => $this->faker->name(),
         ];
     }
 }

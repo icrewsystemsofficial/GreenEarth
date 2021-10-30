@@ -25,25 +25,25 @@
                 <div class="card-body text-sm">
                     <div class="form-group">
                         <label for="role" class="ms-3 me-4"> Role </label>
-                        <select name="role" id="role" class="bg-white">
+                        <select name="role" id="role" class="bg-white" required>
                             @foreach($roles as $role)
                                 <option value="{{$role}}"> {{$role}} </option>
                             @endforeach
                         </select>
 
                         <label for="status" class="ms-6 me-4"> Status </label>
-                        <select name="status" id="status" class="bg-white">
+                        <select name="status" id="status" class="bg-white" required>
                             <option value="0"> Inactive </option>
                             <option value="1"> Active </option>
                         </select>
                     </div>
                     <div class="form-group ms-3">
                         <label> Title </label>
-                        <input type="text" name="title" placeholder="Announcement Title" class="form-control"/>
+                        <input type="text" name="title" placeholder="Announcement Title" class="form-control" required/>
                     </div>  
                     <div class="form-group mb-5 ms-3">
                         <label> Body </label>
-                        <textarea class="ckeditor form-control" name="body"> </textarea>
+                        <textarea class="ckeditor form-control" name="body" required> </textarea>
                     </div>
                 </div>
                 <div class="card-footer ms-3">

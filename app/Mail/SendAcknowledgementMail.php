@@ -29,6 +29,6 @@ class SendAcknowledgementMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.send-acknowledgement')->with('certificate',$this->certificate);
+        return $this->markdown('emails.send-acknowledgement')->with('certificate', $this->certificate);
     }
 }
