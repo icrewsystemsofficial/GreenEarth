@@ -41,22 +41,8 @@ class PlantSpeciesController extends Controller
         return view('pages.plant_species.manage', compact('plantspecie'));
     }
 
-<<<<<<< HEAD
-    public function update(Request $request, $id){
-
-        $request->validate([
-            'name' => 'required',
-            'ppplant' => 'required',
-            'h2oreq' => 'required',
-            'o2pro' => 'required',
-            'co2abs' => 'required',
-        ]);
-
-
-=======
     public function update(Request $request, $id)
     {
->>>>>>> 8d3c48a078b06092d54255f2004160a27677f5ff
         $common_name = $request->name;
         // $scientific_name = $request->scname;
         $price_per_plant = $request->ppplant;
@@ -64,15 +50,6 @@ class PlantSpeciesController extends Controller
         $o2_production = $request->o2pro;
         $co2_absorption = $request->co2abs;
         PlantSpecies::where('id', $id)
-<<<<<<< HEAD
-        ->update([
-            'common_name'=>$common_name,
-            // 'scientific_name'=>$scientific_name,
-            'price_per_plant'=> $price_per_plant,
-            'h2o_requirement_per_plant'=>$h2o_requirement_per_plant,
-            'o2_production'=>$o2_production,
-            'co2_absorption'=>$co2_absorption
-=======
             ->update([
             'common_name' => $common_name,
             // 'scientific_name'=>$scientific_name,
@@ -80,7 +57,6 @@ class PlantSpeciesController extends Controller
             'h2o_requirement_per_plant' => $h2o_requirement_per_plant,
             'o2_production' => $o2_production,
             'co2_absorption' => $co2_absorption,
->>>>>>> 8d3c48a078b06092d54255f2004160a27677f5ff
         ]);
         activity()
         ->causedBy(Auth::user())
