@@ -130,6 +130,19 @@ class DeveloperAccessSeeder extends Seeder
             $this->command->info("User: Johanth P S created.");
         }
 
+        $user = User::where('name', 'Harshit Garg')->first();
+        if (!$user) {
+            //If you need to add an account for yourself, add it below this.
+            $user = new User;
+            $user->name = 'Harshit Garg';
+            $user->email = 'harshit@test.com';
+            $user->email_verified_at = now();
+            $user->password = '$2y$10$.ZjhwWpgmW1oh9zR.7/T2OaJbQ4BS/5.PGjyAxOEqeKJeZDyPPX3G';
+            $user->role = 'superadmin';
+            $user->save();
+            $this->command->info("User: Harshit Garg created.");
+        }
+
         $user = User::where('name', 'Rtr Vijay')->first();
         if (!$user) {
             //If you need to add an account for yourself, add it below this.

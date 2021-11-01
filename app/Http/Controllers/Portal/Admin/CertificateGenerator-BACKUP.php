@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Certificate;
-use App\Models\User;
 use App\Http\Requests\StoreCertificateRequest;
 use App\Jobs\SendAcknowledgementMailJob;
+use App\Models\Certificate;
+use App\Models\User;
+use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Http\Request;
+use Illuminate\Mail\Markdown;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use Illuminate\Mail\Markdown;
-use Barryvdh\DomPDF\Facade as PDF;
 
 class CertificateGenerator extends Controller
 {
@@ -27,7 +27,6 @@ class CertificateGenerator extends Controller
         $certificates = Certificate::all();
 
         if (file_exists(public_path('storage' . DIRECTORY_SEPARATOR . 'certificates'))) {
-
             $certificates = File::files(public_path('storage' . DIRECTORY_SEPARATOR . 'certificates'));
         }
 
@@ -53,6 +52,7 @@ class CertificateGenerator extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(StoreCertificateRequest $request)
@@ -85,7 +85,7 @@ class CertificateGenerator extends Controller
 
         $file_path = public_path($file_name . '.html');
 
-        if (!file_exists($file_path)) {
+        if (! file_exists($file_path)) {
             Storage::disk('public')->put($file_name . '.html', $html);
         }
 
@@ -103,22 +103,24 @@ class CertificateGenerator extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Certificate  $certificate
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Certificate $certificate)
     {
-        //
+        
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Certificate  $certificate
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(Certificate $certificate)
     {
-        //
+        
     }
 
     /**
@@ -126,21 +128,23 @@ class CertificateGenerator extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Certificate  $certificate
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Certificate $certificate)
     {
-        //
+        
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Certificate  $certificate
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Certificate $certificate)
     {
-        //
+        
     }
 }

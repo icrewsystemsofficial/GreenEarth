@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
 {
@@ -48,18 +47,17 @@ class LoginController extends Controller
 
         // Find the user with that Google ID
         $user = User::where('email', $data->email)->first();
-        if($user) {
+        if ($user) {
             Auth::login($user);
             return redirect(route('portal.index'));
-        } else {
-            return view('auth.register')->with([
-                'error' => 'No users associated with that e-mail ID',
-                'oauth' => array(
-                    'name' => $data->name,
-                    'email' => $data->email,
-                ),
-            ]);
         }
+        return view('auth.register')->with([
+            'error' => 'No users associated with that e-mail ID',
+            'oauth' => [
+                'name' => $data->name,
+                'email' => $data->email,
+            ],
+        ]);
 
         Auth::login($user);
     }

@@ -3,17 +3,12 @@
 namespace App\Http\Controllers;
 
 use Spatie\Activitylog\Models\Activity;
-use Illuminate\Http\Request;
-
 
 class ActivityController extends Controller
 {
-    //
-    function disp(){
-
-        $activities = Activity::all();
-        
-        
-        return view ("pages.activity.index",compact('activities'));
+    public function disp()
+    {
+        $activities = Activity::orderBy('updated_at', 'DESC')->get();
+        return view('pages.activity.index', compact('activities'));
     }
 }

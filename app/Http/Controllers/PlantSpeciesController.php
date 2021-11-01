@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PlantSpecies;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PlantSpeciesController extends Controller
 {
@@ -13,37 +14,34 @@ class PlantSpeciesController extends Controller
         return view('pages.plant_species.index', compact('plantspecies'));
     }
 
-    public function create(){
+    public function create()
+    {
         return view('pages.plant_species.create');
     }
 
-    public function save(Request $request){
-
-        $request->validate([
-            'name' => 'required',
-            'ppplant' => 'required',
-            'h2oreq' => 'required',
-            'o2pro' => 'required',
-            'co2abs' => 'required',
-        ]);
-
-        $plantspecie= new PlantSpecies;
+    public function save(Request $request)
+    {
+        $plantspecie = new PlantSpecies();
         $plantspecie->common_name = $request->name;
         $plantspecie->price_per_plant = $request->ppplant;
         $plantspecie->h2o_requirement_per_plant = $request->h2oreq;
         $plantspecie->o2_production = $request->o2pro;
         $plantspecie->co2_absorption = $request->co2abs;
-        $plantspecie-> save();
-
+        $plantspecie->save();
+        activity()
+        ->causedBy(Auth::user())
+        ->log('Plant Specie ' .  $plantspecie->common_name . ' was created');
         smilify('Yay', 'We have created a new plant specie, Happy GreenEarth');
         return redirect()->route('portal.admin.forests.trees-species.index');
     }
 
-    public function manage($id){
+    public function manage($id)
+    {
         $plantspecie = PlantSpecies::where('id', $id)->first();
         return view('pages.plant_species.manage', compact('plantspecie'));
     }
 
+<<<<<<< HEAD
     public function update(Request $request, $id){
 
         $request->validate([
@@ -55,6 +53,10 @@ class PlantSpeciesController extends Controller
         ]);
 
 
+=======
+    public function update(Request $request, $id)
+    {
+>>>>>>> 8d3c48a078b06092d54255f2004160a27677f5ff
         $common_name = $request->name;
         // $scientific_name = $request->scname;
         $price_per_plant = $request->ppplant;
@@ -62,6 +64,7 @@ class PlantSpeciesController extends Controller
         $o2_production = $request->o2pro;
         $co2_absorption = $request->co2abs;
         PlantSpecies::where('id', $id)
+<<<<<<< HEAD
         ->update([
             'common_name'=>$common_name,
             // 'scientific_name'=>$scientific_name,
@@ -69,7 +72,19 @@ class PlantSpeciesController extends Controller
             'h2o_requirement_per_plant'=>$h2o_requirement_per_plant,
             'o2_production'=>$o2_production,
             'co2_absorption'=>$co2_absorption
+=======
+            ->update([
+            'common_name' => $common_name,
+            // 'scientific_name'=>$scientific_name,
+            'price_per_plant' => $price_per_plant,
+            'h2o_requirement_per_plant' => $h2o_requirement_per_plant,
+            'o2_production' => $o2_production,
+            'co2_absorption' => $co2_absorption,
+>>>>>>> 8d3c48a078b06092d54255f2004160a27677f5ff
         ]);
+        activity()
+        ->causedBy(Auth::user())
+        ->log('Plant Specie ' .  $common_name . ' was updated');
         return redirect()->route('portal.admin.forests.trees-species.index');
     }
 }
