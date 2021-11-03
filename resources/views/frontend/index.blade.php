@@ -1,8 +1,9 @@
 @extends('layouts.frontend')
 @section('content')
 <section class="header-2">
-    <div class="page-header min-vh-75" style="background-image: url('{{ asset('softui-design-system/assets/img/curved-images/curved.jpg') }}">
-      <div class="container">
+    {{--  <div class="page-header min-vh-75" style="background-image: url('{{ asset('softui-design-system/assets/img/curved-images/curved.jpg') }}')">  --}}
+        <div class="page-header min-vh-75" style="background-image: url('{{ asset('/img/curved-images/curved_temp.jpg') }}')">
+        <div class="container">
         <div class="row">
             <div class="col-lg-8 text-center mx-auto">
                 {{-- <h1 class="text-white pt-3 mt-n5 h2">
