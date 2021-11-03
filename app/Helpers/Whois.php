@@ -314,38 +314,38 @@ class Whois
         if (preg_match("/^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/",
                        $domain))
             return $this->queryWhois("whois.lacnic.net", $domain);
-        elseif (preg_match("/^([-a-z0-9]{2,100})\.([a-z\.]{2,8})$/i", $domain)){
+        if (preg_match("/^([-a-z0-9]{2,100})\.([a-z\.]{2,8})$/i", $domain)){
             $domain_parts = explode('.', $domain);
             $tld = strtolower(array_pop($domain_parts));
             $server = $this->WHOIS_SERVERS[$tld][0];
             if (!$server){
-                return array("Error: No appropriate Whois server found for $domain domain!",
+                return array("Error: No appropriate Whois server found for ${domain} domain!",
                     $domainAge,
                     $createdDate,
                     $updatedDate,
                     $expiredDate);
             }
             if($server == 'net-whois.registry.net.za'){
-                if(substr($domain,-5) == 'co.za')
+                if(substr($domain, -5) == 'co.za')
                     $server = 'coza-whois.registry.net.za';
-                if(substr($domain,-6) == 'org.za')
+                if(substr($domain, -6) == 'org.za')
                     $server = 'org-whois.registry.net.za';
-                if(substr($domain,-6) == 'web.za')
+                if(substr($domain, -6) == 'web.za')
                     $server = 'web-whois.registry.net.za';
             }
             $res = $this->queryWhois($server, $domain);
             if (preg_match($this->WHOIS_SERVERS[$tld][1], $res, $match)){
                 $createdDate = Trim($match[1]);
-                $createdDate = $this->cleanDate($createdDate,$tld);
+                $createdDate = $this->cleanDate($createdDate, $tld);
                 $domainAge = $this->converToAge($createdDate);
             }
             if (preg_match($this->WHOIS_SERVERS[$tld][2], $res, $match)){
                 $updatedDate = Trim($match[1]);
-                $updatedDate = $this->cleanDate($updatedDate,$tld);
+                $updatedDate = $this->cleanDate($updatedDate, $tld);
             }
             if (preg_match($this->WHOIS_SERVERS[$tld][3], $res, $match)){
                 $expiredDate = Trim($match[1]);
-                $expiredDate = $this->cleanDate($expiredDate,$tld);
+                $expiredDate = $this->cleanDate($expiredDate, $tld);
             }
             if(preg_match_all("/WHOIS Server: (.*)/", $res, $matches)){
                 $server = trim(array_pop($matches[1]));
@@ -418,7 +418,7 @@ class Whois
                 }
 
                 $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, "telnet://$serverIP:43");
+                curl_setopt($ch, CURLOPT_URL, "telnet://${serverIP}:43");
                 curl_setopt($ch, CURLOPT_PORT, 43);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
                 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
@@ -441,7 +441,7 @@ class Whois
         return $out;
     }
 
-    private static function putMyData($file_name,$data,$flag=null){
+    private static function putMyData($file_name, $data, $flag=null){
 
         return Storage::disk('local')->put($file_name, $data);
         // return file_put_contents($file_name,$data,$flag);
@@ -464,48 +464,47 @@ class Whois
         return "$y, $d";
     }
 
-    private function getMyData($url,$ref_url) {
-        $cookie=tempnam("/tmp","CURLCOOKIE");
+    private function getMyData($url, $ref_url) {
+        $cookie=tempnam("/tmp", "CURLCOOKIE");
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.2) Gecko/20070219 Firefox/2.0.0.2');
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_COOKIE, 1);
-        curl_setopt($ch, CURLOPT_COOKIEFILE,$cookie);
+        curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt ($ch, CURLOPT_REFERER, $ref_url);
         $data = curl_exec($ch);
         curl_close($ch);
         return $data;
     }
 
-    private function cleanDate($date,$tld) {
+    private function cleanDate($date, $tld) {
         $date = trim(strip_tags($date));
         if ($tld == 'tr')
-            $date = Trim(str_replace('.','',$date));
-        $date = str_replace('.','/',$date);
-        $date = str_replace('(YYYY-MM-DD)','',$date);
+            $date = Trim(str_replace('.', '', $date));
+        $date = str_replace('.', '/', $date);
+        $date = str_replace('(YYYY-MM-DD)', '', $date);
         if($tld == 'pt')
-            $date = Trim(str_replace('(dd/mm/yyyy):','',$date));
+            $date = Trim(str_replace('(dd/mm/yyyy):', '', $date));
         if ($tld == 'fr' || $tld == 'bg' || $tld == 'lu' || $tld == 'mk' || $tld == 'pt' || $tld == 'tf' || $tld == 'tn')
-            $date = str_replace('/','-',$date);
+            $date = str_replace('/', '-', $date);
         if ($tld == 'ee' || $tld == 'fi')
-            $date = str_replace('/','.',$date);
+            $date = str_replace('/', '.', $date);
         if ($tld == 'kr'){
-            $date = explode('/',$date);
+            $date = explode('/', $date);
             $date = Trim($date[0]).'/'.Trim($date[1]).'/'.Trim($date[2]);
         }
         if ($date == 'before Aug-1996')
             $date = '01-Aug-1996';
-        $date = explode('T0',$date);
+        $date = explode('T0', $date);
         $date = $date[0];
-        $date = explode('T1',$date);
+        $date = explode('T1', $date);
         $date = $date[0];
-        $date = explode('T2',$date);
+        $date = explode('T2', $date);
         $date = $date[0];
-        $date = date('jS-M-Y',strtotime($date));
-        return $date;
+        return date('jS-M-Y',strtotime($date));
     }
     public static function cleanUrl($site) {
         $site = strtolower(trim($site));
@@ -519,8 +518,7 @@ class Whois
         $ch = curl_init('http://www.iplocationfinder.com/' . self::cleanUrl($site));
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_USERAGENT,
-            'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
         $data = curl_exec($ch);
         preg_match('~ISP.*<~', $data, $isp);
         preg_match('~Country.*<~', $data, $country);

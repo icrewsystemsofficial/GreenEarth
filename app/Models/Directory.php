@@ -2,19 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Directory extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var string[]
-     */
     protected $fillable = [
         'business_owner',
         'business_name',
@@ -33,14 +28,14 @@ class Directory extends Model
         'business_name_slug',
         'logo',
         'business_id',
-        'organization_name'
+        'organization_name',
     ];
 
     /**
      * The attributes that should be cast.
      *
      * @var array
-     */
+     */ 
     protected $casts = [
         'carbon_neutral_since' => 'datetime',
         #'business_founding_date' => 'datetime',
@@ -58,22 +53,33 @@ class Directory extends Model
         // }
 
         $business = self::find($this->id);
+
         if (!is_null($business->logo)) {
 
             if (Storage::exists('public/uploads/logos/' . $business->logo)) {
                 $image_link = asset(Storage::url('public/uploads/logos/' . $business->logo));
-            } else {
-                $image_link = asset('img/logo_placeholder.png');
-            }
-        } else {
-            $image_link = asset('img/logo_placeholder.png');
-        }
 
-        return $image_link;
+                if (!is_null($business->logo)) {
+                    if (Storage::exists('public/uploads/logos/' . $business->logo)) {
+                        $image_link = asset(Storage::url('public/uploads/logos/' . $business->logo));
+
+                    } else {
+                        $image_link = asset('img/logo_placeholder.png');
+                    }
+                } else {
+                    $image_link = asset('img/logo_placeholder.png');
+                }
+
+                return $image_link;
+            }
+        }
     }
 
-    public function getUsers()
+    public
+    function getUsers()
     {
         return $this->hasMany(User::class, 'organization', 'organization_name');
     }
+
 }
+

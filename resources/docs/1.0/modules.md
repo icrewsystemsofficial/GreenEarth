@@ -140,7 +140,10 @@ Here, the Administrator can write up an announcement which would be issued to al
 ![A form to update an announcement.](path).
 
 Here, the Administrator can edit the details of previous announcements.
+<<<<<<< HEAD
+=======
 
+>>>>>>> 0b9192a34c846108525ed5f609e31f214f4d505d
 
 <a name="section-5"></a>
 <<<<<<< HEAD
@@ -190,5 +193,11 @@ Here, a table shows all the current plants available and recorded in the system.
 
 Once the administrator expresses their intention to add a new plant to the system, they will be prompted to fill out a form. Details such as the name, price per plant, H2O requirement per plant, O2 production and CO2 absorption.
 
+<<<<<<< HEAD
+=======
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0b9192a34c846108525ed5f609e31f214f4d505d
+>>>>>>> 8d3c48a078b06092d54255f2004160a27677f5ff

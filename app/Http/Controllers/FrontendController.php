@@ -8,7 +8,7 @@ use Goutte\Client;
 use App\Helpers\Whois;
 use App\Mail\SendContactMailtoAdmins;
 use App\Mail\SendContactMailtoUser;
-
+use App\Mail\SendTransactionDetailMail;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Markdown;
@@ -19,9 +19,13 @@ use Cronfig\Sysinfo\System;
 use App\Models\Contact;
 use App\Models\Payment;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\Response;
+use Razorpay\Api\Api;
+use Session;
+use Exception;
 
 class FrontendController extends Controller
 {
@@ -29,7 +33,6 @@ class FrontendController extends Controller
     {
         return view('frontend.index');
     }
-
 
     /**
      * calculateCarbon - Calcaulate carbon for a website
@@ -98,16 +101,13 @@ class FrontendController extends Controller
 
     public function otherMethods()
     {
-        $system = new System;
+        $system = new System();
 
         // System can get you the OS you are currently running
         $os = $system->getOs();
         // OS NAME = $os->getCurrentOsName()
-        dd($os->getCurrentMemoryUsage());
         // Get some metrics like free disk space
         $freeSpace = $os->getCurrentMemoryUsage();
-
-        dd($this->calculateCarbon($url));
 
         // $res = Http::post('https://check-host.net/ip-info/whois', [
         //     'host' => 'icrewsystems.com',
@@ -146,10 +146,9 @@ class FrontendController extends Controller
                 'color' => $color,
                 'domain' => $domain,
             ]);
-        } else {
-            smilify('error', 'Please enter a valid URL with scheme (http / https)', 'Whooops');
-            return back()->with('errors', 'Please enter a valid URL');
         }
+        smilify('error', 'Please enter a valid URL with scheme (http / https)', 'Whooops');
+        return back()->with('errors', 'Please enter a valid URL');
     }
 
     public function comingsoon()
@@ -191,8 +190,6 @@ class FrontendController extends Controller
 
     public function contact_store(Request $request)
     {
-
-
         // $request->validate([
         //         'email' => 'required',
         //         'body' => 'required',
@@ -211,7 +208,6 @@ class FrontendController extends Controller
 
         smilify('Yay', 'Your message was sent to us, we\'ll get in touch with you soon');
         return redirect(route('home.contact.index'));
-
     }
 
     public function contact_mailSend($data)
@@ -235,7 +231,7 @@ class FrontendController extends Controller
             'body' => $body,
             'url' => $url,
             'id' => $id,
-            'mails' => $admins_emailid
+            'mails' => 'rishikataria@outlook.com' //$admins_emailid
         ];
 
         foreach ($admins_emailid as $mail) {
@@ -243,10 +239,16 @@ class FrontendController extends Controller
             Mail::to($emailid)->send(new SendContactMailtoAdmins($mailInfo));
         }
 
+        // foreach ($admins_emailid as $mail) {
+        //     $emailid = $mail->email;
+        //     Mail::to($emailid)->send(new SendContactMailtoAdmins($mailInfo));
+        // }
+
+
         Mail::to($email)->send(new SendContactMailtoUser($mailInfo));
 
         return response()->json([
-            'message' => 'Mail has sent.'
+            'message' => 'Mail has sent.',
         ], Response::HTTP_OK);
     }
 
@@ -260,6 +262,7 @@ class FrontendController extends Controller
         //Check if cache exists...
         $greenearth_stars = cache('greenearth_stars');
         //If cache does not exist, fetch from API.
+
         if ($greenearth_stars == null) {
             $stars = Http::get($github_api_url . '/stargazers')->json();
             $greenearth_stars = count($stars);
@@ -274,6 +277,7 @@ class FrontendController extends Controller
         $latest_commit_hash = cache('latest_commit_hash');
 
         //If cache does not exist, fetch from API.
+
         if ($latest_commit_hash == null) {
             $latest_commit = Http::get($github_api_url . '/git/refs/heads/master')->json();
             $latest_commit_hash = $latest_commit['object']['sha'];
@@ -291,6 +295,7 @@ class FrontendController extends Controller
         }
 
         $commits = cache('commits');
+
         if ($commits == null) {
             $commits = Http::get($github_api_url . '/compare/' . $first_commit_hash_for_the_repo . '...' . $latest_commit_hash)->json();
             cache(['commits' => $commits], now()->addHour(1));
@@ -303,7 +308,6 @@ class FrontendController extends Controller
             'commits' => $total_commits,
             'commits_all' => array_reverse($commits['commits']),
         ]);
-
     }
 
     public function glossary()
@@ -335,6 +339,8 @@ class FrontendController extends Controller
 
     public function submit(Request $request)
     {
+
+        //dd($request);
         $payment = new Payment;
         $payment->name = $request->name;
         $payment->email = $request->email;
@@ -345,6 +351,10 @@ class FrontendController extends Controller
         // "0" => PROCESSING
         // "1" => SUCCESS
         // "2" => FAILURE
+        //$email = $request->email;
+        //$amount = $request->amount;
+        //$contact = $request->contact_number;
+
         return view('frontend.payment_2')
             ->with('email', $request->email)
             ->with('amount', $request->amount)
@@ -353,27 +363,7 @@ class FrontendController extends Controller
     }
 
 
-    public function pay(Request $request)
-    {
-
-        $payment = Payment::where('email', '=', $request->email)->first();
-        $payment->razorpay_id = $request->razorpay_payment_id;
-        $payment->save();
-
-        Bus::batch([
-            new PaymentConfirmation($payment),
-        ])->dispatch();
-
-//         $order  = $client->order->create([
-//         'receipt'         => 'order_rcptid_11',
-//         'amount'        => 50000, // amount in the smallest currency unit
-////         'currency'        => 'INR'// <a href="/docs/international-payments/#supported-currencies"  target="_blank">See the list of supported currencies</a>.)
-////         ]);
-////        activity()->causedBy(Auth::user()->log('Payment Succefully completed'));
-    }
-
-    public
-    function certificateDownload($payment_id)
+    public function certificateDownload($payment_id)
     {
         $payment = Payment::where('razorpay_id', '=', $payment_id)->first();
         $markdown = new Markdown(view(), config('mail.markdown'));
@@ -400,6 +390,71 @@ class FrontendController extends Controller
             ->stream($file_name . '.pdf');
     }
 
+    public function pay(Request $request)
+    {
+        // $order  = $client->order->create([
+        // 'receipt'         => 'order_rcptid_11',
+        // 'amount'          => 50000, // amount in the smallest currency unit
+        // 'currency'        => 'INR'// <a href="/docs/international-payments/#supported-currencies"  target="_blank">See the list of supported currencies</a>.)
+        // ]);
+
+        $input = $request->all();
+        $api = new Api(config('app.RAZORPAY_API_KEY'), config('app.RAZORPAY_SECRET'));
+
+        $payment = $api->payment->fetch($input['razorpay_payment_id']);
+        $paymentInfo = Payment::where('email', $payment['email'])->latest('updated_at')->first();
+        // Payment::where('id', $paymentt['id'])->update(['razorpay_id'=>$payment['id']]);
+
+        if (count($input) && !empty($input['razorpay_payment_id'])) {
+            try {
+                $response = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount' => $payment['amount'], 'currency' => 'INR'));
+                if ($response['status'] = 'captured') {
+                    Payment::where('id', $paymentInfo['id'])->update(['razorpay_id' => $payment['id'], 'status' => 1]);
+                }
+            } catch (Exception $e) {
+                return $e->getMessage();
+                Session::put('error', $e->getMessage());
+                return redirect()->back();
+            }
+        }
+
+        $updatedPayment = Payment::where('id', $paymentInfo['id'])->first();
+        $this->transaction_mailsend($updatedPayment);
+
+        activity()->causedBy(Auth::user())->log('Payment Successfully completed');
+        return redirect(route('home.index'));
+    }
+
+    // MISSIONS MUST BE ADDED FOR THE PAYMENTS DONE
+
+
+    public function transaction_mailSend($data)
+    {
+        $transaction_id = $data->id;
+        $email = $data->email;
+        $name = $data->name;
+        $amount = $data->amount;
+        $date = Carbon::now()->isoFormat('DD/MM/YYYY');
+
+
+//        $temp = explode(' ', $created_at);
+
+        $mailInfo = [
+            'title' => 'Greenearth - New message from a User',
+            'transaction_id' => $transaction_id,
+            'email' => $email,
+            'name' => $name,
+            'amount' => $amount,
+            'date' => $date,
+        ];
+
+        Mail::to($email)->send(new SendTransactionDetailMail($mailInfo));
+
+        return response()->json([
+            'message' => 'Mail has sent.'
+        ], Response::HTTP_OK);
+    }
 }
+
 
 

@@ -73,7 +73,7 @@ class CO2Helper {
     public function convert_kwh_to_kgco2e($kwh = '1', $country = null) {
         // 1 kWh = 0.223 kg CO2e
         $co2_factor = $this->co2factor('USA');
-        return ($kwh * $co2_factor);
+        return $kwh * $co2_factor;
     }
 
     public function calculate(

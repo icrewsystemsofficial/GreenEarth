@@ -15,7 +15,16 @@ Carbon-neutral Businesses
 <script src="https://cdn.datatables.net/1.11.2/js/dataTables.bootstrap5.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#table_id').DataTable();
+        $('#table_id').DataTable({
+            language: {
+                    paginate: {
+                        // remove previous & next text from pagination
+                        previous: '<i class="fas fa-chevron-left"></i>',
+                        next: '<i class="fas fa-chevron-right"></i>'
+                    }
+                },
+                responsive: true
+        });
     });
 </script>
 @endsection

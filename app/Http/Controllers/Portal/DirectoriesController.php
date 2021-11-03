@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\Portal;
 
-use App\Models\User;
-use App\Models\Directory;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Directory;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Str;
 
 class DirectoriesController extends Controller
 {
@@ -51,6 +48,8 @@ class DirectoriesController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -74,7 +73,7 @@ class DirectoriesController extends Controller
                 'business_name_slug' => 'nullable',
                 'logo' => 'nullable',
             ]);
-            $business = Directory::create([
+            Directory::create([
                 'business_name_slug' => Str::slug($request->business_name, '-'),
                 'business_name' => $request->business_name,
                 'business_owner' => $request->business_owner,
@@ -102,12 +101,15 @@ class DirectoriesController extends Controller
         } else {
             return redirect(route('portal.admin.directory.index'));
         }
-    }
+        }
+
 
     /**
      * Display the specified resource.
      *
      * @param int $id
+     * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function home_show($business_name_slug)
@@ -121,6 +123,8 @@ class DirectoriesController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param int $id
+     * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id = null)
@@ -131,15 +135,11 @@ class DirectoriesController extends Controller
         }
         $business = Directory::find($id);
 
-        if (!$business) {
-
+        if (! $business) {
             return redirect()->back();
         }
 
-        return view(
-            'pages.directory.admin.edit',
-            compact('business')
-        );
+        return view('pages.directory.admin.edit', compact('business'));
     }
 
     /**
@@ -147,6 +147,9 @@ class DirectoriesController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param int $id
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -176,7 +179,7 @@ class DirectoriesController extends Controller
             $name = $request->business_name;
             $name_slug = Str::slug($name, '-');
 
-            if ($request->logo != null) {
+            if ($request->logo !== null) {
                 $old_logo = 'uploads/logos/' . $current_logo;
                 if (file_exists($old_logo)) {
                     @unlink($old_logo);
@@ -235,7 +238,7 @@ class DirectoriesController extends Controller
             $name = $request->business_name;
             $name_slug = Str::slug($name, '-');
 
-            if ($request->logo != null) {
+            if ($request->logo !== null) {
                 $old_logo = 'uploads/logos/' . $current_logo;
                 if (file_exists($old_logo)) {
                     @unlink($old_logo);
@@ -270,7 +273,12 @@ class DirectoriesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+
      * @param int $id
+
+     * @param  int  $id
+     *
+
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -279,35 +287,37 @@ class DirectoriesController extends Controller
         $current_logo = $business_to_delete->logo;
 
         if ($business_to_delete->logo != null) {
-            $old_logo = storage_path() . '/public/uploads/logos/' . $current_logo;
-            if (file_exists($old_logo)) {
-                @unlink($old_logo);
+
+            if ($business_to_delete->logo !== null) {
+
+                $old_logo = storage_path() . '/public/uploads/logos/' . $current_logo;
+                if (file_exists($old_logo)) {
+                    @unlink($old_logo);
+                }
             }
+
+            activity()->log('Deleting business ' . $business_to_delete->business_name);
+            smilify('success', $business_to_delete->business_name . '\'s account deleted', 'Yay!');
+
+            $business_to_delete->delete();
+
+            return redirect(route('portal.admin.directory.index'));
         }
-
-        activity()->log('Deleting business ' . $business_to_delete->business_name);
-        smilify('success', $business_to_delete->business_name . '\'s account deleted', 'Yay!');
-
-        $business_to_delete->delete();
-
-        return redirect(route('portal.admin.directory.index'));
     }
 
-    public function owner_index()
-    {
-        $business = Directory::where('business_owner', auth()->user()->name)->get();
-        // $business = $business[0];
+        public function owner_index()
+        {
+            $business = Directory::where('business_owner', auth()->user()->name)->get();
+            // $business = $business[0];
 
-        if (!$business) {
-            smilify('error', 'You do not own a partnered business.');
-            return redirect()->back();
+            if (!$business) {
+                smilify('error', 'You do not own a partnered business.');
+                return redirect()->back();
+            }
+
+            return view('pages.directory.owner.index', compact('business'));
         }
 
-        return view(
-            'pages.directory.owner.index',
-            compact('business')
-        );
-    }
 
     public function owner_edit($id)
     {
@@ -317,14 +327,11 @@ class DirectoriesController extends Controller
         }
         $business = Directory::find($id);
 
-        if (!$business) {
+        if (! $business) {
             return redirect()->back();
         }
 
-        return view(
-            'pages.directory.owner.edit',
-            compact('business')
-        );
+        return view('pages.directory.owner.edit', compact('business'));
     }
 
     public function upload_logo(Request $request)
@@ -334,7 +341,7 @@ class DirectoriesController extends Controller
 
             $imageName = strtotime(now()) . rand(11111, 99999) . '.' . $image->getClientOriginalExtension();
 
-            if (!is_dir(storage_path('app/public/uploads/logos/'))) {
+            if (! is_dir(storage_path('app/public/uploads/logos/'))) {
                 Storage::makeDirectory(storage_path('app/public/uploads/logos/'));
                 // mkdir(public_path() . '/uploads/logos/', 0777, true);
             }

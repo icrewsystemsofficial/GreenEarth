@@ -123,6 +123,9 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'RAZORPAY_API_KEY' => 'rzp_test_krtArsn2xmLmPo',
+    'RAZORPAY_SECRET' => 'XqHC8zZd1C6Li3TrAkYiJNHH',
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
@@ -180,6 +183,9 @@ return [
         App\Providers\RouteServiceProvider::class,
 
     ],
+
+    'RAZORPAY_API_KEY' => 'rzp_test_Lg62YGwUWXQzj5',
+    'RAZORPAY_SECRET' => 'g4QxBEq2O5tVb9eQHs2gyBK8',
 
     /*
     |--------------------------------------------------------------------------
