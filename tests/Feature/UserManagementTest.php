@@ -2,9 +2,7 @@
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
-use Illuminate\Database\QueryException;
 use Spatie\Permission\Models\Role;
-use Tests\TestCase;
 use App\Mail\SendWelcomeMail;
 use Illuminate\Support\Facades\Mail;
 
