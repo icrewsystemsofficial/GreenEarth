@@ -2,14 +2,20 @@
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
+use Illuminate\Database\QueryException;
 use Spatie\Permission\Models\Role;
+use Tests\TestCase;
+use App\Mail\SendWelcomeMail;
+use Illuminate\Support\Facades\Mail;
 
 uses()->group('users');
 uses(RefreshDatabase::class);
 
 
 beforeEach(function () {
+
     $this->withoutExceptionHandling();
+
     $this->user = User::factory()->create();
 
     $this->actingAs($this->user);
@@ -37,8 +43,7 @@ test('Test #3: has modifyuser page', function () {
     $this->get('/portal/admin/users/manage/' . $this->id)->assertStatus(200);
 });
 
-test('Test#4: Check if the new user is stored properly', function () {
-    $this->withoutExceptionHandling();
+test('Test #4: Check if the new user is stored properly', function () {
 
     $role = Role::create(['name' => 'user']);
 
@@ -53,7 +58,7 @@ test('Test#4: Check if the new user is stored properly', function () {
         ->assertRedirect(route('portal.admin.users.index'));
 });
 
-test('Test#5: Check if the new user is getting updated', function () {
+test('Test #5: Check if the new user is getting updated', function () {
 
     $role = Role::create(['name' => 'user']);
 
@@ -78,7 +83,7 @@ test('Test#5: Check if the new user is getting updated', function () {
     ]);
 });
 
-test('Test#6: Check if the new user is getting deleted', function () {
+test('Test #6: Check if the new user is getting deleted', function () {
 
     $role = Role::create(['name' => 'user']);
 
@@ -101,11 +106,28 @@ test('Test#6: Check if the new user is getting deleted', function () {
     ]);
 });
 
-test('Test#7: Check for validation', function () {
+test('Test #7: Check for validation', function () {
 
-    $this->$this->post('/portal/admin/users/update/' . $this->id,  array(
-            'name' => '',
-            'email' => '',
+    $role = Role::create(['name' => 'user']);
 
-        ))->assertStatus(302);
-})->skip();
+    $data = [
+        'name' => 'test',
+        'email' => 'test@gmail.com',
+        'password' => 'password',
+        'role' => $role['name'],
+    ];
+
+    $newuser = User::create($data);
+
+    $this->from(route('portal.admin.users.manage', $newuser))
+        ->post(route('portal.admin.users.update', $newuser->id), $data)
+        ->assertStatus(302);
+        
+});
+
+test('Test #9: Check if new users are welcomed by email', function () {
+    $user = User::factory()->create();
+    Mail::fake();
+    Mail::to($user->email)->send(new SendWelcomeMail(['body' => 'hello']));
+    Mail::assertSent(SendWelcomeMail::class);
+});
