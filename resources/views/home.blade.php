@@ -7,6 +7,10 @@
 @endsection
 
 @section('js')
+<script>
+  let clname = document.getElementById("dashboard-active-tag");
+  clname.className += " active";
+</script>
 @endsection
 
 @section('content')

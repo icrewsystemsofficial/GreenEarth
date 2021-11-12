@@ -33,6 +33,7 @@ class CloudProvidersController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -46,16 +47,14 @@ class CloudProvidersController extends Controller
         smilify('success', 'Providers were successfully stored');
         return redirect()->route('home.cloud-providers.index');
 
-
         activity()->log('Providers were stored');
-
-        
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\CloudProviders  $cloudProviders
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(CloudProviders $cloudProviders)
@@ -67,6 +66,7 @@ class CloudProvidersController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\CloudProviders  $cloudProviders
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -80,6 +80,7 @@ class CloudProvidersController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\CloudProviders  $cloudProviders
+     *
      * @return \Illuminate\Http\Response
      */
     public function update($id, Request $request)
@@ -87,7 +88,7 @@ class CloudProvidersController extends Controller
         $cloudProviders = CloudProviders::where('id', $id)->first();
 
         $this->validate($request, [
-            'name' => 'required'
+            'name' => 'required',
         ]);
 
         $input = $request->all();
@@ -97,7 +98,6 @@ class CloudProvidersController extends Controller
         smilify('success', 'Providers were successfully updated');
         return redirect()->route('home.cloud-providers.index');
 
-
         activity()->log('Providers were updated');
     }
 
@@ -105,6 +105,7 @@ class CloudProvidersController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\CloudProviders  $cloudProviders
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -113,7 +114,6 @@ class CloudProvidersController extends Controller
 
         smilify('success', 'Providers were successfully destroyed');
         return redirect()->route('home.cloud-providers.index');
-
 
         activity()->log('Providers were deleted');
     }

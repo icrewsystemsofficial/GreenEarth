@@ -1,15 +1,28 @@
 <?php
 
-namespace Tests\Feature;
+//namespace Tests\Feature;
 
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Models\User;
+
+uses()->group('directory');
+uses(RefreshDatabase::class);
+
+beforeEach(function () {
+    $this->withoutExceptionHandling();
+});
+
+
+// TEST WRITING IS IN PROGRESS
+
+test('Test#1: Check if Admin can view directory', function () {
+    $this->get('/register')->assertStatus(200);
+});
 
 class RegistrationTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_registration_screen_can_be_rendered()
     {
         $response = $this->get('/register');
@@ -17,7 +30,6 @@ class RegistrationTest extends TestCase
         $response->assertStatus(200);
     }
 
-    // I'm aware that only an Admin can add a new business, though I am not sure how the Users module works exactly and my main goal is to try and test whether or not a new business could be added.
     public function test_new_users_can_add_business()
     {
         $response = $this->post('/register', [

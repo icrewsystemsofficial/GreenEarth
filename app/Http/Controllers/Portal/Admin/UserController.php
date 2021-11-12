@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers\Portal\Admin;
 
-use App\Models\User;
-use App\Mail\User_invite;
-use App\Models\temp_user;
-
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use App\Mail\SendWelcomeMail;
-
-use App\Mail\SendWelcomeEmail;
-use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use App\Mail\SendWelcomeMail;
+use App\Mail\User_invite;
 use App\Models\Directory;
+use App\Models\temp_user;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
@@ -25,6 +23,12 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function setup($id)
+    {
+        $data = temp_user::where('unique_id', $id)->first();
+        return view('pages.user.setup', compact('data'));
+    }
+
     public function index()
     {
         $users = User::all();
@@ -43,38 +47,37 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    public function create()
+    {
+        return view('pages.user.create', [
+            'roles' => Role::all(), 'organisations' => Directory::all(), 'count_org' => count(Directory::all()),
+        ]);
+    }
 
-     public function create() {
-         return view('pages.user.create', [
-             'roles' => Role::all(), 'organisations' => Directory::all(), 'count_org' => count(Directory::all())
-         ]);
-     }
-
-
-    public function mailSend($data) {
+    public function mailSend($data)
+    {
         $email = $data->email;
         $uuid = $data->unique_id;
         $name = $data->name;
 
-        $url= "http://127.0.0.1:8000/users/setup/".$uuid;
+        $url = 'http://127.0.0.1:8000/users/setup/' . $uuid;
 
         $mailInfo = [
             'title' => 'Welcome to Project GreenEarth..!',
             'name' => $name,
-            'url' => $url
+            'url' => $url,
         ];
 
         Mail::to($email)->send(new User_invite($mailInfo));
 
         return response()->json([
-            'message' => 'Mail has sent.'
+            'message' => 'Mail has sent.',
         ], Response::HTTP_OK);
     }
 
     public function create_temp(Request $request)
     {
-
-        $tempuser= new temp_user;
+        $tempuser = new temp_user();
         #$tempuser->uuid('id');
 
         $tempuser->name = $request->name;
@@ -82,75 +85,45 @@ class UserController extends Controller
         $tempuser->role = $request->role;
         $uuid = Str::uuid();
         $tempuser->unique_id = $uuid;
-        $tempuser -> save();
+        $tempuser->save();
 
         $this->mailsend($tempuser);
-        return(redirect('/users/create'));
-
-    }
-
-
-    public function setup($id)
-    {
-        $data=temp_user::where('unique_id',$id) -> first();
-        return view('pages.user.setup',compact('data'));
-
-        /* $list= temp_user::all();
-        foreach($list as $item) {
-            if ($item['unique_id']==$id){
-                $name=$item['name'];
-                $email=$item['email'];
-
-
-            }
-        }
-        $tempuser= new temp_user;
-
-
-
-
-        return view ('pages.user.setup',compact('name','email')); */
-
+        return redirect('/users/create');
     }
 
     public function create_user(Request $req)
     {
-        $req -> validate([
-
-            'password'=>'confirmed'
+        $req->validate([
+            'password' => 'confirmed',
         ]);
 
-
-        $user = new User;
-        $user->name=$req->input('name');
-        $user->email= $req->input('email');
-        $user->password= Hash::make($req->input('password'));
-        $user->role= $req->input('role');
+        $user = new User();
+        $user->name = $req->input('name');
+        $user->email = $req->input('email');
+        $user->password = Hash::make($req->input('password'));
+        $user->role = $req->input('role');
         #$user->givePermissionTo($role);
         #$user->assignRole($role);
 
         $user->save();
 
-        $data=temp_user::where('email',$req->input('email')) -> first();
+        $data = temp_user::where('email', $req->input('email'))->first();
         $data->delete();
 
         return view('/home');
-
 
         # Codes for Reference and upgradation:
 
         /* $pass = $req->input('password')
         $user->password= Hash::make($pass); */
 
-       /*  $delete_user_temp = temp_user::find($req->input('email'));
+        /*  $delete_user_temp = temp_user::find($req->input('email'));
         return($delete_user_temp); */
-
 
         /* activity()
         ->causedBy($user)
         ->log('Created a new user called '.$user->name.''); */
-       // notify()->success("Successfully Created","created");
-
+        // notify()->success("Successfully Created","created");
 
         /* $user= new user;
         #$tempuser->uuid('id');
@@ -162,33 +135,29 @@ class UserController extends Controller
         $user->unique_id = $uuid;
         $user -> save();
         return(redirect('/users/create')); */
-
     }
-
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-
-        //TODO Check if email already exists in DB, then proceed.
-        if(User::where('email', request('email'))->first()) {
-            // throw new \Exception('A user with that e-mail ('.request('email').') already exists in the database.');
+        if (User::where('email', request('email'))->first()) {
             smilify('error', 'A user with that email already exists in our database', 'Whooops');
             return back();
         }
 
-        $user = new User;
+        $user = new User();
         $user->name = request('name');
         $user->email = request('email');
         $user->password = Str::uuid();
         $user->temporary = 1; // Setting the account as temporary account
-        $user->organization = (request('organization') != null) ? request('organization') : null;
-        $user->phone = (request('phone') != null) ? request('phone') : null;
+        $user->organization = request('organization') !== null ? request('organization') : null;
+        $user->phone = request('phone') !== null ? request('phone') : null;
 
         $user->save();
 
@@ -196,38 +165,38 @@ class UserController extends Controller
         $newrole = Role::findByName($request->input('role'));
         $user->assignRole($newrole->name);
 
-        if(request('send_welcome_email') == null) {
-            $data = array(
+        if (request('send_welcome_email') === null) {
+            $data = [
                 'name' => request('name'),
                 'url' => route('home.users.verify', $user->password),
-            );
+            ];
 
             Mail::to(request('email'))->send(new SendWelcomeMail($data));
         }
 
-        activity()->log('User: ' .$request->input('name') . '\'s temporary account was created');
-        smilify('success', $request->input('name') .'\'s account created', 'Yay!');
+        activity()->log('User: ' . $request->input('name') . '\'s temporary account was created');
+        smilify('success', $request->input('name') . '\'s account created', 'Yay!');
         return redirect(route('portal.admin.users.index'));
     }
 
-    public function verify($uuid) {
-
-        if($uuid == '') {
+    public function verify($uuid)
+    {
+        if ($uuid === '') {
             throw new \Exception('UUID is required');
         }
 
         $user = User::where('password', $uuid)->first();
-        if($user) {
+        if ($user) {
             return view('pages.user.verify', [
                 'user' => $user,
             ]);
-        } else {
-          // Show error
         }
+        // Show error
     }
 
-    public function process(Request $request, $id) {
-        if($id == '') {
+    public function process(Request $request, $id)
+    {
+        if ($id === '') {
             throw new \Exception('ID must be provided to update user records');
         }
 
@@ -239,7 +208,6 @@ class UserController extends Controller
             'phone' => 'string|max:15',
         ]);
 
-
         $user->password = Hash::make(request('password'));
         $user->organization = request('organization');
         $user->phone = request('phone');
@@ -248,8 +216,11 @@ class UserController extends Controller
 
         $user->save();
         //Logging the activity.
-        activity()->log('User: ' .$request->input('name') . '\'s account was activated');
-        smilify('success', $request->input('name') .'\'s profile was updated', 'Yay!');
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($user)
+            ->log('User: ' . $request->input('name') . '\'s account was activated');
+        smilify('success', $request->input('name') . '\'s profile was updated', 'Yay!');
         return redirect(route('login'));
     }
 
@@ -257,18 +228,18 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id = null)
     {
-        if(is_null($id)) {
+        if (is_null($id)) {
             smilify('error', 'ID should be passed');
             return redirect()->back();
         }
         $user = User::find($id);
 
-        if(!$user) {
-
+        if (!$user) {
             return redirect()->back();
         }
 
@@ -282,11 +253,11 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit()
     {
-        //
     }
 
     /**
@@ -294,12 +265,12 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-
-        if($id == '') {
+        if ($id === '') {
             throw new \Exception('ID must be provided to update user records');
         }
 
@@ -318,8 +289,8 @@ class UserController extends Controller
         $user->assignRole($newrole->name);
 
         //Logging the activity.
-        activity()->log('User: ' .$request->input('name') . '\'s account was updated');
-        smilify('success', $request->input('name') .'\'s profile was updated', 'Yay!');
+        activity()->log('User: ' . $request->input('name') . '\'s account was updated');
+        smilify('success', $request->input('name') . '\'s profile was updated', 'Yay!');
         return redirect(route('portal.admin.users.index'));
     }
 
@@ -327,12 +298,13 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         $user = User::find($id);
-        activity()->log('Deleting user '. $user->name);
+        activity()->log('Deleting user ' . $user->name);
         $user->delete();
         smilify('success', 'User deleted successfully');
         return redirect(route('portal.admin.users.index'));
