@@ -34,20 +34,22 @@
     <div>
         <div class="accordion accordion-flush" id="accordionFlushExample">
             @php ($i = 1)
-                @foreach ($faqs as $faq)
-                <div class="accordion-item">
-                <h2 class="accordion-header" id="flush-headingOne_{{$i}}">
-                <button class="accordion-button collapsed rounded border-bottom"  type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne_{{$i}}" aria-expanded="false" aria-controls="flush-collapseOne">
-                    <h5 style="font-weight: 500;">{{$faq->title}}</h5>
+            @foreach ($faqs as $faq)
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="flush-heading{{ $i }}">
+                <button class="accordion-button collapsed p-3" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ $i }}" aria-expanded="false" aria-controls="flush-collapse{{ $i }}">
+                    {{$faq->title}}
                 </button>
-                </h2>
-                <div id="flush-collapseOne_{{$i}}" class="accordion-collapse collapse border-bottom"  aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                    <div class="text-muted accordion-body">{{$faq->body}}</div>
-                    <a href="{{ route('portal.faq.show', $faq->id) }}" type="button" class="btn bg-gradient-secondary btn-sm position: relative start-2">View detail</a>
+              </h2>
+              <div id="flush-collapse{{ $i }}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{ $i }}" data-bs-parent="#accordionFlushExample">
+                <div class="p-4">
+                    {{$faq->body}}
                 </div>
-                @php ($i+=1)
+              </div>
+            </div>
+            @php ($i+=1)
             @endforeach
-        </div>
+          </div>
     </div>
 
     <div class="mt-5">
