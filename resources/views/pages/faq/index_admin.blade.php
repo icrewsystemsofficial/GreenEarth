@@ -26,6 +26,8 @@
     <script>
         let clname = document.getElementById("faq-active-tag");
         clname.className += " active";
+        document.getElementById("faqs-icon").classList.remove('text-dark');
+        document.getElementById("faqs-icon").classList.add('text-white');
     </script>
 @endsection
 

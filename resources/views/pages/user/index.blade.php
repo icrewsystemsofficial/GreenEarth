@@ -26,6 +26,8 @@
     <script>
         let clname = document.getElementById("users-active-tag");
         clname.className += " active";
+        document.getElementById("users-icon").classList.remove('text-dark');
+        document.getElementById("users-icon").classList.add('text-white');
     </script>
 @endsection
 

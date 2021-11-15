@@ -36,6 +36,8 @@
 <script>
     let clname = document.getElementById("payments-active-tag");
     clname.className += " active";
+    document.getElementById("payments-icon").classList.remove('text-dark');
+    document.getElementById("payments-icon").classList.add('text-white');
 </script>
 @endsection
 
