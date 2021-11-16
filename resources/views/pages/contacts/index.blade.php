@@ -26,6 +26,8 @@
     <script>
         let clname = document.getElementById("contactreq-active-tag");
         clname.className += " active";
+        document.getElementById("contacts-icon").classList.remove('text-dark');
+        document.getElementById("contacts-icon").classList.add('text-white');
     </script>
 @endsection
 

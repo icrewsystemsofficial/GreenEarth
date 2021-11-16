@@ -26,6 +26,8 @@
      <script>
         let clname = document.getElementById("forests-active-tag");
         clname.className += " active";
+        document.getElementById("forests-icon").classList.remove('text-dark');
+        document.getElementById("forests-icon").classList.add('text-white');
     </script>
 @endsection
 

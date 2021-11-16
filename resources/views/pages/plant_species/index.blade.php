@@ -26,6 +26,8 @@
     <script>
         let clname = document.getElementById("plantspecies-active-tag");
         clname.className += " active";
+        document.getElementById("plant-species-icon").classList.remove('text-dark');
+        document.getElementById("plant-species-icon").classList.add('text-white');
     </script>
 @endsection
 
