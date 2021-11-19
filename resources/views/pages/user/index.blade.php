@@ -52,10 +52,7 @@
 
         <div class="row">
 
-            <div class="col-md-12">
-                <h5>
-                    // Stats are WIP
-                </h5>
+            <div class="col-md-12 mb-3">
             </div>
 
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">

@@ -255,6 +255,8 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
         Route::resource('/forests', ForestsController::class);
 
         Route::get('activity', [ActivityController::class, 'disp']);
+        Route::post('/directory/store', [DirectoriesController::class, 'store'])->name('directory.store');
+
     });
 
     // CLOUD-PROVIDERS MODULE /portal/admin/cloud-providers/ROUTENAME
