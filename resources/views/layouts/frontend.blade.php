@@ -39,6 +39,8 @@
     <!-- CSS Files -->
     {{-- <link id="pagestyle" href="{{asset('css/soft-ui-dashboard.css')}}" rel="stylesheet" /> --}}
     <link rel="stylesheet" href="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/css/soft-design-system-pro.min.css?v=1.0.8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     @notifyCss
     @yield('css')
 </head>
@@ -80,15 +82,15 @@
                         </a>
                     </li>
 
-                  {{--  <li class="nav-item dropdown dropdown-hover mx-2">
+                  <li class="nav-item dropdown dropdown-hover mx-2">
                     <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages" data-bs-toggle="dropdown" aria-expanded="false">
-                      About
+                      Company
                       <i class="fa fa-angle-down arrow ms-1"></i>
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-animation dropdown-md p-3 border-radius-lg mt-0 mt-lg-3" aria-labelledby="dropdownMenuPages">
                       <div class="d-none d-lg-block">
-                        <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center px-0">
+                        {{--  <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center px-0">
                           <div class="d-inline-block">
                             <div class="icon icon-shape icon-xs border-radius-md bg-gradient-success text-center me-2 d-flex align-items-center justify-content-center">
                               <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -106,18 +108,21 @@
                               </svg>
                             </div>
                           </div>
-                          Landing Pages
-                        </h6>
-                        <a href="./pages/about-us.html" class="dropdown-item border-radius-md">
-                          <span class="ps-3">About Us</span>
+
+                        </h6>  --}}
+                        <a href="{{ route('home.about') }}" class="dropdown-item border-radius-md">
+                          <span class="ps-3">About</span>
                         </a>
-                        <a href="./pages/contact-us.html" class="dropdown-item border-radius-md">
-                          <span class="ps-3">Contact Us</span>
+                        <a href="{{ route('home.partners') }}" class="dropdown-item border-radius-md">
+                          <span class="ps-3">Partners</span>
                         </a>
-                        <a href="./pages/author.html" class="dropdown-item border-radius-md">
-                          <span class="ps-3">Author</span>
+                        <a href="{{ route('home.contributors') }}" class="dropdown-item border-radius-md">
+                          <span class="ps-3">Contributors</span>
                         </a>
-                        <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center px-0 mt-3">
+                        <a href="{{ route('home.investors') }}" class="dropdown-item border-radius-md">
+                            <span class="ps-3">Investors</span>
+                          </a>
+                        {{--  <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center px-0 mt-3">
                           <div class="d-inline-block">
                             <div class="icon icon-shape icon-xs border-radius-md bg-gradient-success text-center me-2 d-flex align-items-center justify-content-center ps-0">
                               <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -193,10 +198,32 @@
                         </h6>
                         <a href="./pages/sign-in.html" class="dropdown-item border-radius-md">
                           <span class="ps-3">Sign In</span>
-                        </a>
+                        </a>  --}}
                       </div>
                     </div>
-                  </li>  --}}
+                  </li>
+
+                  <li class="nav-item dropdown dropdown-hover mx-2">
+                    <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages" data-bs-toggle="dropdown" aria-expanded="false">
+                      Resources
+                      <i class="fa fa-angle-down arrow ms-1"></i>
+                    </a>
+                  <div class="dropdown-menu dropdown-menu-animation dropdown-md p-3 border-radius-lg mt-0 mt-lg-3" aria-labelledby="dropdownMenuPages">
+                    <div class="d-none d-lg-block">
+                      <a href="{{ route('home.announcements') }}" class="dropdown-item border-radius-md">
+                        <span class="ps-3">Announcements</span>
+                      </a>
+                      <a href="{{ route('portal.index') }}" class="dropdown-item border-radius-md">
+                        <span class="ps-3">TrackMyTree</span>
+                      </a>
+                      <a href="{{ route('portal.index') }}" class="dropdown-item border-radius-md">
+                        <span class="ps-3">CarbonCalculator</span>
+                      </a>
+                    </div>
+                  </div>
+                </li>
+
+
                   <li class="nav-item ms-lg-auto">
                     <a class="nav-link nav-link-icon me-2" href="https://github.com/icrewsystemsofficial/GreenEarth" target="_blank">
                       <i class="fa fa-github me-1"></i>
@@ -262,11 +289,6 @@
             <div>
               <h6 class="text-gradient text-success text-sm mb-2">Company</h6>
               <ul class="flex-column ms-n3 nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('home.about') }}">
-                        About
-                    </a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('home.partners') }}">
                       Partners
@@ -340,7 +362,7 @@
                 {{ config('app.name') }} &copy; {{ date('Y') }} | An Initiative by <a href="https://icrewsystems.com">icrewsystems</a>
                 <br><br>
                 <span class="text-lg">
-                    Made with <i class="fas fa-heart text-danger text-gradient"></i> for <span class="text-success font-weight-bolder">Mother Earth</span>,
+                    Made with <i class="fas fa-heart text-danger text-gradient"></i> for <span class="text-success text-gradient font-weight-bolder">Mother Earth</span>,
                     by her <a class="font-weight-bolder" href="{{ route('home.contributors') }}"><u>children</u></a>
                 </span>
               </p>

@@ -9,6 +9,7 @@ use App\Mail\SendTransactionDetailMail;
 
 use App\Models\Announcement;
 use App\Models\Contact;
+use App\Models\Faq;
 use App\Models\Payment;
 use App\Models\User;
 use Carbon\Carbon;
@@ -27,7 +28,8 @@ class FrontendController extends Controller
 {
     public function index()
     {
-        return view('frontend.index');
+        $faqs = FAQ::where('status', '1')->orderBy('updated_at')->get();
+        return view('frontend.index',compact('faqs'));
     }
 
     /**

@@ -27,6 +27,7 @@ use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PlantSpeciesController;
+use App\Http\Controllers\Portal\Admin\TeamController;
 use App\Http\Controllers\Portal\Admin\AnnouncementController;
 use App\Http\Controllers\Portal\Admin\ContactRequestController;
 use App\Http\Controllers\Portal\Admin\ForestsController;
@@ -233,6 +234,15 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::get('/edit/{id}', [FAQController::class, 'edit'])->name('edit');
             Route::post('/update/{id}', [FAQController::class, 'update'])->name('update');
             Route::get('/delete/{id}', [FAQController::class, 'delete'])->name('delete');
+        });
+
+        Route::prefix('teams')->as('teams.')->group(function () {
+            Route::get('/', [TeamController::class, 'index'])->name('index');
+            Route::get('/create', [TeamController::class, 'create'])->name('create');
+            Route::post('/store', [TeamController::class, 'store'])->name('store');
+            Route::get('/edit/{id}', [TeamController::class, 'edit'])->name('edit');
+            Route::post('/update/{id}', [TeamController::class, 'update'])->name('update');
+            Route::get('/delete/{id}', [TeamController::class, 'delete'])->name('delete');
         });
 
         // Contact - Request
