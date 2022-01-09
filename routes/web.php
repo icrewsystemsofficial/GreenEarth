@@ -37,9 +37,11 @@ use App\Http\Controllers\Portal\Admin\UserController;
 use App\Http\Controllers\Portal\ChangelogController;
 use App\Http\Controllers\Portal\DirectoriesController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\GoogleController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -189,7 +191,7 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             // });
             Route::post('/create/new', [UserController::class, 'create_temp']);
             Route::get('/setup/{uuid}', [UserController::class, 'setup']);
-            Route::post('/setup/add_user', [UserController::class, 'create_user']);
+            Route::post('/setup/add_user', [UserController::class, 'create_user'])->name('add_user');
         });
 
         // Route::get('forests/polygon/{id?}', [ForestsController::class, 'drawPolygon'])->name('forests.polygon');
@@ -293,3 +295,10 @@ Route::post('/tree/{id}/add-maintenance', [TreeMaintenanceController::class, 'st
 }); */
 
 Route::get('/mail-send', [UserController::class, 'mailSend']);
+
+// Google Socialite Routes
+
+Route::prefix('google')->name('google.')->group( function(){
+    Route::get('login', [GoogleController::class, 'loginWithGoogle'])->name('login');
+    Route::any('callback', [GoogleController::class, 'callbackFromGoogle'])->name('callback');
+});
