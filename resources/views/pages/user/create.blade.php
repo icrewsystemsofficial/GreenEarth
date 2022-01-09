@@ -210,7 +210,7 @@
                                 </div>
                                 <div class="card-body pb-3">
                                     <form role="form text-left" class='login-form'
-                                        action="{{ route('portal.admin.directory.store') }}" enctype="multipart/form-data"
+                                        action="{{ route('portal.admin.users.store') }}" enctype="multipart/form-data"
                                         name="add_business" id="add_business" method="POST">
                                         @csrf
                                         {{ method_field('POST') }}
