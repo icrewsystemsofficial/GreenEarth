@@ -36,6 +36,8 @@ use App\Http\Controllers\Portal\Admin\UserController;
 use App\Http\Controllers\Portal\ChangelogController;
 use App\Http\Controllers\Portal\DirectoriesController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -255,10 +257,14 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
         Route::resource('/forests', ForestsController::class);
 
         Route::get('activity', [ActivityController::class, 'disp']);
-    });
 
-    // CLOUD-PROVIDERS MODULE /portal/admin/cloud-providers/ROUTENAME
-    Route::resource('cloud-providers', CloudProvidersController::class);
+        // CLOUD-PROVIDERS MODULE /portal/admin/cloud-providers/ROUTENAME
+        Route::resource('cloud-providers', CloudProvidersController::class);
+
+        // Settings Module /portal/admin/settings/ROUTENAME
+        Route::resource('settings', SettingsController::class);
+
+    });  
 });
 
 //Trees Module - Before cleaning. Kept for refernce if there is any need of edit.
