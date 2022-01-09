@@ -290,11 +290,6 @@
               <h6 class="text-gradient text-success text-sm mb-2">Company</h6>
               <ul class="flex-column ms-n3 nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('home.about') }}">
-                        About
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{{ route('home.partners') }}">
                       Partners
                     </a>
@@ -367,7 +362,7 @@
                 {{ config('app.name') }} &copy; {{ date('Y') }} | An Initiative by <a href="https://icrewsystems.com">icrewsystems</a>
                 <br><br>
                 <span class="text-lg">
-                    Made with <i class="fas fa-heart text-danger text-gradient"></i> for <span class="text-success font-weight-bolder">Mother Earth</span>,
+                    Made with <i class="fas fa-heart text-danger text-gradient"></i> for <span class="text-success text-gradient font-weight-bolder">Mother Earth</span>,
                     by her <a class="font-weight-bolder" href="{{ route('home.contributors') }}"><u>children</u></a>
                 </span>
               </p>

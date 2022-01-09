@@ -122,6 +122,15 @@
                 </a>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" id="teams-active-tag" href="{{ route('portal.admin.teams.index') }}">
+                    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fas fa-users text-dark"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Teams</span>
+                </a>
+            </li>
+
             {{-- Can be used for future Expansion ( if any new modules or links needed ) --}}
             {{-- <li class="nav-item">
                 <a class="nav-link " href="{{ route('portal.admin.users.index') }}">

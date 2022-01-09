@@ -91,7 +91,7 @@
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <button class="btn btn-dark text-success btn-gradient block">
+                                <button class="btn btn-secondary btn-gradient block">
                                     Calculate
                                 </button>
                             </div>
@@ -100,7 +100,7 @@
                 </div>
 
                 <p class="text-sm p-3 text-center">
-                    Don't let your company or customers be a part of an unconscious crime against mother earth.
+                    Don't let your company or customers be a part of an unconscious crime against Mother earth.
                 </p>
 
               </div>
@@ -385,7 +385,7 @@
 
             <p class="h5 text-muted">
                 <span class="text-gradient text-success"> <span id="state2" countTo="2093">0</span>+ websites </span> certified,
-                <span class="text-success"><span id="state3" countTo="2093"></span> Litres</span> of Oxygen produced.
+                <span class="text-gradient text-success"><span id="state3" countTo="2093"></span> Litres</span> of Oxygen produced.
             </p>
 
           <h4 class="mb-1">Thank you for your support!</h4>
