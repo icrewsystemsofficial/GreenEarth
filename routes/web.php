@@ -35,6 +35,7 @@ use App\Http\Controllers\Portal\Admin\TreesUpdatesController;
 use App\Http\Controllers\Portal\Admin\UserController;
 use App\Http\Controllers\Portal\ChangelogController;
 use App\Http\Controllers\Portal\DirectoriesController;
+use App\Http\Controllers\Portal\EventController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
@@ -156,6 +157,16 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
         Route::get('/', [FAQController::class, 'index_portal'])->name('index');
         Route::get('/detail/{id}', [FAQController::class, 'show'])->name('show');
         Route::get('/{slug}', [FAQController::class, 'detail'])->name('detail');
+    });
+
+    /* EVENTS MODULE*/
+    Route::prefix('events')->as('events.')->group(function () {
+        Route::get('/', [EventController::class, 'index'])->name('index');
+        Route::get('/create', [EventController::class, 'create'])->name('create');
+        Route::post('/create', [EventController::class, 'store'])->name('store');
+        Route::get('/manage/{id}', [EventController::class, 'edit'])->name('manage');
+        Route::put('/manage/{id}', [EventController::class, 'update'])->name('update');
+        Route::get('/delete/{id}', [EventController::class, 'destroy'])->name('delete');
     });
 
     /*
