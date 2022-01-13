@@ -155,7 +155,8 @@
                                 <td class="text-center">{{ $user->email }}</td>
                                 <td class="text-center">
                                     <span class="badge bg-success">
-                                        @foreach ($user->roles as $role) {{ $role->name }} @endforeach
+                                        {{-- @foreach ($user->roles as $role) {{ $role }} @endforeach --}}
+                                        {{$user->role}}
                                     </span>
                                 </td>
                                 <td class="text-center">{{ $user->created_at->diffForHumans() }}</td>
