@@ -145,7 +145,7 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <a href="#" class="btn btn-sm block btn-info">
+                        {{-- <a href="#" class="btn btn-sm block btn-info">
                             View Contributions
                         </a>
 
@@ -155,7 +155,7 @@
 
                         <a href="#" class="btn btn-sm block btn-info">
                             E-mail user
-                        </a>
+                        </a> --}}
 
                         <a data-bs-toggle="modal" data-bs-target="#deleteUserModal" class="btn btn-danger block btn-sm">
                             Delete user

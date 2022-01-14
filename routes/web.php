@@ -37,6 +37,7 @@ use App\Http\Controllers\Portal\ChangelogController;
 use App\Http\Controllers\Portal\DirectoriesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -251,12 +252,24 @@ Route::prefix('portal')->middleware(['auth'])->as('portal.')->group(function () 
             Route::post('/update/{id}', [PlantSpeciesController::class, 'update'])->name('update');
         });
 
+        // roles
+        Route::prefix('roles')->as('roles.')->group(function(){
+            Route::get('/', [RoleController::class, 'index'])->name('index');
+            Route::get('/edit/{id}', [RoleController::class, 'edit'])->name('edit');
+            Route::post('/update/{id}', [RoleController::class, 'update'])->name('update');
+            Route::get('/create', [RoleController::class, 'create'])->name('create');
+            Route::post('/save', [RoleController::class, 'save'])->name('save');
+            Route::get('/delete/{id}', [RoleController::class, 'delete'])->name('delete');
+        });
+
         Route::get('forests/polygon/{id?}', [ForestsController::class, 'drawPolygon'])->name('forests.polygon');
         Route::post('forests/polygon/{id?}/save', [ForestsController::class, 'savePolygon'])->name('forests.polygon.save');
         Route::get('forests/manage/{id}', [ForestsController::class, 'manage'])->name('forests.manage');
         Route::resource('/forests', ForestsController::class);
 
         Route::get('activity', [ActivityController::class, 'disp']);
+        Route::post('/directory/store', [DirectoriesController::class, 'store'])->name('directory.store');
+
     });
 
     // CLOUD-PROVIDERS MODULE /portal/admin/cloud-providers/ROUTENAME
